@@ -1,0 +1,14 @@
+C:\Users\user\Documents\kptyata#\pycckuu\bin\Debug\net8.0\pycckuu.exe
+C:\Users\user\Documents\kptyata#\pycckuu\bin\Debug\net8.0\pycckuu.deps.json
+C:\Users\user\Documents\kptyata#\pycckuu\bin\Debug\net8.0\pycckuu.runtimeconfig.json
+C:\Users\user\Documents\kptyata#\pycckuu\bin\Debug\net8.0\pycckuu.dll
+C:\Users\user\Documents\kptyata#\pycckuu\bin\Debug\net8.0\pycckuu.pdb
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.AssemblyInfoInputs.cache
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.AssemblyInfo.cs
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.dll
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\refint\pycckuu.dll
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.pdb
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.genruntimeconfig.cache
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\ref\pycckuu.dll
