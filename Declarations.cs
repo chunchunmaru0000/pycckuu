@@ -1,13 +1,8 @@
 ﻿namespace Pycckuu
 {
-	public class StringValueAttribute : Attribute
+	public class StringValueAttribute(string value) : Attribute
 	{
-		public string Value { get; }
-
-		public StringValueAttribute(string value)
-		{
-			Value = value;
-		}
+		public string Value { get; } = value;
 	}
 
 	public static class EnumExtensions
@@ -16,8 +11,8 @@
 		{
 			var type = value.GetType();
 			var fieldInfo = type.GetField(value.ToString());
-			var attribs = fieldInfo.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
-			return attribs.Length > 0 ? attribs[0].Value : null;
+			var attribs = fieldInfo!.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+			return attribs!.Length > 0 ? attribs[0].Value : null!;
 		}
 	}
 
@@ -269,4 +264,11 @@
 	{
 		public object Evaluate();
 	}
+		
+	public interface ICompilable
+	{
+		public string Compile();
+	}
+
+	public interface ICompilableExpression: IExpression, ICompilable;
 }

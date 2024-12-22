@@ -1,0 +1,101 @@
+﻿namespace Pycckuu
+{
+	partial class Parser
+	{
+		public Token[] Tokens;
+		private int Pos;
+		private readonly int Lenght;
+
+		public Parser(Token[] tokens)
+		{
+			Tokens = tokens;
+			Pos = 0;
+			Lenght = Tokens.Length;
+		}
+
+		private Token Get(int offset)
+		{
+			int offPos = Pos + offset;
+			if (offPos < Lenght && offPos > -1)
+				return Tokens[offPos];
+			return Tokens.Last();
+		}
+
+		private Token Current => Get(0);
+
+		private string Near(int range)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(Current.Location);
+			Console.Write(string.Join("|", Enumerable.Range(-range, range).Select(g => Get(g).View)));
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Write('|' + Current.View + '|');
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(string.Join("|", Enumerable.Range(1, range).Select(g => Get(g).View)));
+			Console.ResetColor();
+			return "";
+		}
+
+		private Token Consume(TokenType type)
+		{
+			Token current = Current;
+			if (Current.Type != type)
+				throw new Exception($"{Near(6)}" +
+									$"СЛОВО НЕ СОВПАДАЕТ С ОЖИДАЕМЫМ\n" +
+									$"ОЖИДАЛСЯ: <{type.GetStringValue()}>\n" +
+									$"ТЕКУЩИЙ: <{Current.Type.GetStringValue()}>");
+			Pos++;
+			return current;
+		}
+
+		private Token Consume(TokenType type0, TokenType type1)
+		{
+			Token current = Current;
+			if (Current.Type != type0 && Current.Type != type1)
+				throw new Exception($"{Near(6)}" +
+									$"СЛОВО НЕ СОВПАДАЕТ С ОЖИДАЕМЫМ\n" +
+									$"ОЖИДАЛСЯ: <{type0.GetStringValue()}> ИЛИ <{type1.GetStringValue()}>\n" +
+									$"ТЕКУЩИЙ: <{Current.Type.GetStringValue()}>");
+			Pos++;
+			return current;
+		}
+
+		private bool Match(TokenType type)
+		{
+			if (Current.Type != type)
+				return false;
+			Pos++;
+			return true;
+		}
+
+		private bool Match(TokenType type0, TokenType type1)
+		{
+			if (Current.Type != type0 && Current.Type != type1)
+				return false;
+			Pos++;
+			return true;
+		}
+
+		private bool Match(TokenType type0, TokenType type1, TokenType type2)
+		{
+			if (Current.Type != type0 && Current.Type != type1 && Current.Type != type2)
+				return false;
+			Pos++;
+			return true;
+		}
+
+		private IExpression ExpressionTree() => PlusMinus();
+
+		private ICompilable ExpressionInstructions() => PlusMinus();
+
+		public IExpression ParseTree()
+		{
+			return ExpressionTree();
+		}
+
+		public ICompilable ParseInstructions()
+		{
+			return ExpressionInstructions();
+		}
+	}
+}

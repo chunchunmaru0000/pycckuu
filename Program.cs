@@ -5,10 +5,15 @@
 		static void Main(string[] args)
 		{
 			Console.Write(">>> ");
-			foreach (Token s in new Tokenizator(Console.ReadLine()).Tokenize())
+			Token[] tokens = new Tokenizator(Console.ReadLine()!).Tokenize();
+			foreach (Token s in tokens)
 				Console.WriteLine(s.ToString());
-			Console.WriteLine(new Compiler("w").Compile());
-			File.WriteAllText("E:\\fasm\\some.asm", new Compiler("w").Compile());
+
+			// "w" for windows
+			File.WriteAllText("E:\\fasm\\some.asm", new Compiler("w", tokens).Compile());
+			File.WriteAllText("some.asm", new Compiler("w", tokens).Compile());
+
+			//Console.WriteLine(new Compiler("w").Compile());
 			Console.ReadLine();
 		}
 	}

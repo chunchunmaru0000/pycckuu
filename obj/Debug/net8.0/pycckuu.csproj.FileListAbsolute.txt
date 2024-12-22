@@ -12,3 +12,4 @@ C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\refint\pycckuu.dll
 C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.pdb
 C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.genruntimeconfig.cache
 C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\ref\pycckuu.dll
+C:\Users\user\Documents\kptyata#\pycckuu\obj\Debug\net8.0\pycckuu.sourcelink.json
