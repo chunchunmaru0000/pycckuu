@@ -12,12 +12,13 @@ _main:
     mov r8, 2 ; ЦЕЛОЕ ЧИСЛО 2
     push r8
 
+; 2 * 2
     pop r8
     pop r9
     imul r8, r9 ; УМНОЖЕНИЕ
     push r8
 
-    mov r8, 10 ; ЦЕЛОЕ ЧИСЛО 10
+    mov r8, 19 ; ЦЕЛОЕ ЧИСЛО 19
     push r8
 
     pop r8
@@ -27,6 +28,7 @@ _main:
     mov r8, 2 ; ЦЕЛОЕ ЧИСЛО 2
     push r8
 
+; -19 / 2
     pop r8
     pop rax
     xor rdx, rdx
@@ -34,9 +36,10 @@ _main:
     idiv r8 ; ДЕЛЕНИЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ
     push rax
 
+; 2 * 2 * -19 / 2
     pop r8
     pop r9
-    add r8, r9 ; ПЛЮС
+    imul r8, r9 ; УМНОЖЕНИЕ
     push r8
 
     pop r8

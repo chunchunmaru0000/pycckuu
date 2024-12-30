@@ -92,6 +92,7 @@
 			TokenType.PLUS => Comp.Str([
 				Left.Compile(),
 				Right.Compile(),
+				$"; {ToString()}",
 				"    pop r8",
 				"    pop r9",
 				"    add r8, r9 ; ПЛЮС",
@@ -101,6 +102,7 @@
 			TokenType.MINUS => Comp.Str([
 				Left.Compile(),
 				Right.Compile(),
+				$"; {ToString()}",
 				"    pop r8",
 				"    pop r9",
 				"    sub r8, r9 ; МИНУС",
@@ -110,6 +112,7 @@
 			TokenType.MULTIPLICATION => Comp.Str([
 				Left.Compile(),
 				Right.Compile(),
+				$"; {ToString()}",
 				"    pop r8",
 				"    pop r9",
 				"    imul r8, r9 ; УМНОЖЕНИЕ",
@@ -119,6 +122,7 @@
 			TokenType.DIVISION => Comp.Str([
 				Left.Compile(),
 				Right.Compile(),
+				$"; {ToString()}",
 				"    pop r8",
 				"    pop rax",
 				"    xor rdx, rdx",
