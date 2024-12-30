@@ -88,6 +88,8 @@
 
 		private ICompilable ExpressionInstructions() => PlusMinus();
 
+		private ICompilableExpression CompilableExpression() => PlusMinus();
+
 		public IExpression ParseTree()
 		{
 			return ExpressionTree();
