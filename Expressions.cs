@@ -7,7 +7,7 @@
 		public object Evaluate() => Value;
 
 		public string Compile() => Comp.Str([
-			$"    mov r8, {Value} ; ЦЕЛОЕ ЧИСЛО {Value}",
+		   $"    mov r8, {Value} ; ЦЕЛОЕ ЧИСЛО {Value}",
 			"    push r8",
 			"",
 		]);
@@ -21,14 +21,11 @@
 
 		public object Evaluate() => Value;
 
-		public string Compile()
-		{
-			return string.Join("\r\n", [
-				$"    mov , {Value}", //  для вставления в стэк чисел с плавающей точкой
-				"    push r9",
-				"",
-			]);
-		}
+		public string Compile() => Comp.Str([
+		   $"    mov r8, {Value} ; ВЕЩЕСТВЕННОЕ ЧИСЛО {Value}", //  для вставления в стэк чисел с плавающей точкой
+			"    push r8",
+			"",
+		]);
 
 		public override string ToString() => token.View!;
 	}
@@ -131,9 +128,55 @@
 				"    push rax",
 				"",
 			]),
+			TokenType.DIV => Comp.Str([
+				Left.Compile(),
+				Right.Compile(),
+				"    pop r8",
+				"    pop rax",
+				"    xor rdx, rdx",
+				"    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
+				"    idiv r8 ; ЦЕЛОЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ",
+				"    push rax",
+			]),
+			TokenType.MOD => Comp.Str([
+				Left.Compile(),
+				Right.Compile(),
+				"    pop r8",
+				"    pop rax",
+				"    xor rdx, rdx",
+				"    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
+				"    idiv r8 ; ДЕЛЕНИЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ",
+				"    push rdx",
+			]),
 			_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
 		};
 
 		public override string ToString() => $"{Left} {Op.View} {Right}";
+	}
+
+	public sealed class AsTypeExpression(ICompilableExpression value, Token type) : ICompilableExpression
+	{
+		public ICompilableExpression Value { get; } = value;
+		public Token Type = type;
+
+		public object Evaluate() => throw new Exception("ПРЕОБРАЗОВАНИЕ ТИПОВ ДЛЯ ИНИТЕРПРЕТАТОРА НЕ СДЕЛАНО");
+
+		public string Compile() => Type.Type switch
+		{
+			TokenType.DIV or TokenType.INT => Comp.Str([
+
+			]),
+			TokenType.DOUBLEPRECISION => Comp.Str([
+				Value.Compile(),
+				"    pop r8",
+				"    cvtsi2sd xmm0, r8 ; ПЕРЕВОД В ВЕЩЕСТВЕННОЕ",
+				"    movq r8, xmm0",
+				"    push r8",
+				"",
+			]),
+			_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
+		};
+
+		public override string ToString() => $"{Value} КАК {Type.View}";
 	}
 }

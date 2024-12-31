@@ -44,7 +44,7 @@
 				"",
 				"section '.data' data readable writeable",
 				"    result db 'result>>> ', 0",
-				"    number dd '%lld', 0, 10",
+				"    number dd '%lld', 0",
 				"",
 				"section '.idata' import data readable writeable",
 				"    library kernel32, 'kernel32.dll', msvcrt, 'msvcrt.dll'",

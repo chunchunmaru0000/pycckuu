@@ -6,40 +6,25 @@ section '.code' executable
 entry _main
 
 _main:
-    mov r8, 2 ; ЦЕЛОЕ ЧИСЛО 2
+    mov r8, 8 ; ЦЕЛОЕ ЧИСЛО 8
     push r8
 
-    mov r8, 2 ; ЦЕЛОЕ ЧИСЛО 2
+    mov r8, 3 ; ЦЕЛОЕ ЧИСЛО 3
     push r8
 
-; 2 * 2
-    pop r8
-    pop r9
-    imul r8, r9 ; УМНОЖЕНИЕ
-    push r8
-
-    mov r8, 19 ; ЦЕЛОЕ ЧИСЛО 19
-    push r8
-
-    pop r8
-    neg r8 ; ПОМЕНЯТЬ ЗНАК
-    push r8
-
-    mov r8, 2 ; ЦЕЛОЕ ЧИСЛО 2
-    push r8
-
-; -19 / 2
     pop r8
     pop rax
     xor rdx, rdx
     cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX
     idiv r8 ; ДЕЛЕНИЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ
-    push rax
+    push rdx
+    mov r8, 10 ; ЦЕЛОЕ ЧИСЛО 10
+    push r8
 
-; 2 * 2 * -19 / 2
+; 8 остаток 3 + 10
     pop r8
     pop r9
-    imul r8, r9 ; УМНОЖЕНИЕ
+    add r8, r9 ; ПЛЮС
     push r8
 
     pop r8
@@ -48,7 +33,7 @@ _main:
 
 section '.data' data readable writeable
     result db 'result>>> ', 0
-    number dd '%lld', 0, 10
+    number dd '%lld', 0
 
 section '.idata' import data readable writeable
     library kernel32, 'kernel32.dll', msvcrt, 'msvcrt.dll'

@@ -220,6 +220,10 @@
 
 		[StringValue("КАК")]
 		AS,
+		[StringValue("ЦЕЛОЕ ЧИСЛО")]
+		INT,
+		[StringValue("ВЕЩЕСТВЕННОЕ ЧИСЛО")]
+		DOUBLEPRECISION,
 
 		[StringValue("ЧИСЛО")]
 		NUMBER,

@@ -11,6 +11,17 @@ namespace Pycckuu
 			return result;
 		}
 
+		private ICompilableExpression AsType()
+		{
+			ICompilableExpression result = Primary();
+			if (Match(TokenType.AS))
+			{
+				Token type = Consume(Current.Type);
+				return new AsTypeExpression(result, type);
+			}
+			return result;
+		}
+
 		private ICompilableExpression Primary()
 		{
 			Token current = Current;
@@ -43,21 +54,35 @@ namespace Pycckuu
 					}
 					break;
 				}
-				return sign < 0 ? new UnaryExpression(last, Primary()) : Primary();
+				return sign < 0 ? new UnaryExpression(last, AsType()) : AsType();
 			}
 			if (Match(TokenType.MINUS, TokenType.PLUS))
-				return new UnaryExpression(current, Primary());
-			return Primary();
+				return new UnaryExpression(current, AsType());
+			return AsType();
 		}
 
-		private ICompilableExpression MulDiv()
+		private ICompilableExpression ModDiv()
 		{
 			ICompilableExpression result = Unary();
 			while (true)
 			{
 				Token current = Current;
+				if (Match(TokenType.MOD, TokenType.DIV))
+					result = new BinaryExpression(result, current, Unary());
+				else
+					break;
+			}
+			return result;
+		}
+
+		private ICompilableExpression MulDivision()
+		{
+			ICompilableExpression result = ModDiv();
+			while (true)
+			{
+				Token current = Current;
 				if (Match(TokenType.MULTIPLICATION, TokenType.DIVISION))
-					result = new BinaryExpression(result, current, Primary());
+					result = new BinaryExpression(result, current, ModDiv());
 				else
 					break;
 			}
@@ -66,12 +91,12 @@ namespace Pycckuu
 
 		private ICompilableExpression PlusMinus()
 		{
-			ICompilableExpression result = MulDiv();
+			ICompilableExpression result = MulDivision();
 			while (true)
 			{
 				Token current = Current;
 				if (Match(TokenType.PLUS, TokenType.MINUS))
-					result = new BinaryExpression(result, current, MulDiv());
+					result = new BinaryExpression(result, current, MulDivision());
 				else
 					break;
 			}
