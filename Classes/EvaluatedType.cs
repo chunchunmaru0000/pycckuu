@@ -7,5 +7,8 @@
         STR,
         BOOL,
         VOID,
+
+        BEGIN_PROGRAM,
+        END_PROGRAM,
     }
 }

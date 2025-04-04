@@ -12,7 +12,7 @@
 		
 	public interface ICompilable
 	{
-		public string Compile();
+		public Instruction Compile();
 	}
 
 	public interface ICompilableExpression: IExpression, ICompilable;

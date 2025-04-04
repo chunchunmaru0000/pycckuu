@@ -8,7 +8,8 @@
 		private string IncludePath { get => includePath; set => includePath = value; }
 		private Token[] Tokens { get; set; } = tokens;
 
-		private string Begin() => Platform == "w" ?
+		private Instruction Begin() => new(EvaluatedType.BEGIN_PROGRAM,
+			Platform == "w" ?
 			Comp.Str([
 				"format PE64 console",
 				"",
@@ -20,24 +21,17 @@
 				"_main:"
 			]) :
 			Comp.Str([
-				"format ELF64 executable 3",
+				"format ELF64 executable",
 				"",
 				"segment readable executable",
 				"entry _main",
 				"",
 				"_main:"
-			]);
+			]));
 
-		private string End() => Platform == "w" ?
+		private Instruction End() => new (EvaluatedType.END_PROGRAM, 
+			Platform == "w" ?
 			Comp.Str([
-			/*
-				"    mov rcx, result",
-				"    call [printf]",
-				"    mov rcx, number",
-				"    pop rdx",
-				"    pop rdx",
-				"    pop rdx", // зачем почему и вообще как надо три раза его так делать
-				"    call [printf]",*/
 				"    pop r8",
 				"    invoke printf, number, r8", // пока просто надо сначала калькулятор сделать с результатом в r8
 				"    invoke ExitProcess, 0",
@@ -59,21 +53,19 @@
 				"    mov rax, 60",
 				"    syscall",
 				""
-			]);
+			]));
 
 		public string Compile()
 		{
-			List<string> instructions = [];
+			List<Instruction> instructions = [];
 			instructions.Add(Begin());
 
-		// здесь компилировать
-			// instructions.Add("    mov r8, 0");
-			// instructions.Add("    push r8");
+			// instructions.Add(new ) print instruction
 			instructions.Add(new Parser(Tokens).ParseInstructions().Compile());
 
 			instructions.Add(End());
 
-			return string.Join(Platform == "w" ? "\r\n" : "\n", instructions);
+			return string.Join(Platform == "w" ? "\r\n" : "\n", instructions.Select(i => i.Code));
 		}
 	}
 }

@@ -6,11 +6,12 @@
 
 		public object Evaluate() => Value;
 
-		public string Compile() => Comp.Str([
-		   $"    mov r8, {Value} ; ЦЕЛОЕ ЧИСЛО {Value}",
-			"    push r8",
-			"",
-		]);
+		public Instruction Compile() => new(EvaluatedType.INT,
+            Comp.Str([
+			   $"    mov r8, {Value} ; ЦЕЛОЕ ЧИСЛО {Value}",
+				"    push r8",
+				"",
+			]));
 
 		public override string ToString() => token.Type.View();
 	}
@@ -21,11 +22,12 @@
 
 		public object Evaluate() => Value;
 
-		public string Compile() => Comp.Str([
-		   $"    mov r8, {Value} ; ВЕЩЕСТВЕННОЕ ЧИСЛО {Value}", //  для вставления в стэк чисел с плавающей точкой
-			"    push r8",
-			"",
-		]);
+		public Instruction Compile() => new(EvaluatedType.XMM, 
+			Comp.Str([
+			   $"    mov r8, {Value} ; ВЕЩЕСТВЕННОЕ ЧИСЛО {Value}", //  для вставления в стэк чисел с плавающей точкой
+				"    push r8",
+				"",
+			]));
 
 		public override string ToString() => token.Type.View();
 	}
@@ -40,18 +42,27 @@
 			throw new Exception("НЕ ВЫЧИСЛИМОЕ ЗНАЧЕНИЕ");
 		}
 
-		public string Compile() => Op.Type switch
+		public Instruction Compile()
 		{
-			TokenType.PLUS => Value.Compile(),
-			TokenType.MINUS => Comp.Str([
-				Value.Compile(),
-				"    pop r8",
-				"    neg r8 ; ПОМЕНЯТЬ ЗНАК",
-				"    push r8",
-				"",
-			]),
-			_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
-		};
+			Instruction instruction = Value.Compile();
+
+			return Op.Type switch {
+				TokenType.PLUS => instruction,
+				TokenType.MINUS => instruction.Type switch {
+                    EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
+                        instruction.Code,
+						"    pop r8",
+						"    neg r8 ; ПОМЕНЯТЬ ЗНАК",
+						"    push r8",
+						""])),
+                    EvaluatedType.XMM => instruction,
+                    EvaluatedType.BOOL => throw U.YetCantEx("EvaluatedType.BOOL", "UnaryExpression"),
+                    EvaluatedType.STR => throw U.YetCantEx("EvaluatedType.STR", "UnaryExpression, реверсить строку будет наверно чебы нет"),
+                    _ => throw new Exception("НЕ ЧИСЛОВОЙ ТИП ПРИ ПОПЫТКЕ ПОМЕНЯТЬ ЗНАК")
+                },
+				_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
+			};
+        }
 
 		public override string ToString() => $"{Op.Type.View()}{Value}";
 	}
