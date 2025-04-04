@@ -12,8 +12,7 @@ partial class Parser
 	private ICompilableExpression AsType()
 	{
 		ICompilableExpression result = Primary();
-		if (Match(TokenType.AS))
-		{
+		if (Match(TokenType.AS)) {
 			Token type = Consume(Current.Type);
 			return new AsTypeExpression(result, type);
 		}
