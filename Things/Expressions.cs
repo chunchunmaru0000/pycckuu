@@ -55,9 +55,16 @@
 						"    neg r8 ; ПОМЕНЯТЬ ЗНАК",
 						"    push r8",
 						""])),
-                    EvaluatedType.XMM => instruction,
-                    EvaluatedType.BOOL => throw U.YetCantEx("EvaluatedType.BOOL", "UnaryExpression"),
-                    EvaluatedType.STR => throw U.YetCantEx("EvaluatedType.STR", "UnaryExpression, реверсить строку будет наверно чебы нет"),
+                    EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
+						instruction.Code,
+						"	pop r8",
+						"	movq xmm6, r8",
+                        "	mulsd xmm6, [MINUS_ONE]",
+						"	movq r8, xmm6",
+						"	push r8",
+						""])),
+                    EvaluatedType.BOOL => throw U.YetCantEx("BOOL", "UnaryExpression"),
+                    EvaluatedType.STR => throw U.YetCantEx("STR", "UnaryExpression, реверсить строку будет наверно чебы нет"),
                     _ => throw new Exception("НЕ ЧИСЛОВОЙ ТИП ПРИ ПОПЫТКЕ ПОМЕНЯТЬ ЗНАК")
                 },
 				_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
@@ -95,7 +102,7 @@
 			throw new Exception("НЕ ВЫЧИСЛИМОЕ ЗНАЧЕНИЕ");
 		}
 
-		public string Compile() => Op.Type switch 
+		public Instruction Compile() => Op.Type switch 
 		{
 			TokenType.PLUS => Comp.Str([
 				Left.Compile(),
