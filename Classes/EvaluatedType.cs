@@ -1,14 +1,13 @@
-﻿namespace pycckuu
-{
-    public enum EvaluatedType
-    {
-        INT,
-        XMM,
-        STR,
-        BOOL,
-        VOID,
+﻿namespace pycckuu;
 
-        BEGIN_PROGRAM,
-        END_PROGRAM,
-    }
+public enum EvaluatedType
+{
+    INT,
+    XMM,
+    STR,
+    BOOL,
+    VOID,
+
+    BEGIN_PROGRAM,
+    END_PROGRAM,
 }
