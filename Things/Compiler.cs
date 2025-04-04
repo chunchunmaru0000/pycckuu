@@ -1,4 +1,4 @@
-﻿namespace Pycckuu
+﻿namespace pycckuu
 {
 	public class Compiler(string platform, string includePath, Token[] tokens)
 	{

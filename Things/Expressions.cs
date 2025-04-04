@@ -1,4 +1,4 @@
-﻿namespace Pycckuu
+﻿namespace pycckuu
 {
 	public sealed class IntegerExpression(Token token): ICompilableExpression
 	{
@@ -12,7 +12,7 @@
 			"",
 		]);
 
-		public override string ToString() => token.View!;
+		public override string ToString() => token.Type.View();
 	}
 
 	public sealed class DoubleExpression(Token token) : ICompilableExpression
@@ -27,7 +27,7 @@
 			"",
 		]);
 
-		public override string ToString() => token.View!;
+		public override string ToString() => token.Type.View();
 	}
 
 	public sealed class UnaryExpression(Token op, ICompilableExpression value) : ICompilableExpression
@@ -53,7 +53,7 @@
 			_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
 		};
 
-		public override string ToString() => $"{Op.View}{Value}";
+		public override string ToString() => $"{Op.Type.View()}{Value}";
 	}
 
 	public sealed class BinaryExpression(ICompilableExpression left, Token op, ICompilableExpression right) : ICompilableExpression
@@ -151,7 +151,7 @@
 			_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
 		};
 
-		public override string ToString() => $"{Left} {Op.View} {Right}";
+		public override string ToString() => $"{Left} {Op.Type.View()} {Right}";
 	}
 
 	public sealed class AsTypeExpression(ICompilableExpression value, Token type) : ICompilableExpression
@@ -177,6 +177,6 @@
 			_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
 		};
 
-		public override string ToString() => $"{Value} КАК {Type.View}";
+		public override string ToString() => $"{Value} КАК {Type.Type.View()}";
 	}
 }

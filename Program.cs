@@ -1,22 +1,23 @@
-﻿namespace Pycckuu
+﻿namespace pycckuu
 {
 	class Program
 	{
-		static void Main(string[] args)
+		private static string AsmName = "some.asm";
+		private static string AsmPath = $"V:\\langs\\as\\test\\{AsmName}";
+		private static string IncPath = "V:\\fasm\\INCLUDE\\";
+
+
+        static void Main(string[] args)
 		{
 			Console.Write(">>> ");
 			Token[] tokens = new Tokenizator(Console.ReadLine()!).Tokenize();
-			//foreach (Token s in tokens)
-			//	Console.WriteLine(s.ToString());
 
-			string code = new Compiler("w", "E:/fasm/include/win64a.inc", tokens).Compile();
+			// "w" for windows
+			string code = new Compiler("w", IncPath + "win64a.inc", tokens).Compile();
 			Console.WriteLine(code);
 			Console.ReadLine();
-			// "w" for windows
-			File.WriteAllText("C:\\Users\\user\\desktop\\some.asm", code);
-			File.WriteAllText("some.asm", code);
+			File.WriteAllText(AsmPath, code);
 
-			//Console.WriteLine(new Compiler("w").Compile());
 			Console.ReadLine();
 		}
 	}

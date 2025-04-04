@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Pycckuu
+﻿namespace pycckuu
 {
 	partial class Parser
 	{

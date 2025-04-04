@@ -1,4 +1,4 @@
-﻿namespace Pycckuu
+﻿namespace pycckuu
 {
 	partial class Parser
 	{
@@ -27,11 +27,11 @@
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine(Current.Location);
-			Console.Write(string.Join("|", Enumerable.Range(-range, range).Select(g => Get(g).View)));
+			Console.Write(string.Join("|", Enumerable.Range(-range, range).Select(g => Get(g).Type.View())));
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.Write('|' + Current.View + '|');
+			Console.Write('|' + Current.Type.View() + '|');
 			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine(string.Join("|", Enumerable.Range(1, range).Select(g => Get(g).View)));
+			Console.WriteLine(string.Join("|", Enumerable.Range(1, range).Select(g => Get(g).Type.View())));
 			Console.ResetColor();
 			return "";
 		}
@@ -42,8 +42,8 @@
 			if (Current.Type != type)
 				throw new Exception($"{Near(6)}" +
 									$"СЛОВО НЕ СОВПАДАЕТ С ОЖИДАЕМЫМ\n" +
-									$"ОЖИДАЛСЯ: <{type.GetStringValue()}>\n" +
-									$"ТЕКУЩИЙ: <{Current.Type.GetStringValue()}>");
+									$"ОЖИДАЛСЯ: <{type.View()}>\n" +
+									$"ТЕКУЩИЙ: <{Current.Type.View()}>");
 			Pos++;
 			return current;
 		}
@@ -54,8 +54,8 @@
 			if (Current.Type != type0 && Current.Type != type1)
 				throw new Exception($"{Near(6)}" +
 									$"СЛОВО НЕ СОВПАДАЕТ С ОЖИДАЕМЫМ\n" +
-									$"ОЖИДАЛСЯ: <{type0.GetStringValue()}> ИЛИ <{type1.GetStringValue()}>\n" +
-									$"ТЕКУЩИЙ: <{Current.Type.GetStringValue()}>");
+									$"ОЖИДАЛСЯ: <{type0.View()}> ИЛИ <{type1.View()}>\n" +
+									$"ТЕКУЩИЙ: <{Current.Type.View()}>");
 			Pos++;
 			return current;
 		}

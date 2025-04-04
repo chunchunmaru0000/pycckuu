@@ -1,4 +1,4 @@
-﻿namespace Pycckuu
+﻿namespace pycckuu
 {
 	public class Worder
 	{
@@ -8,7 +8,7 @@
 			return token;
 		}
 
-		public static Token Word(Token word) => word.View switch 
+		public static Token Word(Token word) => word.Type.View() switch 
 		{ 
 			"вещ" => ChangeType(word, TokenType.DOUBLEPRECISION),
 			"цел" => ChangeType(word, TokenType.INT),
