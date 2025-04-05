@@ -1,4 +1,6 @@
-﻿namespace pycckuu;
+﻿using System.Globalization;
+
+namespace pycckuu;
 
 public sealed class DoubleExpression(Token token) : ICompilableExpression
 {
@@ -6,12 +8,17 @@ public sealed class DoubleExpression(Token token) : ICompilableExpression
 
     public object Evaluate() => Value;
 
-    public Instruction Compile() => new(EvaluatedType.XMM,
-        Comp.Str([
-           $"    mov r8, {Value} ; ВЕЩЕСТВЕННОЕ ЧИСЛО {Value}", //  для вставления в стэк чисел с плавающей точкой
-				"    push r8",
-            "",
-        ]));
+    public Instruction Compile()
+    {
+        string value = Value.ToString("0.0###############", CultureInfo.InvariantCulture);
+
+        return new(EvaluatedType.XMM,
+            Comp.Str([
+               $"    mov r8, {value} ; ВЕЩЕСТВЕННОЕ ЧИСЛО {value}", //  для вставления в стэк чисел с плавающей точкой
+			    "    push r8",
+                "",
+            ]));
+    } 
 
     public override string ToString() => token.Type.View();
 }

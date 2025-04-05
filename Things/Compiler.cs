@@ -34,15 +34,15 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 		Platform == "w" ?
 		Comp.Str([
 			"    pop r8",
-			"    invoke printf, number, r8", // пока просто надо сначала калькулятор сделать с результатом в r8
+            "    invoke printf, float, r8", // пока просто надо сначала калькулятор сделать с результатом в r8
 			"    invoke ExitProcess, 0",
 			"",
 			"section '.data' data readable writeable",
 			"    result db 'result>>> ', 0",
 			"    number db '%lld', 0",
 			"    float  db '%llf', 0",
-                "	 MINUS_ONE dq -1.0",
-                "",
+            "	 MINUS_ONE dq -1.0",
+            "",
 			"section '.idata' import data readable writeable",
 			"    library kernel32, 'kernel32.dll', msvcrt, 'msvcrt.dll'",
 			"",

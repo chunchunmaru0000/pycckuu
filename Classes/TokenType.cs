@@ -12,7 +12,7 @@ public enum TokenType
     BOOLEAN,
     [Log("ЦЕЛОЕ ЧИСЛО64")]
     INTEGER,
-    [Log("НЕ ЦЕЛОЕ ЧИСЛО64")]
+    [Log("ВЕЩЕСТВЕННОЕ ЧИСЛО64")]
     DOUBLE,
     [Log("КЛАСС")]
     CLASS,

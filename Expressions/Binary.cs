@@ -31,6 +31,7 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
         Instruction left = Left.Compile();
         Instruction right = Right.Compile();
 
+        // 14.23 % 3.0 - 10.0 * 100.0
         if (left.Type == right.Type) {
             return Op.Type switch {
                 TokenType.PLUS => left.Type switch {
@@ -44,11 +45,13 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
                         "    push r8",
                     "",])),
                     EvaluatedType.XMM => new (EvaluatedType.XMM, Comp.Str([
+                        left.Code,
+                        right.Code,
                         $"; {ToString()}",
                         "    pop r8",
-                        "    movq xmm6, r8",
-                        "    pop r8",
                         "    movq xmm7, r8",
+                        "    pop r8",
+                        "    movq xmm6, r8",
                         "    addsd xmm6, xmm7 ; ПЛЮС",
                         "    movq r8, xmm6",
                         "    push r8",
@@ -66,11 +69,13 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
                         "    push r8",
                     "",])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
+                        left.Code,
+                        right.Code,
                         $"; {ToString()}",
                         "    pop r8",
-                        "    movq xmm6, r8",
-                        "    pop r8",
                         "    movq xmm7, r8",
+                        "    pop r8",
+                        "    movq xmm6, r8",
                         "    subsd xmm6, xmm7 ; МИНУС",
                         "    movq r8, xmm6",
                         "    push r8",
@@ -88,11 +93,13 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
                         "    push r8",
                     "",])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
+                        left.Code,
+                        right.Code,
                         $"; {ToString()}",
                         "    pop r8",
-                        "    movq xmm6, r8",
-                        "    pop r8",
                         "    movq xmm7, r8",
+                        "    pop r8",
+                        "    movq xmm6, r8",
                         "    mulsd xmm6, xmm7 ; УМНОЖЕНИЕ",
                         "    movq r8, xmm6",
                         "    push r8",
@@ -112,6 +119,8 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
                         "    push rax",
                     "",])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
+                        left.Code,
+                        right.Code,
                         $"; {ToString()}",
                         "    pop r8",
                         "    movq xmm7, r8",
@@ -136,6 +145,8 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
                         "    push rax",
                     "",])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
+                        left.Code,
+                        right.Code,
                         $"; {ToString()}",
                         "    pop r8",
                         "    movq xmm7, r8",
@@ -161,6 +172,8 @@ public sealed class BinaryExpression(ICompilableExpression left, Token op, IComp
                         "    push rdx",
                     "",])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
+                        left.Code,
+                        right.Code,
                         $"; {ToString()}",
                         "    pop r9",
                         "    movq xmm7, r9",
