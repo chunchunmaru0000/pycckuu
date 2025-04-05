@@ -7,8 +7,9 @@ public sealed class Call(Token func, ICompilable[] parameters) : ICompilable
 
     public Instruction Compile()
     {
-
-
+        return new(EvaluatedType.CALL, Comp.Str([
+            $"    call [{Func.Value}]"
+        ]));
     }
 
     public override string ToString() =>

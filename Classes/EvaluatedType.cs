@@ -7,7 +7,9 @@ public enum EvaluatedType
     STR,
     PTR,
     BOOL,
+
     VOID,
+    CALL,
 
     BEGIN_PROGRAM,
     END_PROGRAM,
