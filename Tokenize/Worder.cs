@@ -28,6 +28,6 @@ public class Worder
 
         "call" => ChangeType(word, TokenType.CALL),
         "зов" => ChangeType(word, TokenType.CALL),
-        _ => Tokenizator.Nothing
-	};
+        _ => word
+    };
 }

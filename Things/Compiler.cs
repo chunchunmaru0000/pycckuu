@@ -41,7 +41,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"    float  db '%llf', 0",
             "	 MINUS_ONE dq -1.0",
             "",
-            Comp.Str([.. Strings.Select(s => $"{s.Value} db {s.Key}, 0")]),
+            Comp.Str([.. Strings.Select(s => $"    {s.Value} db '{s.Key}', 0")]),
             "",
 			"section '.idata' import data readable writeable",
             LibsImports.Count == 0 ? "" : Comp.Str([
@@ -75,9 +75,12 @@ public class Compiler(string platform, string includePath, Token[] tokens)
     public static string AddString(string str)
     {
         string aStr = $"aStr{Strings.Count}";
-        if (!Strings.ContainsKey(str))
+        if (!Strings.ContainsKey(str)) {
             Strings[str] = aStr;
-        return aStr;
+            return aStr;
+        }
+        else
+            return Strings[str];
     }
 
     public string Compile()

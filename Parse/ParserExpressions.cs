@@ -29,8 +29,10 @@ partial class Parser
 			return new DoubleExpression(current);
 		if (Match(TokenType.LEFTSCOB))
 			return Parentheses();
+        if (Match(TokenType.STRING))
+            return new StringExpression(current);
 
-		throw new Exception("EOF");
+		throw new Exception("ЧЕ ЗА ТИП");
 	}
 
 	private ICompilableExpression Unary()

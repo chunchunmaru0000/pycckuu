@@ -1,4 +1,3 @@
 ﻿из "msvcrt" черпать "printf" как "гойда";
 
-зов гойда "%lld\n" 12*12;
-зов гойда "СВО ZZZZZZZZZZVZVZVZVVZVVVVVZVZV\n";
+зов гойда "СВО ZZZZZZZZZZVZVZVZVVZVVVVVZVZV\n\n\n";

@@ -96,6 +96,7 @@ partial class Parser
 
         return current.Type switch {
             TokenType.FROM => Import(),
+            TokenType.CALL => Call(),
             _ => throw U.YetCantEx(current.Type.Log(), "ICompilable StatementInstructions()")
         };
     }

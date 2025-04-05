@@ -17,4 +17,14 @@ partial class Parser
         Consume(TokenType.SEMICOLON);
         return compilable;
     }
+
+    private ICompilable Call()
+    {
+        Consume(TokenType.CALL);
+        Token func = Consume(TokenType.WORD);
+        List<ICompilable> parameters = [];
+        while (!Match(TokenType.SEMICOLON))
+            parameters.Add(CompilableExpression());
+        return new CallStatement(func, [.. parameters]);
+    }
 }
