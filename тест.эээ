@@ -1,0 +1,2 @@
+﻿из "msvcrt" черпать "printf" как "начертать";
+Ё AddLibImports("msvcrt", "printf", "printf"); Ё

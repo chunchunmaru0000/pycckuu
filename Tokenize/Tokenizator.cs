@@ -20,15 +20,7 @@ class Tokenizator
 		startLine = 0;
 	}
 
-	private char Current
-	{
-		get
-		{
-			if (position < code.Length)
-				return code[position];
-			return '\0';
-		}
-	}
+	private char Current { get => position < code.Length ? code[position] : '\0'; }
 
 	private void Next()
 	{
@@ -149,7 +141,7 @@ class Tokenizator
 			while (Usable(Current))
 				Next();
 			string word = code.Substring(start, position - start);
-			return Worder.Word(new Token() { Value = null, Type = TokenType.WORD, Location = Loc() });
+			return Worder.Word(new Token() { Value = null, Type = TokenType.WORD, Location = Loc() }, word);
 		}
 
 		switch (Current)

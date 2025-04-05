@@ -10,4 +10,5 @@ public enum EvaluatedType
 
     BEGIN_PROGRAM,
     END_PROGRAM,
+    IMPORT,
 }

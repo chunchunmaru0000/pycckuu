@@ -2,11 +2,9 @@
 
 public class Compiler(string platform, string includePath, Token[] tokens)
 {
-	private string includePath = includePath;
-
 	private string Platform { get; set; } = platform;
-	private string IncludePath { get => includePath; set => includePath = value; }
-	private Token[] Tokens { get; set; } = tokens;
+    private string IncludePath { get; set; } = includePath;
+    private Token[] Tokens { get; set; } = tokens;
 
 	private Instruction Begin() => new(EvaluatedType.BEGIN_PROGRAM,
 		Platform == "w" ?
@@ -33,8 +31,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 	private Instruction End() => new (EvaluatedType.END_PROGRAM, 
 		Platform == "w" ?
 		Comp.Str([
-			"    pop r8",
-            "    invoke printf, float, r8", // пока просто надо сначала калькулятор сделать с результатом в r8
+			//"    pop r8",
+            //"    invoke printf, float, r8",
 			"    invoke ExitProcess, 0",
 			"",
 			"section '.data' data readable writeable",
@@ -48,13 +46,13 @@ public class Compiler(string platform, string includePath, Token[] tokens)
                 $"    library {string.Join(", ", LibsImports.Select(p => $"{p.Key}, '{p.Key}'"))}",
                 "",
                 Comp.Str([.. LibsImports.Select(li =>
-                    $"    import {li.Key}, {string.Join(", ", li.Value.Select(i => $"{i.Key}, '{i.Value}'"))}"
+                    $"    import {li.Key}, {string.Join(", ", li.Value.Select(i => $"{i.Value}, '{i.Key}'"))}"
                 )])
             ]),
 			""
 		]) :
 		Comp.Str([
-			"	 	 print",
+			//"	 	 print",
 			"    xor rdi, rdi",
 			"    mov rax, 60",
 			"    syscall",
@@ -62,6 +60,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 		]));
 
     private static Dictionary<string, Dictionary<string, string>> LibsImports { get; set; } = [];
+
     public static void AddLibImports(string lib, string import, string importAs)
     {
         if (!LibsImports.ContainsKey(lib))
@@ -70,19 +69,16 @@ public class Compiler(string platform, string includePath, Token[] tokens)
             LibsImports[lib][import] = importAs;
     }
 
-
     public string Compile()
 	{
-		List<Instruction> instructions = [];
-		instructions.Add(Begin());
+		List<string> instructions = [];
+		instructions.Add(Begin().Code);
 
-		instructions.Add(new Parser(Tokens).ParseInstructions().Compile());
+		instructions.Add(new Parser(Tokens).ParseInstructions());
 
         AddLibImports("kernel32", "ExitProcess", "ExitProcess");
-        AddLibImports("msvcrt", "printf", "printf");
+        instructions.Add(End().Code);
 
-        instructions.Add(End());
-
-		return string.Join(Platform == "w" ? "\r\n" : "\n", instructions.Select(i => i.Code));
+		return string.Join(Platform == "w" ? "\r\n" : "\n", instructions);
 	}
 }

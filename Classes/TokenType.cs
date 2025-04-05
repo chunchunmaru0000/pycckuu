@@ -162,7 +162,7 @@ public enum TokenType
     FILL,
     [Log("КОТОРЫЙ/АЯ/ОЕ")]
     WHICH,
-    [Log("ВКЛЮЧИТЬ")]
+    [Log("ЧЕРПАТЬ")]
     IMPORT,
     [Log("НАСЛЕДУЕТ")]
     SON,

@@ -6,5 +6,5 @@ public static class U
         $"{name} ПОКА НЕ УМЕЕТ {action}";
 
     public static NotImplementedException YetCantEx(string name, string action) =>
-        new NotImplementedException($"{name} ПОКА НЕ УМЕЕТ {action}");
+        new($"{name} ПОКА НЕ УМЕЕТ {action}");
 }

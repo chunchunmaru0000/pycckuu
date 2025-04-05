@@ -84,19 +84,27 @@ partial class Parser
 		return true;
 	}
 
-	private IExpression ExpressionTree() => PlusMinus();
-
-	private ICompilable ExpressionInstructions() => PlusMinus();
+	//private IExpression ExpressionTree() => PlusMinus();
+	//private ICompilable ExpressionInstructions() => PlusMinus();
 
 	private ICompilableExpression CompilableExpression() => PlusMinus();
 
-	public IExpression ParseTree()
-	{
-		return ExpressionTree();
-	}
+    private ICompilable StatementInstructions()
+    {
+        Token current = Current;
+        Token next = Get(1);
 
-	public ICompilable ParseInstructions()
+        return current.Type switch {
+            TokenType.FROM => Import(),
+            _ => throw U.YetCantEx(current.Type.Log(), "ICompilable StatementInstructions()")
+        };
+    }
+
+	public string ParseInstructions()
 	{
-		return ExpressionInstructions();
+        List<string> statements = [];
+        while (!Match(TokenType.EOF))
+            statements.Add(StatementInstructions().Compile().Code);
+        return Comp.Str([.. statements]);
 	}
 }
