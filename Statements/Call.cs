@@ -8,6 +8,7 @@ public sealed class Call(Token func, ICompilable[] parameters) : ICompilable
     public Instruction Compile()
     {
 
+
     }
 
     public override string ToString() =>
