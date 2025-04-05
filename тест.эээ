@@ -1,3 +1,6 @@
 ﻿из "msvcrt" черпать "printf" как "гойда";
 
-зов гойда "СВО ZZZZZZZZZZVZVZVZVVZVVVVVZVZV\n\n\n";
+зов гойда 
+	"СВО ZZZ
+	ZZZZZZZVZVZVZVVZVVVVVZV\нZV\н число [%llf]\н\н\н\н\т\т\тхуй" 
+	(14 + 0.88) * 100;

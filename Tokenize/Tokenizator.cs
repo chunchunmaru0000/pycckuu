@@ -58,35 +58,36 @@ class Tokenizator
 
 	private Token StringToken()
 	{
-		if (!commented)
-		{
-			Next();
-			string buffer = "";
-			while (Current != '"' || Current != '\'') {
-				while (true) {
-					if (Current == '\\') {
-						Next();
+        if (!commented)
+        {
+            Next();
+            string buffer = "";
+            while (Current != '"' || Current != '\'') {
+                while (true) {
+                    if (Current == '\\') {
+                        Next();
 						char cur = Current;
-						Next();
+                        Next();
 						if (RusCharInString.ContainsKey(cur))
 							buffer += RusCharInString[cur];
-						continue;
-					}
-					break;
-				}
-				if (Current == '"' || Current == '\'')
-					break;
+                        continue;
+                    }
+                    break;
+                }
+                if (Current == '"' || Current == '\'')
+                    break;
 
-				buffer += Current;
-				Next();
+                buffer += Current;
+                Next();
 
-				if (Current == '\0')
+                if (Current == '\0')
 					throw new Exception($"НЕЗАКОНЧЕНА СТРОКА: <{Loc()}>, буфер<{buffer}>");
-			}
-			return DoNextAndGiveToken(buffer, TokenType.STRING);
-		}
-		else
-			return DoNextAndGiveToken(Nothing);
+            }
+            buffer = buffer.Replace("\r", "\n").Replace("\n", "',10,'").Replace("\t", "',9,'");
+            return DoNextAndGiveToken(buffer, TokenType.STRING);
+        }
+        else
+            return DoNextAndGiveToken(Nothing);
 	}
 
 	private Token NumberToken()
