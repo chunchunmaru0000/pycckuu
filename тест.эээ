@@ -1,2 +1,4 @@
-﻿из "msvcrt" черпать "printf" как "начертать";
-Ё AddLibImports("msvcrt", "printf", "printf"); Ё
+﻿из "msvcrt" черпать "printf" как "гойда";
+
+зов гойда "%lld\n" 12*12;
+зов гойда "СВО ZZZZZZZZZZVZVZVZVVZVVVVVZVZV\n";

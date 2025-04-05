@@ -141,7 +141,7 @@ class Tokenizator
 			while (Usable(Current))
 				Next();
 			string word = code.Substring(start, position - start);
-			return Worder.Word(new Token() { Value = null, Type = TokenType.WORD, Location = Loc() }, word);
+			return Worder.Word(new Token() { Value = word, Type = TokenType.WORD, Location = Loc() }, word);
 		}
 
 		switch (Current)

@@ -25,6 +25,9 @@ public class Worder
 
         "as" => ChangeType(word, TokenType.AS),
         "как" => ChangeType(word, TokenType.AS),
+
+        "call" => ChangeType(word, TokenType.CALL),
+        "зов" => ChangeType(word, TokenType.CALL),
         _ => Tokenizator.Nothing
 	};
 }

@@ -5,6 +5,7 @@ public enum EvaluatedType
     INT,
     XMM,
     STR,
+    PTR,
     BOOL,
     VOID,
 

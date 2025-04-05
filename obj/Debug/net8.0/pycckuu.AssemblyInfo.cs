@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("pycckuu")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32e96c159be6ad5871ebeebb4b9d971e6f618ec4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe0aca290cd7451f7048b7aefcd8211ea36d48e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("pycckuu")]
 [assembly: System.Reflection.AssemblyTitleAttribute("pycckuu")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

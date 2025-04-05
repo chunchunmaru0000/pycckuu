@@ -21,6 +21,9 @@ public enum TokenType
     [Log("ЛЯМБДА")]
     LAMBDA,
 
+    [Log("ЗОВ")]
+    CALL,
+
     //operators
     [Log("ПЛЮС")]
     PLUS,

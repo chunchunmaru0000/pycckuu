@@ -10,8 +10,7 @@ public sealed class IntegerExpression(Token token) : ICompilableExpression
         Comp.Str([
            $"    mov r8, {Value} ; ЦЕЛОЕ ЧИСЛО {Value}",
             "    push r8",
-            "",
-        ]));
+        ""]));
 
     public override string ToString() => token.Type.View();
 }
