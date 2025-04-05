@@ -14,7 +14,7 @@ public sealed class StringExpression : ICompilableExpression
     public object Evaluate() => Value;
 
     public Instruction Compile() => new(EvaluatedType.PTR, Comp.Str([
-        $"    mov r8, {Compiler.AddString(Value)}",
+        $"    mov r8, {Compiler.AddString(Value)} ; СТРОКА '{Value}'",
          "    push r8",
     ""]));
 

@@ -26,8 +26,8 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
         return new(EvaluatedType.CALL, Comp.Str([
             Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
             Comp.Str(prs),
-            $"    call [{Func.Value}]"
-        ])); 
+            $"    call [{Func.Value}]",
+        ""])); 
     }
 
     public override string ToString() =>
