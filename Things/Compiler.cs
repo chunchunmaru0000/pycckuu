@@ -18,7 +18,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"section '.code' executable",
 			"entry _main",
 			"",
-			"_main:"
+			"_main:",
+            "    sub rsp, 40 ; shadow space"
 		]) :
 		Comp.Str([
 			"format ELF64 executable",
