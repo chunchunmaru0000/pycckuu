@@ -44,10 +44,13 @@ public class Compiler(string platform, string includePath, Token[] tokens)
             "	 MINUS_ONE dq -1.0",
             "",
 			"section '.idata' import data readable writeable",
-			"    library kernel32, 'kernel32.dll', msvcrt, 'msvcrt.dll'",
-			"",
-			"    import kernel32, ExitProcess, 'ExitProcess'",
-			"    import msvcrt, printf, 'printf', scanf, 'scanf'",
+            LibsImports.Count == 0 ? "" : Comp.Str([
+                $"    library {string.Join(", ", LibsImports.Select(p => $"{p.Key}, '{p.Key}'"))}",
+                "",
+                Comp.Str([.. LibsImports.Select(li =>
+                    $"    import {li.Key}, {string.Join(", ", li.Value.Select(i => $"{i.Key}, '{i.Value}'"))}"
+                )])
+            ]),
 			""
 		]) :
 		Comp.Str([
@@ -58,15 +61,27 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			""
 		]));
 
-	public string Compile()
+    private static Dictionary<string, Dictionary<string, string>> LibsImports { get; set; } = [];
+    public static void AddLibImports(string lib, string import, string importAs)
+    {
+        if (!LibsImports.ContainsKey(lib))
+            LibsImports[lib] = new() { { import, importAs } };
+        else
+            LibsImports[lib][import] = importAs;
+    }
+
+
+    public string Compile()
 	{
 		List<Instruction> instructions = [];
 		instructions.Add(Begin());
 
-		// instructions.Add(new ) print instruction
 		instructions.Add(new Parser(Tokens).ParseInstructions().Compile());
 
-		instructions.Add(End());
+        AddLibImports("kernel32", "ExitProcess", "ExitProcess");
+        AddLibImports("msvcrt", "printf", "printf");
+
+        instructions.Add(End());
 
 		return string.Join(Platform == "w" ? "\r\n" : "\n", instructions.Select(i => i.Code));
 	}
