@@ -62,7 +62,7 @@ class Tokenizator
         {
             Next();
             string buffer = "";
-            while (Current != '"' || Current != '\'') {
+            while (Current != '"') {
                 while (true) {
                     if (Current == '\\') {
                         Next();
@@ -74,7 +74,7 @@ class Tokenizator
                     }
                     break;
                 }
-                if (Current == '"' || Current == '\'')
+                if (Current == '"')
                     break;
 
                 buffer += Current;
@@ -83,7 +83,12 @@ class Tokenizator
                 if (Current == '\0')
 					throw new Exception($"НЕЗАКОНЧЕНА СТРОКА: <{Loc()}>, буфер<{buffer}>");
             }
-            buffer = buffer.Replace("\r", "\n").Replace("\n", "',10,'").Replace("\t", "',9,'");
+            buffer = buffer
+                .Replace("\r", "\n")
+                .Replace("'", "',39,'")
+                .Replace("\n", "',10,'")
+                .Replace("\t", "',9,'")
+                ;
             return DoNextAndGiveToken(buffer, TokenType.STRING);
         }
         else

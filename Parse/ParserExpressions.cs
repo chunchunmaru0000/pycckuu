@@ -51,7 +51,8 @@ partial class Parser
         if (current.Type == TokenType.PTR || current.Type == TokenType.LCUBSCOB)
             return Ptrness();
 
-		throw new Exception("ЧЕ ЗА ТИП");
+        //throw new Exception("ЧЕ ЗА ТИП");
+        return StatementInstructions();
 	}
 
 	private ICompilable Unary()
