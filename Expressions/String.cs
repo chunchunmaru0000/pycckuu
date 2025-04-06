@@ -14,8 +14,9 @@ public sealed class StringExpression : ICompilableExpression
     public object Evaluate() => Value;
 
     public Instruction Compile() => new(EvaluatedType.INT, Comp.Str([ // should be PTR but its literally INT
-        $"    mov r8, {Compiler.AddString(Value)} ; СТРОКА '{Value}'",
-         "    push r8",
+        //$"    mov r8, {Compiler.AddString(Value)} ; СТРОКА '{Value}'",
+        // "    push r8",
+        $"    push qword {Compiler.AddString(Value)} ; СТРОКА '{Value}'",
     ""]));
 
     public override string ToString() => Value;

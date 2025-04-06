@@ -60,6 +60,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			""
 		]));
 
+    #region LIBS
     private static Dictionary<string, Dictionary<string, string>> LibsImports { get; set; } = [];
     private static Dictionary<string, ImportedFunction> LibsFuncs { get; set; } = [];
 
@@ -77,6 +78,10 @@ public class Compiler(string platform, string includePath, Token[] tokens)
         ? LibsFuncs[impAs]
         : throw new Exception($"НЕТ ФУНКЦИИ С ИМЕНЕМ {impAs}");
 
+    #endregion LIBS
+
+    #region STRINGS
+
     public static Dictionary<string, string> Strings { get; private set; } = [];
 
     public static string AddString(string str)
@@ -89,6 +94,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
         else
             return Strings[str];
     }
+
+    #endregion STRINGS
 
     public string Compile()
 	{
