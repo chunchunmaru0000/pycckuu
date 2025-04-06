@@ -5,11 +5,11 @@ partial class Parser
     private ICompilable Import()
     {
         Consume(TokenType.FROM);
-        Token lib = Consume(TokenType.STRING);
+        Token lib = Consume(TokenType.WORD);
         Consume(TokenType.IMPORT);
-        Token imp = Consume(TokenType.STRING);
+        Token imp = Consume(TokenType.WORD);
 
-        Token asImp = Match(TokenType.AS) ? Consume(TokenType.STRING) : imp;
+        Token asImp = Match(TokenType.AS) ? Consume(TokenType.WORD) : imp;
         bool varArg = Match(TokenType.VARARG);
 
         // надо как то сделать типа 
