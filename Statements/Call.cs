@@ -12,6 +12,8 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
         { 3, "r9" },
     };
 
+    private static int MIN_OFFSET { get; } = 32;
+
     public Instruction Compile()
     {
         Instruction[] parameters = [.. Parameters.Reverse().Select(p => p.Compile())];
@@ -25,14 +27,14 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 : $"    ; {parameters[i].Type}"
             )];
 
-            int extraSize = 40 + parameters.Skip(4).Sum(p => p.Type.Size());
+            int extraOffset = parameters.Skip(4).Sum(p => 8);// p.Type.Size());;
 
             return new(func.ReturnType, Comp.Str([
-                $"    sub rsp, 40 ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
+                $"    sub rsp, {MIN_OFFSET + extraOffset} ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
                 Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
                 Comp.Str(prs),
                 $"    call [{Func.Value}]",
-                $"    add rsp, {extraSize} ; ВОЗВРАЩЕНИЕ СТЭКА",
+                $"    add rsp, {MIN_OFFSET + extraOffset * 2} ; ВОЗВРАЩЕНИЕ СТЭКА",
                 func.ReturnType == EvaluatedType.INT
                 ?"    push rax"
                 :"",
@@ -50,11 +52,11 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
             ])));
 
             return new(func.ReturnType, Comp.Str([
-                $"    sub rsp, 40 ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
+                $"    sub rsp, {MIN_OFFSET} ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
                 Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
                 Comp.Str([.. prs]),
                 $"    call [{Func.Value}]",
-                $"    add rsp, 40 ; ВОЗВРАЩЕНИЕ СТЭКА",
+                $"    add rsp, {MIN_OFFSET} ; ВОЗВРАЩЕНИЕ СТЭКА",
                 func.ReturnType == EvaluatedType.INT
                 ?"    push rax"
                 :"",
