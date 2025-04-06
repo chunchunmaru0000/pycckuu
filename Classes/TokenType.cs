@@ -27,10 +27,10 @@ public enum TokenType
     VARARG,
     [Log("ТИПА")]
     TYPE,
-    [Log("СТРОКИ")] STRINGA,
-    [Log("ЧИСЛА")] NUMBERA,
-    [Log("УКАЗАТЕЛЯ")] POINTERA,
-    [Log("ВЕЩЕСТВЕННОГО")] FLOATA,
+    [Log("ПУСТЬ")]
+    LET,
+    [Log("БУДЕТ")]
+    BE,
 
 
     //operators

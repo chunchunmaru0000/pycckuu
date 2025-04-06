@@ -41,6 +41,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"    float  db '%llf', 0",
             "	 MINUS_ONE dq -1.0",
             "",
+            Comp.Str([.. Vars.Select(v => $"    {v} dq 0")]),
+            "",
             Comp.Str([.. Strings.Select(s => $"    {s.Value} db '{s.Key}', 0")]),
             "",
 			"section '.idata' import data readable writeable",
@@ -96,6 +98,20 @@ public class Compiler(string platform, string includePath, Token[] tokens)
     }
 
     #endregion STRINGS
+
+    #region VAR
+
+    private static List<string> Vars { get; set; } = [];
+
+    public static bool SetVariable(string name)
+    {
+        bool res = Vars.Contains(name);
+        if (!res)
+            Vars.Add(name);
+        return res;
+    }
+
+    #endregion VAR
 
     public string Compile()
 	{

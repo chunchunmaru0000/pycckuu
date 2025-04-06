@@ -31,16 +31,16 @@ public class Worder
 
         "type" => ChangeType(word, TokenType.TYPE),
         "типа" => ChangeType(word, TokenType.TYPE),
-        "numbera" => ChangeType(word, TokenType.NUMBERA),
-        "числа" => ChangeType(word, TokenType.NUMBERA),
-        "floata" => ChangeType(word, TokenType.FLOATA),
-        "вещего" => ChangeType(word, TokenType.FLOATA),
-        "stringa" => ChangeType(word, TokenType.STRINGA),
-        "строки" => ChangeType(word, TokenType.STRINGA),
-        "pointera" => ChangeType(word, TokenType.POINTERA),
-        "указателя" => ChangeType(word, TokenType.POINTERA),
         "vararg" => ChangeType(word, TokenType.VARARG),
         "некого" => ChangeType(word, TokenType.VARARG),
+
+        "let" => ChangeType(word, TokenType.LET),
+        "пусть" => ChangeType(word, TokenType.LET),
+
+        "be" => ChangeType(word, TokenType.BE),
+        "будет" => ChangeType(word, TokenType.BE),
+        "равно" => ChangeType(word, TokenType.BE),
+        "например" => ChangeType(word, TokenType.BE),
 
         _ => word
     };

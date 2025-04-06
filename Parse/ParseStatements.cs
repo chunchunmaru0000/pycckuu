@@ -14,12 +14,7 @@ partial class Parser
 
         // надо как то сделать типа 
         EvaluatedType type = Match(TokenType.TYPE)
-            ? ( Match(TokenType.STRINGA) ? EvaluatedType.INT : // ptr is int
-                Match(TokenType.NUMBERA) ? EvaluatedType.INT :
-                Match(TokenType.POINTERA) ? EvaluatedType.INT :
-                Match(TokenType.FLOATA) ? EvaluatedType.XMM :
-                throw U.YetCantEx(Current.Type.Log(), "ICompilable Import()")
-            )
+            ? EvaluatedType.INT
             : EvaluatedType.VOID;
 
         ICompilable compilable = new ImportStatement(lib, imp, asImp, varArg, type);
@@ -36,5 +31,10 @@ partial class Parser
         while (!Match(TokenType.SEMICOLON))
             parameters.Add(CompilableExpression());
         return new CallStatement(func, [.. parameters]);
+    }
+
+    private ICompilable Let()
+    {
+
     }
 }
