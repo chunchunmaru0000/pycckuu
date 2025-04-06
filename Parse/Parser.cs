@@ -84,10 +84,7 @@ partial class Parser
 		return true;
 	}
 
-	//private IExpression ExpressionTree() => PlusMinus();
-	//private ICompilable ExpressionInstructions() => PlusMinus();
-
-	private ICompilableExpression CompilableExpression() => PlusMinus();
+	private ICompilable CompilableExpression() => PlusMinus();
 
     private ICompilable StatementInstructions()
     {

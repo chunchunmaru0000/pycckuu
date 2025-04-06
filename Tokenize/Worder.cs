@@ -41,6 +41,8 @@ public class Worder
         "это" => ChangeType(word, TokenType.BE),
         "будет" => ChangeType(word, TokenType.BE),
         "равно" => ChangeType(word, TokenType.BE),
+        "равен" => ChangeType(word, TokenType.BE),
+        "равна" => ChangeType(word, TokenType.BE),
         "например" => ChangeType(word, TokenType.BE),
 
         _ => word

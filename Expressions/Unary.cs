@@ -1,9 +1,9 @@
 ﻿namespace pycckuu;
 
-public sealed class UnaryExpression(Token op, ICompilableExpression value) : ICompilableExpression
+public sealed class UnaryExpression(Token op, ICompilable value) : ICompilable
 {
     private Token Op = op;
-    private ICompilableExpression Value = value;
+    private ICompilable Value = value;
 
     public object Evaluate()
     {

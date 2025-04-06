@@ -1,30 +1,10 @@
 ﻿namespace pycckuu;
 
-public sealed class BinaryExpression(ICompilableExpression left, Token op, ICompilableExpression right) : ICompilableExpression
+public sealed class BinaryExpression(ICompilable left, Token op, ICompilable right) : ICompilable
 {
-    private ICompilableExpression Left = left;
+    private ICompilable Left = left;
     private Token Op = op;
-    private ICompilableExpression Right = right;
-
-    public object Evaluate()
-    {
-        object left = Left.Evaluate();
-        object right = Right.Evaluate();
-
-        if (left is long && right is long) {
-            long lleft = Convert.ToInt64(left);
-            long lright = Convert.ToInt64(right);
-            switch (Op.Type) {
-                case TokenType.PLUS:
-                    return lleft + lright;
-                case TokenType.MINUS:
-                    return lleft - lright;
-                default:
-                    break;
-            }
-        }
-        throw new Exception("ДА КАКОЙ ТАМ ИНТЕРПРЕТАТОР");
-    }
+    private ICompilable Right = right;
 
     public Instruction Compile()
     {

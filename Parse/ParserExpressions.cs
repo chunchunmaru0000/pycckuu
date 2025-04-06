@@ -1,17 +1,19 @@
-﻿namespace pycckuu;
+﻿using System.Linq.Expressions;
+
+namespace pycckuu;
 
 partial class Parser
 {
-	private ICompilableExpression Parentheses()
+	private ICompilable Parentheses()
 	{
-		ICompilableExpression result = CompilableExpression();
+		ICompilable result = CompilableExpression();
 		Match(TokenType.RIGHTSCOB);
 		return result;
 	}
 
-	private ICompilableExpression AsType()
+	private ICompilable AsType()
 	{
-		ICompilableExpression result = Primary();
+		ICompilable result = Primary();
 		if (Match(TokenType.AS)) {
 			Token type = Consume(Current.Type);
 			return new AsTypeExpression(result, type);
@@ -19,7 +21,7 @@ partial class Parser
 		return result;
 	}
 
-	private ICompilableExpression Primary()
+	private ICompilable Primary()
 	{
 		Token current = Current;
 
@@ -31,11 +33,13 @@ partial class Parser
 			return Parentheses();
         if (Match(TokenType.STRING))
             return new StringExpression(current);
+        if (Match(TokenType.WORD))
+            return new VarExpression(current);
 
 		throw new Exception("ЧЕ ЗА ТИП");
 	}
 
-	private ICompilableExpression Unary()
+	private ICompilable Unary()
 	{
 		Token current = Current;
 		Token last = current;
@@ -60,9 +64,9 @@ partial class Parser
 		return AsType();
 	}
 
-	private ICompilableExpression ModDiv()
+	private ICompilable ModDiv()
 	{
-		ICompilableExpression result = Unary();
+		ICompilable result = Unary();
 		while (true)
 		{
 			Token current = Current;
@@ -74,9 +78,9 @@ partial class Parser
 		return result;
 	}
 
-	private ICompilableExpression MulDivision()
+	private ICompilable MulDivision()
 	{
-		ICompilableExpression result = ModDiv();
+		ICompilable result = ModDiv();
 		while (true)
 		{
 			Token current = Current;
@@ -88,9 +92,9 @@ partial class Parser
 		return result;
 	}
 
-	private ICompilableExpression PlusMinus()
+	private ICompilable PlusMinus()
 	{
-		ICompilableExpression result = MulDivision();
+		ICompilable result = MulDivision();
 		while (true)
 		{
 			Token current = Current;

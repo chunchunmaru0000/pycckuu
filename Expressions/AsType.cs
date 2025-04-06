@@ -1,8 +1,8 @@
 ﻿namespace pycckuu;
 
-public sealed class AsTypeExpression(ICompilableExpression value, Token type) : ICompilableExpression
+public sealed class AsTypeExpression(ICompilable value, Token type) : ICompilable
 {
-	public ICompilableExpression Value { get; } = value;
+	public ICompilable Value { get; } = value;
 	public Token Type = type;
 
 	public object Evaluate() => throw new Exception("ПРЕОБРАЗОВАНИЕ ТИПОВ ДЛЯ ИНИТЕРПРЕТАТОРА НЕ СДЕЛАНО");
