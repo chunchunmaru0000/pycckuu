@@ -44,6 +44,8 @@ partial class Parser
 			return Parentheses();
         if (Match(TokenType.STRING))
             return new StringExpression(current);
+        if (Match(TokenType.BYTE, TokenType.DBYTE))
+            return new BytesExpression(current);
         if (Match(TokenType.WORD))
             return new VarExpression(current);
         if (current.Type == TokenType.PTR || current.Type == TokenType.LCUBSCOB)

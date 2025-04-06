@@ -5,20 +5,16 @@ public class SetVarStatement(Token name, ICompilable value): ICompilable
     private Token Name { get; set; } = name;
     private ICompilable Value { get; set; } = value;
 
-    private static Dictionary<int, string> Sizes { get; set; } = new() {
-        { 1, "byte" },
-        { 2, "word" },
-        { 4, "dword" },
-        { 8, "qword" },
-    };
-
     public Instruction Compile()
     {
         string name = Compiler.SetVariable(Name);
+        Instruction value = Value.Compile();
+        int s = value.Type.Size();
+
         return new(EvaluatedType.VOID, Comp.Str([
-            Value.Compile().Code,
+            value.Code,
             $"    pop r8",
-            $"    mov qword [{name}], r8",
+            $"    mov {U.Sizes[s]} [{name}], r8{U.RRegs[s]}",
         ""]));
     }
 }
@@ -30,12 +26,15 @@ public class SetPtrStatement(ICompilable ptr, ICompilable value) : ICompilable
 
     public Instruction Compile()
     {
+        Instruction value = Value.Compile();
+        int s = value.Type.Size();
+
         return new(EvaluatedType.VOID, Comp.Str([
             Ptr.Compile().Code,
             Value.Compile().Code,
             "    pop r9",
             "    pop r8",
-            "    mov [r8], r9",
+           $"    mov {U.Sizes[s]} [r8], r9{U.RRegs[s]}",
         ""]));
     }
 }
