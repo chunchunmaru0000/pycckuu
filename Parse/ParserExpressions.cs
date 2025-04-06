@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace pycckuu;
+﻿namespace pycckuu;
 
 partial class Parser
 {
@@ -21,6 +19,19 @@ partial class Parser
 		return result;
 	}
 
+    private ICompilable Ptrness()
+    {
+        ICompilable ptr;
+        if (Match(TokenType.LCUBSCOB)) {
+            ptr = new PtrExpression(Consume(TokenType.WORD).Value!.ToString()!);
+            Consume(TokenType.RCUBSCOB);
+        } else {
+            Consume(TokenType.PTR);
+            ptr = new PtrExpression(Consume(TokenType.WORD).Value!.ToString()!);
+        }
+        return ptr;
+    }
+
 	private ICompilable Primary()
 	{
 		Token current = Current;
@@ -35,6 +46,8 @@ partial class Parser
             return new StringExpression(current);
         if (Match(TokenType.WORD))
             return new VarExpression(current);
+        if (current.Type == TokenType.PTR || current.Type == TokenType.LCUBSCOB)
+            return Ptrness();
 
 		throw new Exception("ЧЕ ЗА ТИП");
 	}

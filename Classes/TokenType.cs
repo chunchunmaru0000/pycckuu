@@ -20,6 +20,8 @@ public enum TokenType
     THIS,
     [Log("ЛЯМБДА")]
     LAMBDA,
+    [Log("УКАЗАТЕЛЬ")]
+    PTR,
 
     [Log("ЗОВ")]
     CALL,

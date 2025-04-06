@@ -2,7 +2,7 @@
 
 namespace pycckuu;
 
-public sealed class DoubleExpression(Token token) : ICompilableExpression
+public sealed class DoubleExpression(Token token) : ICompilable
 {
     public double Value { get; } = Convert.ToDouble(token.Value);
 

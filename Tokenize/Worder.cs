@@ -45,6 +45,11 @@ public class Worder
         "равна" => ChangeType(word, TokenType.BE),
         "например" => ChangeType(word, TokenType.BE),
 
+        "PTR" => ChangeType(word, TokenType.PTR),
+        "ptr" => ChangeType(word, TokenType.PTR),
+        "УК" => ChangeType(word, TokenType.PTR),
+        "ук" => ChangeType(word, TokenType.PTR),
+
         _ => word
     };
 }

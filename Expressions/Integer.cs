@@ -1,6 +1,6 @@
 ﻿namespace pycckuu;
 
-public sealed class IntegerExpression(Token token) : ICompilableExpression
+public sealed class IntegerExpression(Token token) : ICompilable
 {
     public long Value { get; } = Convert.ToInt64(token.Value);
 
