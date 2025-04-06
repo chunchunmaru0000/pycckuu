@@ -22,6 +22,10 @@ public enum TokenType
     LAMBDA,
     [Log("УКАЗАТЕЛЬ")]
     PTR,
+    [Log("БАЙТ")]
+    BYTE,
+    [Log("ДБАЙТ")]
+    DBYTE,
 
     [Log("ЗОВ")]
     CALL,

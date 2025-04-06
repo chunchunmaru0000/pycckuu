@@ -121,7 +121,28 @@ class Tokenizator
 		throw new Exception("МНОГА ТОЧЕК ДЛЯ ЧИСЛА");
 	}
 
-	private Token NextToken()
+    private Token CharToken()
+    {
+        Next();
+        char ch = Current;
+        Next();
+        if (Current != '\'')
+            throw new Exception($"{Loc()}\nНЕ ЗАКРЫТ СИМВОЛ [']");
+        Next();
+        return ch > 255
+            ? new Token() {
+                Value = System.Text.Encoding.UTF8.GetBytes(ch.ToString()),
+                Type = TokenType.DBYTE,
+                Location = Loc()
+            }
+            : new Token() {
+                Value = new byte[] { System.Text.Encoding.UTF8.GetBytes(ch.ToString())[0] },
+                Type = TokenType.BYTE,
+                Location = Loc()
+            };
+    }
+
+    private Token NextToken()
 	{
 		if (Current == '\0')
 			return new Token() { Value = null, Type = TokenType.EOF, Location = Loc() };
@@ -130,8 +151,10 @@ class Tokenizator
 			while (char.IsWhiteSpace(Current))
 				Next();
 
-		if (Current == '"' || Current == '\'')
+		if (Current == '"')
 			return StringToken();
+        if (Current == '\'')
+            return CharToken();
 
 		if (char.IsDigit(Current))
 			return NumberToken();

@@ -1,11 +1,16 @@
-﻿using System.Xml.Linq;
-
-namespace pycckuu;
+﻿namespace pycckuu;
 
 public class SetVarStatement(Token name, ICompilable value): ICompilable
 {
     private Token Name { get; set; } = name;
     private ICompilable Value { get; set; } = value;
+
+    private static Dictionary<int, string> Sizes { get; set; } = new() {
+        { 1, "byte" },
+        { 2, "word" },
+        { 4, "dword" },
+        { 8, "qword" },
+    };
 
     public Instruction Compile()
     {
