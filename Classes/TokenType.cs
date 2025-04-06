@@ -23,6 +23,15 @@ public enum TokenType
 
     [Log("ЗОВ")]
     CALL,
+    [Log("НЕОПРЕДЕЛЕННО")]
+    VARARG,
+    [Log("ТИПА")]
+    TYPE,
+    [Log("СТРОКИ")] STRINGA,
+    [Log("ЧИСЛА")] NUMBERA,
+    [Log("УКАЗАТЕЛЯ")] POINTERA,
+    [Log("ВЕЩЕСТВЕННОГО")] FLOATA,
+
 
     //operators
     [Log("ПЛЮС")]

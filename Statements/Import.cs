@@ -1,7 +1,8 @@
 ﻿namespace pycckuu;
 
-public sealed class ImportStatement(Token lib, Token imp, Token impAs) : ICompilable
+public sealed class ImportStatement(Token lib, Token imp, Token impAs, bool varArg, EvaluatedType type) : ICompilable
 {
+    private ImportedFunction
     private Token Lib { get; set; } = lib;
     private Token Imp { get; set; } = imp;
     private Token ImpAs { get; set; } = impAs;

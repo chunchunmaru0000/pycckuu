@@ -23,10 +23,14 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
             : $"    ; {parameters[i].Type}"
         )];
 
+        int extraSize = 40 + parameters.Skip(4).Sum(p => p.Type.Size());
+
         return new(EvaluatedType.CALL, Comp.Str([
+            $"    sub rsp, {extraSize} ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
             Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
             Comp.Str(prs),
             $"    call [{Func.Value}]",
+            $"    add rsp, {extraSize} ; ВОЗВРАЩЕНИЕ СТЭКА",
         ""])); 
     }
 

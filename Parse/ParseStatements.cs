@@ -9,10 +9,20 @@ partial class Parser
         Consume(TokenType.IMPORT);
         Token imp = Consume(TokenType.STRING);
 
-        ICompilable compilable =
-            Match(TokenType.AS)
-            ? new ImportStatement(lib, imp, Consume(TokenType.STRING))
-            : new ImportStatement(lib, imp, imp);
+        Token asImp = Match(TokenType.AS) ? Consume(TokenType.STRING) : imp;
+        bool varArg = Match(TokenType.VARARG);
+
+        // надо как то сделать типа 
+        EvaluatedType type = Match(TokenType.TYPE)
+            ? ( Match(TokenType.STRINGA) ? EvaluatedType.INT : // ptr is int
+                Match(TokenType.NUMBERA) ? EvaluatedType.INT :
+                Match(TokenType.POINTERA) ? EvaluatedType.INT :
+                Match(TokenType.FLOATA) ? EvaluatedType.XMM :
+                throw U.YetCantEx(Current.Type.Log(), "ICompilable Import()")
+            )
+            : EvaluatedType.VOID;
+
+        ICompilable compilable = new ImportStatement(lib, imp, asImp, varArg, type);
 
         Consume(TokenType.SEMICOLON);
         return compilable;

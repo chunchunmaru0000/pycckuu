@@ -2,16 +2,16 @@
 
 public enum EvaluatedType
 {
-    INT,
-    XMM,
-    STR,
-    PTR,
-    BOOL,
+    [Size(8)]INT,
+    [Size(8)]XMM,
+    [Size(1)]STR, // 1 is for char if it will be ever used
+    [Size(8)]PTR,
+    [Size(8)]BOOL,
 
-    VOID,
-    CALL,
+    [Size(0)]VOID, // not like in C here its literally void as nothing
+    [Size(8)]CALL,
 
-    BEGIN_PROGRAM,
-    END_PROGRAM,
-    IMPORT,
+    [Size(0)]BEGIN_PROGRAM,
+    [Size(0)]END_PROGRAM,
+    [Size(0)]IMPORT,
 }
