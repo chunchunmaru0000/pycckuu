@@ -1,4 +1,6 @@
-﻿namespace pycckuu;
+﻿using System.Xml.Linq;
+
+namespace pycckuu;
 
 partial class Parser
 {
@@ -35,6 +37,21 @@ partial class Parser
 
     private ICompilable Let()
     {
+        Consume(TokenType.LET);
+        if (Get(1).Type == TokenType.BE) { // this is just like: let a be 10 
+            Token name = Consume(TokenType.WORD);
+            Consume(TokenType.BE);
+            ICompilable value = CompilableExpression();
 
+            Consume(TokenType.SEMICOLON);
+            return new SetVarStatement(name, value);
+        } else { // this is propably array like: let a + 3 be 32
+            ICompilable ptr = CompilableExpression();
+            Consume(TokenType.BE);
+            ICompilable value = CompilableExpression();
+
+            Consume(TokenType.SEMICOLON);
+            return new SetPtrStatement(ptr, value);
+        }
     }
 }

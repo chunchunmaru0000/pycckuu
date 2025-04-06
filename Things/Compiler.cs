@@ -39,7 +39,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"    result db 'result>>> ', 0",
 			"    number db '%lld', 0",
 			"    float  db '%llf', 0",
-            "	 MINUS_ONE dq -1.0",
+            "    MINUS_ONE dq -1.0",
             "",
             Comp.Str([.. Vars.Select(v => $"    {v} dq 0")]),
             "",
@@ -103,12 +103,12 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
     private static List<string> Vars { get; set; } = [];
 
-    public static bool SetVariable(string name)
+    public static string SetVariable(Token var)
     {
-        bool res = Vars.Contains(name);
-        if (!res)
+        string name = var.Value!.ToString()!;
+        if (!Vars.Contains(name))
             Vars.Add(name);
-        return res;
+        return name;
     }
 
     #endregion VAR

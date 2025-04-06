@@ -27,12 +27,15 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
 
             int extraSize = 40 + parameters.Skip(4).Sum(p => p.Type.Size());
 
-            return new(EvaluatedType.CALL, Comp.Str([
+            return new(func.ReturnType, Comp.Str([
                 $"    sub rsp, 40 ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
                 Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
                 Comp.Str(prs),
                 $"    call [{Func.Value}]",
                 $"    add rsp, {extraSize} ; ВОЗВРАЩЕНИЕ СТЭКА",
+                func.ReturnType == EvaluatedType.INT
+                ?"    push rax"
+                :"",
             ""])); 
         } else {
             List<string> prs = [.. Enumerable.Range(0, 4).Select(i =>
@@ -46,12 +49,15 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 $"    mov qword [rsp + {32 + (--extraParams * 8) + 8 * i}], r10"
             ])));
 
-            return new(EvaluatedType.CALL, Comp.Str([
+            return new(func.ReturnType, Comp.Str([
                 $"    sub rsp, 40 ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ",
                 Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
                 Comp.Str([.. prs]),
                 $"    call [{Func.Value}]",
                 $"    add rsp, 40 ; ВОЗВРАЩЕНИЕ СТЭКА",
+                func.ReturnType == EvaluatedType.INT
+                ?"    push rax"
+                :"",
             ""]));
         }
     }
