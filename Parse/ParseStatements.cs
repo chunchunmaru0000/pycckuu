@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace pycckuu;
+﻿namespace pycckuu;
 
 partial class Parser
 {
@@ -53,5 +51,11 @@ partial class Parser
             Match(TokenType.SEMICOLON);
             return new SetPtrStatement(ptr, value);
         }
+    }
+
+    private ICompilable If()
+    {
+        Consume(TokenType.WORD_IF);
+        throw new("эээээ");
     }
 }

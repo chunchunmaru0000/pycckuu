@@ -1,4 +1,18 @@
-﻿
+﻿{
+	if 
+	elif
+	else
+},
+{
+	while
+	loop
+	break
+	continue
+	for?
+},
+{
+	!!!lambdas!!!
+},
 
 
 [потом может когда нибудь]

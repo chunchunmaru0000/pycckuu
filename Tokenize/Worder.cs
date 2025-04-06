@@ -47,8 +47,18 @@ public class Worder
 
         "PTR" => ChangeType(word, TokenType.PTR),
         "ptr" => ChangeType(word, TokenType.PTR),
+        "pointer" => ChangeType(word, TokenType.PTR),
         "УК" => ChangeType(word, TokenType.PTR),
         "ук" => ChangeType(word, TokenType.PTR),
+        "указатель" => ChangeType(word, TokenType.PTR),
+
+        "if" => ChangeType(word, TokenType.WORD_IF),
+        "если" => ChangeType(word, TokenType.WORD_IF),
+        "elif" => ChangeType(word, TokenType.WORD_ELIF),
+        "коли" => ChangeType(word, TokenType.WORD_ELIF),
+        "else" => ChangeType(word, TokenType.WORD_ELSE),
+        "инак" => ChangeType(word, TokenType.WORD_ELSE),
+        "иначе" => ChangeType(word, TokenType.WORD_ELSE),
 
         _ => word
     };

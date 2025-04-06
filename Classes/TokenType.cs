@@ -142,9 +142,9 @@ public enum TokenType
     //words types
     [Log("ЕСЛИ")]
     WORD_IF,
-    [Log("ИНАЧЕ")]
+    [Log("ИНАК")]
     WORD_ELSE,
-    [Log("ИНАЧЕЛИ")]
+    [Log("КОЛИ")]
     WORD_ELIF,
     [Log("ПОКА")]
     WORD_WHILE,

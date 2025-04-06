@@ -34,7 +34,7 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
                 Comp.Str(prs),
                 $"    call [{Func.Value}]",
-                $"    add rsp, {MIN_OFFSET + extraOffset * 2} ; ВОЗВРАЩЕНИЕ СТЭКА",
+                $"    add rsp, {MIN_OFFSET + extraOffset * 2} ; ВОЗВРАЩЕНИЕ СТЭКА", //  * 2 потому что вот оно на стэк положило это во первых память нужна, а во вторых со стека оно очищено не было by callee поэтому вручную надо
                 func.ReturnType == EvaluatedType.INT
                 ?"    push rax"
                 :"",

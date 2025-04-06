@@ -13,7 +13,9 @@ partial class Parser
 		Lenght = Tokens.Length;
 	}
 
-	private Token Get(int offset)
+    #region TOOLS
+
+    private Token Get(int offset)
 	{
 		int offPos = Pos + offset;
 		if (offPos < Lenght && offPos > -1)
@@ -84,7 +86,9 @@ partial class Parser
 		return true;
 	}
 
-	private ICompilable CompilableExpression() => PlusMinus();
+    #endregion TOOLS
+
+    private ICompilable CompilableExpression() => PlusMinus();
 
     private ICompilable StatementInstructions()
     {
@@ -95,6 +99,7 @@ partial class Parser
             TokenType.FROM => Import(),
             TokenType.CALL => Call(),
             TokenType.LET => Let(),
+            TokenType.WORD_IF => If(),
             _ => throw U.YetCantEx(current.Type.Log(), "ICompilable StatementInstructions()")
         };
     }
