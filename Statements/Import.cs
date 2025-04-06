@@ -2,14 +2,17 @@
 
 public sealed class ImportStatement(Token lib, Token imp, Token impAs, bool varArg, EvaluatedType type) : ICompilable
 {
-    private ImportedFunction
     private Token Lib { get; set; } = lib;
     private Token Imp { get; set; } = imp;
     private Token ImpAs { get; set; } = impAs;
+    private bool VarArg { get; set; } = varArg;
+    private EvaluatedType Type { get; set; } = type;
+
+    private static string Sure(Token t) => t.Value!.ToString()!;
 
     public Instruction Compile()
     {
-        Compiler.AddLibImports(Lib.Value!.ToString()!, Imp.Value!.ToString()!, ImpAs.Value!.ToString()!);
+        Compiler.AddLibImports(new(Sure(Lib), Sure(Imp), Sure(ImpAs), VarArg, Type));
         return new Instruction(EvaluatedType.IMPORT, "");
     }
 

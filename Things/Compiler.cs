@@ -61,14 +61,21 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 		]));
 
     private static Dictionary<string, Dictionary<string, string>> LibsImports { get; set; } = [];
+    private static Dictionary<string, ImportedFunction> LibsFuncs { get; set; } = [];
 
-    public static void AddLibImports(string lib, string import, string importAs)
+    public static void AddLibImports(ImportedFunction f)
     {
-        if (!LibsImports.ContainsKey(lib))
-            LibsImports[lib] = new() { { import, importAs } };
+        if (!LibsImports.ContainsKey(f.Lib))
+            LibsImports[f.Lib] = new() { { f.Imp, f.ImpAs } };
         else
-            LibsImports[lib][import] = importAs;
+            LibsImports[f.Lib][f.Imp] = f.ImpAs;
+        LibsFuncs[f.ImpAs] = f;
     }
+
+    public static ImportedFunction GetFuncImportedAs(string impAs) =>
+        LibsFuncs.ContainsKey(impAs)
+        ? LibsFuncs[impAs]
+        : throw new Exception($"НЕТ ФУНКЦИИ С ИМЕНЕМ {impAs}");
 
     public static Dictionary<string, string> Strings { get; private set; } = [];
 
@@ -90,7 +97,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
 		instructions.Add(new Parser(Tokens).ParseInstructions());
 
-        AddLibImports("kernel32", "ExitProcess", "ExitProcess");
+        AddLibImports(new("kernel32", "ExitProcess", "ExitProcess", false, EvaluatedType.VOID));
         instructions.Add(End().Code);
 
 		return string.Join(Platform == "w" ? "\r\n" : "\n", instructions);

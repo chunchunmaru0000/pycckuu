@@ -15,6 +15,8 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
     public Instruction Compile()
     {
         Instruction[] parameters = [.. Parameters.Reverse().Select(p => p.Compile())];
+        ImportedFunction func = Compiler.GetFuncImportedAs(Func.Value!.ToString()!);
+
         string[] prs = [.. Enumerable.Range(0, parameters.Length).Select(i =>
             true // если тип помещается на стэк иначе его надо оствить на стеке
             ? Registers.ContainsKey(i) 
