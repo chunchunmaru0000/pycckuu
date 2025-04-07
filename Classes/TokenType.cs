@@ -142,6 +142,8 @@ public enum TokenType
     //words types
     [Log("ЕСЛИ")]
     WORD_IF,
+    [Log("ТОГДА")]
+    WORD_THEN,
     [Log("ИНАК")]
     WORD_ELSE,
     [Log("КОЛИ")]

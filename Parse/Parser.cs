@@ -88,7 +88,7 @@ partial class Parser
 
     #endregion TOOLS
 
-    private ICompilable CompilableExpression() => PlusMinus();
+    private ICompilable CompilableExpression() => Compare();
 
     private ICompilable StatementInstructions()
     {

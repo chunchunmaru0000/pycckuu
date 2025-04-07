@@ -57,6 +57,8 @@ public class Worder
         "elif" => ChangeType(word, TokenType.WORD_ELIF),
         "коли" => ChangeType(word, TokenType.WORD_ELIF),
         "else" => ChangeType(word, TokenType.WORD_ELSE),
+            "then" => ChangeType(word, TokenType.WORD_THEN),
+            "тогда" => ChangeType(word, TokenType.WORD_THEN),
         "инак" => ChangeType(word, TokenType.WORD_ELSE),
         "иначе" => ChangeType(word, TokenType.WORD_ELSE),
 
@@ -67,6 +69,15 @@ public class Worder
         "false" => ChangeType(word, TokenType.WORD_FALSE),
         "ложь" => ChangeType(word, TokenType.WORD_FALSE),
         "ВладимирАлександровичЗеленский" => ChangeType(word, TokenType.WORD_FALSE),
+
+        "not" => ChangeType(word, TokenType.NOT),
+        "не" => ChangeType(word, TokenType.NOT),
+
+        "more" => ChangeType(word, TokenType.MORE),
+        "больше" => ChangeType(word, TokenType.MORE),
+        "паче" => ChangeType(word, TokenType.MORE),
+        "less" => ChangeType(word, TokenType.LESS),
+        "меньше" => ChangeType(word, TokenType.LESS),
 
         _ => word
     };

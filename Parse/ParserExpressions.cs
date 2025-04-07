@@ -12,10 +12,9 @@ partial class Parser
 	private ICompilable AsType()
 	{
 		ICompilable result = Primary();
-		if (Match(TokenType.AS)) {
-			Token type = Consume(Current.Type);
-			return new AsTypeExpression(result, type);
-		}
+		if (Match(TokenType.AS))
+			return new AsTypeExpression(result, Consume(Current.Type));
+		
 		return result;
 	}
 
@@ -62,13 +61,10 @@ partial class Parser
 		Token current = Current;
 		Token last = current;
 		int sign = -1;
-		if (Match(TokenType.NOT))
-		{
-			while (true)
-			{
+		if (Match(TokenType.NOT)) {
+			while (true) {
 				current = Current;
-				if (Match(TokenType.NOT))
-				{
+				if (Match(TokenType.NOT)) {
 					sign *= -1;
 					last = current;
 					continue;
@@ -113,8 +109,7 @@ partial class Parser
 	private ICompilable PlusMinus()
 	{
 		ICompilable result = MulDivision();
-		while (true)
-		{
+		while (true) {
 			Token current = Current;
 			if (Match(TokenType.PLUS, TokenType.MINUS))
 				result = new BinaryExpression(result, current, MulDivision());
@@ -123,4 +118,32 @@ partial class Parser
 		}
 		return result;
 	}
+
+    private ICompilable Compare()
+    {
+        ICompilable result = PlusMinus();
+        while (true){ // EQUALITY NOTEQUALITY MORE LESS MOREEQ LESSEQ
+            Token current = Current;
+            Token next = Get(1);
+            if (Match(TokenType.EQUALITY, TokenType.BE, TokenType.ARROW))
+                result = new CompareExpression(result, TokenType.EQUALITY, PlusMinus());
+            else if (
+                    Match(TokenType.NOTEQUALITY, TokenType.MORE, TokenType.LESS) ||
+                    Match(TokenType.MOREEQ, TokenType.LESSEQ))
+                result = new CompareExpression(result, current.Type, PlusMinus());
+            else if (Match(TokenType.NOT) && (next.Type == TokenType.BE || next.Type == TokenType.EQUALITY)) {
+                Consume(TokenType.BE, TokenType.EQUALITY);
+                result = new CompareExpression(result, TokenType.NOTEQUALITY, PlusMinus());
+            } else if (Match(TokenType.NOT) && next.Type == TokenType.MORE) {
+                Consume(TokenType.MORE);
+                result = new CompareExpression(result, TokenType.LESSEQ, PlusMinus());
+            } else if (Match(TokenType.NOT) && next.Type == TokenType.LESS) {
+                Consume(TokenType.MORE);
+                result = new CompareExpression(result, TokenType.MOREEQ, PlusMinus());
+            }
+            else
+                break;
+        }
+        return result;
+    }
 }

@@ -14,9 +14,16 @@ public sealed class UnaryExpression(Token op, ICompilable value) : ICompilable
     {
         Instruction instruction = Value.Compile();
 
-        return Op.Type switch
-        {
+        return Op.Type switch {
             TokenType.PLUS => instruction,
+            TokenType.NOT => new(EvaluatedType.INT, Comp.Str([
+                    instruction.Code,
+                    "    pop r8",
+                    "    xor r9, r9",
+                    "    cmp r8, 0",
+                    "    sete r9b ; НЕ если ZF = 1 тогда r9b = 1",
+                    "    push r9",
+                    ""])),
             TokenType.MINUS => instruction.Type switch {
                 EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                     instruction.Code,
@@ -32,13 +39,11 @@ public sealed class UnaryExpression(Token op, ICompilable value) : ICompilable
                     "    movq r8, xmm6",
                     "    push r8",
                     ""])),
-                EvaluatedType.BOOL => throw U.YetCantEx("BOOL", "UnaryExpression"),
-                EvaluatedType.STR => throw U.YetCantEx("STR", "UnaryExpression, реверсить строку будет наверно чебы нет"),
-                _ => throw new Exception("НЕ ЧИСЛОВОЙ ТИП ПРИ ПОПЫТКЕ ПОМЕНЯТЬ ЗНАК")
+                _ => throw new Exception("НЕ ЧИСЛОВОЙ ТИП ПРИ ПОПЫТКЕ ПОМЕНЯТЬ ЗНАК ИЛИ НЕ")
             },
-            _ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
+            _ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ УНАРНОЕ ДЕЙСТВИЕ")
         };
     }
 
-    public override string ToString() => $"{Op.Type.View()}{Value}";
+    public override string ToString() => Op.Type.Log();
 }
