@@ -12,7 +12,7 @@ public class IfStatement(KeyValuePair<ICompilable, BlockStatement>[] ifs, BlockS
         string lastLabel = eNull ? Ifs.Last().Value.StartEnd.Value : ElseBlock!.StartEnd.Value;
         string[] beforeConditionLabels =
             [.. Enumerable.Range(0, Ifs.Length + 1)
-            .Select(i => Compiler.AddConditionLabel())];
+            .Select(i => Compiler.AddLabel())];
 
         return new(EvaluatedType.VOID, Comp.Str([
             Comp.Str([.. Enumerable.Range(0, Ifs.Length).Select(i => Comp.Str([

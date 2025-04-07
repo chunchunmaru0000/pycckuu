@@ -101,6 +101,9 @@ partial class Parser
             TokenType.CALL => Call(),
             TokenType.LET => Let(),
             TokenType.WORD_IF => If(),
+			TokenType.LOOP => Loop(),
+			TokenType.BREAK => Break(),
+			TokenType.CONTINUE => Continue(),
             TokenType.LEFTSCOB => Block(),
             _ => throw U.YetCantEx(current.Type.Log(), $"ICompilable StatementInstructions()\n{Near(6)}")
         };

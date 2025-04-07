@@ -1,7 +1,6 @@
-﻿
-{
-	while
+﻿{
 	loop
+	while
 	break
 	continue
 	for?

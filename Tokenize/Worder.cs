@@ -13,7 +13,9 @@ public class Worder
 		"вещ" => ChangeType(word, TokenType.DOUBLEPRECISION),
 		"цел" => ChangeType(word, TokenType.INT),
 
+		"div" => ChangeType(word, TokenType.DIV),
 		"целое" => ChangeType(word, TokenType.DIV),
+		"mod" => ChangeType(word, TokenType.MOD),
 		"остаток" => ChangeType(word, TokenType.MOD),
 
         "from" => ChangeType(word, TokenType.FROM),
@@ -87,6 +89,17 @@ public class Worder
         "или" => ChangeType(word, TokenType.OR),
         "xor" => ChangeType(word, TokenType.XOR),
         "хор" => ChangeType(word, TokenType.XOR),
+
+        "loop" => ChangeType(word, TokenType.LOOP),
+        "цикл" => ChangeType(word, TokenType.LOOP),
+        "вихрь" => ChangeType(word, TokenType.LOOP),
+        "реквием" => ChangeType(word, TokenType.LOOP),
+        "break" => ChangeType(word, TokenType.BREAK),
+        "зиять" => ChangeType(word, TokenType.BREAK),
+        "прервать" => ChangeType(word, TokenType.BREAK),
+        "continue" => ChangeType(word, TokenType.CONTINUE),
+        "воскрест" => ChangeType(word, TokenType.CONTINUE),
+        "сначала" => ChangeType(word, TokenType.CONTINUE),
 
         _ => word
     };

@@ -115,13 +115,20 @@ public class Compiler(string platform, string includePath, Token[] tokens)
     public static KeyValuePair<string, string> AddBlock() =>
         new($"аБлокаНачало{Blocks}", $"аБлокаКонец{Blocks++}");
 
+    /*
+    public static KeyValuePair<string, string> GetLastBlock() =>
+        Blocks == 0
+        ? throw new Exception("ИСПОЛЬЗОВЕНИЕ BREAK ДО ПЕРВОГО ЦИКЛА")
+        : new($"аБлокаНачало{Blocks-1}", $"аБлокаКонец{Blocks-1}");
+     */
+
     #endregion BLOCKS
 
     #region CONDITION_LABELS
 
     private static long ConditionLabels { get; set; } = 0;
 
-    public static string AddConditionLabel() => $"аПередУсловием{ConditionLabels++}";
+    public static string AddLabel() => $"аМетка{ConditionLabels++}";
 
     #endregion CONDITION_LABELS
 

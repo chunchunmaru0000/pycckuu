@@ -111,4 +111,11 @@ partial class Parser
 
         return new IfStatement([.. ifs], elseBlock);
     }
+
+    private ICompilable Loop()
+    {
+        Consume(TokenType.LOOP);
+        BlockStatement loop = Block();
+        return new LoopStatement(loop);
+    }
 }

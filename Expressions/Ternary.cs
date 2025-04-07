@@ -8,8 +8,8 @@ public class TernaryExpression(ICompilable condition, ICompilable tru, ICompilab
 
     public Instruction Compile()
     {
-        string notTru = Compiler.AddConditionLabel();
-        string tru = Compiler.AddConditionLabel();
+        string notTru = Compiler.AddLabel();
+        string tru = Compiler.AddLabel();
 
         return new(EvaluatedType.INT, Comp.Str([
             $"    ; ТЕРНАРНЫЙ НАЧАЛО",
