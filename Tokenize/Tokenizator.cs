@@ -22,6 +22,12 @@ class Tokenizator
 
 	private char Current { get => position < code.Length ? code[position] : '\0'; }
 
+    private char Get(int off)
+    {
+        int offPos = position + off;
+        return offPos < code.Length ? code[offPos] : '\0';
+    }
+
 	private void Next()
 	{
 		position++;
@@ -55,10 +61,9 @@ class Tokenizator
 		return token;
 	}
 
-	private Token StringToken()
+	private Token StringToken(bool isPrintfFormatString)
 	{
-        if (!commented)
-        {
+        if (!commented) {
             Next();
             string buffer = "";
             while (Current != '"') {
@@ -87,13 +92,24 @@ class Tokenizator
                 .Replace("\n", "',10,'")
                 .Replace("\t", "',9,'")
                 ;
+            if (isPrintfFormatString)
+                buffer = PrintfFormatString(buffer);
             return DoNextAndGiveToken(buffer, TokenType.STRING);
         }
         else
             return DoNextAndGiveToken(Nothing);
 	}
 
-	private Token NumberToken()
+    private static string PrintfFormatString(string str) => 
+        str
+        .Replace("%ллд", "%lld").Replace("%ллф", "%lla")
+        .Replace("%х", "%x").Replace("%Х", "%X")
+        .Replace("%с", "%s").Replace("%ч", "%c")
+        .Replace("%п", "%p").Replace("%н", "%n")
+        .Replace("%д", "%d").Replace("%ф", "%f")
+        .Replace("%а", "%a").Replace("%А", "%A");
+
+    private Token NumberToken()
 	{
 		int start = position;
 		int dots = 0;
@@ -160,8 +176,13 @@ class Tokenizator
 			while (char.IsWhiteSpace(Current))
 				Next();
 
+        if (Current == 'ф' || Current == 'f' && Get(1) == '"') {
+            Next();
+            return StringToken(true);
+        }
+
 		if (Current == '"')
-			return StringToken();
+			return StringToken(false);
 
         if (Current == '\'')
             return CharToken();
