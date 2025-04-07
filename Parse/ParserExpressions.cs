@@ -125,20 +125,26 @@ partial class Parser
         while (true){ // EQUALITY NOTEQUALITY MORE LESS MOREEQ LESSEQ
             Token current = Current;
             Token next = Get(1);
-            if (Match(TokenType.EQUALITY, TokenType.BE, TokenType.ARROW))
+            if (Match(TokenType.EQUALITY, TokenType.BE) || Match(TokenType.DO_EQUAL, TokenType.ARROW))
                 result = new CompareExpression(result, TokenType.EQUALITY, PlusMinus());
             else if (
                     Match(TokenType.NOTEQUALITY, TokenType.MORE, TokenType.LESS) ||
                     Match(TokenType.MOREEQ, TokenType.LESSEQ))
                 result = new CompareExpression(result, current.Type, PlusMinus());
-            else if (Match(TokenType.NOT) && (next.Type == TokenType.BE || next.Type == TokenType.EQUALITY)) {
-                Consume(TokenType.BE, TokenType.EQUALITY);
+            else if (current.Type == TokenType.NOT && 
+                    (next.Type == TokenType.BE || next.Type == TokenType.EQUALITY ||
+                     next.Type == TokenType.DO_EQUAL || next.Type == TokenType.ARROW)) {
+                Consume(TokenType.NOT);
+                if (!Match(TokenType.DO_EQUAL, TokenType.ARROW))
+                    Consume(TokenType.BE, TokenType.EQUALITY);
                 result = new CompareExpression(result, TokenType.NOTEQUALITY, PlusMinus());
-            } else if (Match(TokenType.NOT) && next.Type == TokenType.MORE) {
+            } else if (current.Type == TokenType.NOT && next.Type == TokenType.MORE) {
+                Consume(TokenType.NOT);
                 Consume(TokenType.MORE);
                 result = new CompareExpression(result, TokenType.LESSEQ, PlusMinus());
-            } else if (Match(TokenType.NOT) && next.Type == TokenType.LESS) {
-                Consume(TokenType.MORE);
+            } else if (current.Type == TokenType.NOT && next.Type == TokenType.LESS) {
+                Consume(TokenType.NOT);
+                Consume(TokenType.LESS);
                 result = new CompareExpression(result, TokenType.MOREEQ, PlusMinus());
             }
             else

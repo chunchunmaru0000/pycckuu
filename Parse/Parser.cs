@@ -100,7 +100,7 @@ partial class Parser
             TokenType.CALL => Call(),
             TokenType.LET => Let(),
             TokenType.WORD_IF => If(),
-            _ => throw U.YetCantEx(current.Type.Log(), "ICompilable StatementInstructions()")
+            _ => throw U.YetCantEx(current.Type.Log(), $"ICompilable StatementInstructions()\n{Near(6)}")
         };
     }
 
