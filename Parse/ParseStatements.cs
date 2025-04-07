@@ -7,19 +7,24 @@ partial class Parser
         Consume(TokenType.FROM);
         Token lib = Consume(TokenType.WORD);
         Consume(TokenType.IMPORT);
-        Token imp = Consume(TokenType.WORD);
 
-        Token asImp = Match(TokenType.AS) ? Consume(TokenType.WORD) : imp;
-        bool varArg = Match(TokenType.VARARG);
+        List<Token> imp = [];
+        List<Token> asImp = [];
+        List<bool> varArg = [];
+        List<EvaluatedType> type = [];
+        while (!Match(TokenType.SEMICOLON)) {
+            imp.Add(Consume(TokenType.WORD));
+            asImp.Add(Match(TokenType.AS) ? Consume(TokenType.WORD) : imp.Last());
+            varArg.Add(Match(TokenType.VARARG));
+            type.Add(Match(TokenType.TYPE)
+                ? EvaluatedType.INT
+                : EvaluatedType.VOID
+            );
 
-        // надо как то сделать типа 
-        EvaluatedType type = Match(TokenType.TYPE)
-            ? EvaluatedType.INT
-            : EvaluatedType.VOID;
+            Match(TokenType.COMMA);
+        }
+        ICompilable compilable = new ImportStatement(lib, [.. imp], [.. asImp], [.. varArg], [.. type]);
 
-        ICompilable compilable = new ImportStatement(lib, imp, asImp, varArg, type);
-
-        Consume(TokenType.SEMICOLON);
         return compilable;
     }
 

@@ -13,7 +13,7 @@ class Tokenizator
 
 	public Tokenizator(string code)
 	{
-		this.code = code;
+		this.code = code.Replace("\r", "");
 		position = 0;
 		line = 1;
 		location = position;
@@ -26,23 +26,30 @@ class Tokenizator
 	{
 		position++;
 		if (Current == '\n') {
-			Next();
-			startLine = position;
+            position++;
+            startLine = position;
 			line++;
 			location = 0;
 		}
 		location = position - startLine;
 	}
 
-	private Location Loc() => new Location(line, location);
+	private Location Loc() => new(line, location);
 
-	public static bool Usable(char c) =>
+    private static readonly char[] UnUsableChars = [
+        '+', '-', '*', '/', '%', '(', ')', '{', '}', '[', ']', '|', '@', ';', '.', ',', '"', ':',
+        '?', 'Ё', '\n', '\t', '\0', '\r', ' ', '<', '>', '!', '='
+    ];
+
+    public static bool Usable(char c) => !UnUsableChars.Contains(c);
+        /*
 		c != '+' && c != '-' && c != '*' && c != '/' && c != '%' &&
 		c != '(' && c != ')' && c != '[' && c != ']' && c != '{' && c != '}' && c != '|' &&
 		c != '@' && c != ';' && c != '.' && c != ',' && c != '"' && c != ':' && c != '?' &&
-		c != 'Ё' && c != '\n' && c != ' ' &&
+		c != 'Ё' && c != '\n' && c != ' ' && c != '\t' &&
 		c != '<' && c != '>' && c != '!' && c != '=' &&
 		c != '\0';
+         */
 
 	private Token DoNextAndGiveToken(object? value, TokenType type)
 	{
@@ -84,7 +91,6 @@ class Tokenizator
 					throw new Exception($"НЕЗАКОНЧЕНА СТРОКА: <{Loc()}>, буфер<{buffer}>");
             }
             buffer = buffer
-                .Replace("\r", "\n")
                 .Replace("'", "',39,'")
                 .Replace("\n", "',10,'")
                 .Replace("\t", "',9,'")
@@ -99,20 +105,17 @@ class Tokenizator
 	{
 		int start = position;
 		int dots = 0;
-		while (char.IsDigit(Current) || Current == '.')
-		{
+		while (char.IsDigit(Current) || Current == '.' || Current == '_') {
 			if (Current == '.')
 				dots++;
-			if (dots > 1)
-			{
+			if (dots > 1) {
 				dots--;
 				break;
 			}
 			Next();
 		}
-		string word = code.Substring(start, position - start).Replace('.', ',');
-		if (dots == 0)
-		{
+		string word = code[start..position].Replace('.', ',').Replace("_", "");
+		if (dots == 0) {
 			if (long.TryParse(word, out long res))
 				return new Token() { Value = res, Type = TokenType.INTEGER, Location = Loc() };
 			throw new Exception($"ЧИСЛО <{word}> БЫЛО СЛИШКОМ ВЕЛИКО ИЛИ МАЛО ДЛЯ ПОДДЕРЖИВАЕМЫХ СЕЙЧАС ЧИСЕЛ");
@@ -147,6 +150,15 @@ class Tokenizator
             };
     }
 
+    private Token WordToken()
+    {
+        int start = position;
+        while (Usable(Current))
+            Next();
+        string word = code[start..position].Trim('\n');
+        return Worder.Word(new Token() { Value = word, Type = TokenType.WORD, Location = Loc() }, word);
+    }
+
     private Token NextToken()
 	{
 		if (Current == '\0')
@@ -158,27 +170,20 @@ class Tokenizator
 
 		if (Current == '"')
 			return StringToken();
+
         if (Current == '\'')
             return CharToken();
 
 		if (char.IsDigit(Current))
 			return NumberToken();
 
-		if (Usable(Current))
-		{
-			int start = position;
-			while (Usable(Current))
-				Next();
-			string word = code.Substring(start, position - start);
-			return Worder.Word(new Token() { Value = word, Type = TokenType.WORD, Location = Loc() }, word);
-		}
+        if (Usable(Current))
+            return WordToken();
 
-		switch (Current)
-		{
+		switch (Current) {
 			case '=':
 				Next();
-				if (Current == '=')
-				{
+				if (Current == '=') {
 					Next();
 					if (Current == '=')
 						return DoNextAndGiveToken(null, TokenType.ARROW);
@@ -250,8 +255,7 @@ class Tokenizator
 				return DoNextAndGiveToken(null, TokenType.MOD);
 			case '.':
 				Next();
-				if (Current == '.')
-				{
+				if (Current == '.') {
 					Next();
 					if (Current == '=')
 						return DoNextAndGiveToken(null, TokenType.DOTDOTEQ);
