@@ -108,6 +108,15 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
     #endregion VAR
 
+    #region BLOCKS
+
+    private static long Blocks { get; set; } = 0;
+
+    public static KeyValuePair<string, string> AddBlock() =>
+        new($"aBlockStart{Blocks}", $"aBlockEnd{Blocks++}");
+
+    #endregion BLOCKS
+
     public string Compile()
 	{
 		List<string> instructions = [];

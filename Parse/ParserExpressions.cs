@@ -53,7 +53,7 @@ partial class Parser
             return new BoolExpression(current.Type);
 
         //throw new Exception("ЧЕ ЗА ТИП");
-        return StatementInstructions();
+        return CompilableStatement();
 	}
 
 	private ICompilable Unary()

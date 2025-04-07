@@ -90,7 +90,7 @@ partial class Parser
 
     private ICompilable CompilableExpression() => Or();
 
-    private ICompilable StatementInstructions()
+    private ICompilable CompilableStatement()
     {
         Token current = Current;
         Token next = Get(1);
@@ -100,6 +100,7 @@ partial class Parser
             TokenType.CALL => Call(),
             TokenType.LET => Let(),
             TokenType.WORD_IF => If(),
+            TokenType.LEFTSCOB => Block(),
             _ => throw U.YetCantEx(current.Type.Log(), $"ICompilable StatementInstructions()\n{Near(6)}")
         };
     }
@@ -108,7 +109,7 @@ partial class Parser
 	{
         List<string> statements = [];
         while (!Match(TokenType.EOF))
-            statements.Add(StatementInstructions().Compile().Code);
+            statements.Add(CompilableStatement().Compile().Code);
         return Comp.Str([.. statements]);
 	}
 }

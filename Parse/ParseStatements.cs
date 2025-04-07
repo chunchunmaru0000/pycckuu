@@ -58,9 +58,30 @@ partial class Parser
         }
     }
 
+    private BlockStatement Block()
+    {
+        Consume(TokenType.LEFTSCOB);
+        List<ICompilable> statements = [];
+
+        while (!Match(TokenType.RIGHTSCOB))
+            statements.Add(CompilableStatement());
+
+        return new BlockStatement([.. statements]);
+    }
+
     private ICompilable If()
     {
         Consume(TokenType.WORD_IF);
-        throw new("эээээ");
+        List<KeyValuePair<ICompilable, BlockStatement>> ifs = [];
+        ifs.Add(new(CompilableExpression(), Block()));
+
+        while (Match(TokenType.WORD_ELIF))
+            ifs.Add(new(CompilableExpression(), Block()));
+
+        BlockStatement? elseBlock = null;
+        if (Match(TokenType.WORD_ELSE))
+            elseBlock = Block();
+
+        return new IfStatement([.. ifs], elseBlock);
     }
 }
