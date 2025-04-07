@@ -83,7 +83,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
     public static string AddString(string str)
     {
-        string aStr = $"aStr{Strings.Count}";
+        string aStr = $"аСтрока{Strings.Count}";
         if (!Strings.ContainsKey(str)) {
             Strings[str] = aStr;
             return aStr;
@@ -113,9 +113,17 @@ public class Compiler(string platform, string includePath, Token[] tokens)
     private static long Blocks { get; set; } = 0;
 
     public static KeyValuePair<string, string> AddBlock() =>
-        new($"aBlockStart{Blocks}", $"aBlockEnd{Blocks++}");
+        new($"аБлокаНачало{Blocks}", $"аБлокаКонец{Blocks++}");
 
     #endregion BLOCKS
+
+    #region CONDITION_LABELS
+
+    private static long ConditionLabels { get; set; } = 0;
+
+    public static string AddConditionLabel() => $"аПередУсловием{ConditionLabels++}";
+
+    #endregion CONDITION_LABELS
 
     public string Compile()
 	{
