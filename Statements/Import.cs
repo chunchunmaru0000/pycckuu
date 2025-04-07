@@ -2,9 +2,9 @@
 
 public sealed class ImportStatement(Token lib, Token[] imp, Token[] impAs, bool[] varArg, EvaluatedType[] type) : ICompilable
 {
-    private Token Lib { get; set; } = lib;
-    private Token[] Imp { get; set; } = imp;
-    private Token[] ImpAs { get; set; } = impAs;
+    public Token Lib { get; set; } = lib;
+    public Token[] Imp { get; set; } = imp;
+    public Token[] ImpAs { get; set; } = impAs;
     private bool[] VarArg { get; set; } = varArg;
     private EvaluatedType[] Type { get; set; } = type;
 

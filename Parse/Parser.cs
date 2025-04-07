@@ -96,7 +96,8 @@ partial class Parser
         Token next = Get(1);
 
         return current.Type switch {
-            TokenType.FROM => Import(),
+            TokenType.FROM =>  Import(false),
+            TokenType.OUTOF => Import(true),
             TokenType.CALL => Call(),
             TokenType.LET => Let(),
             TokenType.WORD_IF => If(),

@@ -18,6 +18,8 @@ public class Worder
 
         "from" => ChangeType(word, TokenType.FROM),
         "из" => ChangeType(word, TokenType.FROM),
+        "outof" => ChangeType(word, TokenType.OUTOF),
+        "изо" => ChangeType(word, TokenType.OUTOF),
 
         "import" => ChangeType(word, TokenType.IMPORT),
         "черпать" => ChangeType(word, TokenType.IMPORT),

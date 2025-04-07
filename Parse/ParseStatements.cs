@@ -2,9 +2,9 @@
 
 partial class Parser
 {
-    private ICompilable Import()
+    private ICompilable Import(bool toTranscribeWords)
     {
-        Consume(TokenType.FROM);
+        Consume(TokenType.FROM, TokenType.OUTOF);
         Token lib = Consume(TokenType.WORD);
         Consume(TokenType.IMPORT);
 
@@ -23,10 +23,37 @@ partial class Parser
 
             Match(TokenType.COMMA);
         }
-        ICompilable compilable = new ImportStatement(lib, [.. imp], [.. asImp], [.. varArg], [.. type]);
+
+        ImportStatement compilable = new(lib, [.. imp], [.. asImp], [.. varArg], [.. type]);
+        if (toTranscribeWords) 
+            TranscribedImportStatement(compilable);
 
         return compilable;
     }
+
+    private static void TranscribedImportStatement(ImportStatement statement)
+    {
+        statement.Lib.Value = TranscribeWord(statement.Lib.Value!.ToString()!);
+        for (int i = 0; i < statement.Imp.Length; i++)
+            statement.Imp[i].Value = TranscribeWord(statement.Imp[i].Value!.ToString()!);
+    }
+
+    private static string TranscribeWord(string str) => string.Join("", 
+        str
+        .ToCharArray()
+        .Select(c => 
+            c switch {
+                'а' => 'a','б' => 'b','ц' => 'c','д' => 'd',
+                'е' => 'e','ф' => 'f','г' => 'g','ш' => 'h',
+                'и' => 'i','ж' => 'j','к' => 'k','л' => 'l',
+                'м' => 'm','н' => 'n','о' => 'o','п' => 'p',
+                'ъ' => 'q','р' => 'r','с' => 's','т' => 't',
+                'у' => 'u','в' => 'v','ь' => 'w','х' => 'x',
+                'й' => 'y','з' => 'z',
+                _ => c
+            }
+        )
+    );
 
     private ICompilable Call()
     {

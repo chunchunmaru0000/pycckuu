@@ -216,6 +216,8 @@ public enum TokenType
     SELECT,
     [Log("ИЗ")]
     FROM,
+    [Log("ИЗО")]
+    OUTOF,
 
     [Log("ОТ")]
     AT,
