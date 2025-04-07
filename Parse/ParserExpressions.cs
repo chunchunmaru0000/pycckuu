@@ -152,4 +152,30 @@ partial class Parser
         }
         return result;
     }
+
+    private ICompilable And()
+    {
+        ICompilable result = Compare();
+        while (true) {
+            Token current = Current;
+            if (Match(TokenType.AND))
+                result = new AndOrExpression(result, current.Type, Compare());
+            else
+                break;
+        }
+        return result;
+    }
+
+    private ICompilable Or()
+    {
+        ICompilable result = And();
+        while (true) {
+            Token current = Current;
+            if (Match(TokenType.OR))
+                result = new AndOrExpression(result, current.Type, And());
+            else
+                break;
+        }
+        return result;
+    }
 }

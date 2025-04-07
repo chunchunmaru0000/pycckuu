@@ -79,6 +79,11 @@ public class Worder
         "less" => ChangeType(word, TokenType.LESS),
         "меньше" => ChangeType(word, TokenType.LESS),
 
+        "and" => ChangeType(word, TokenType.AND),
+        "и" => ChangeType(word, TokenType.AND),
+        "or" => ChangeType(word, TokenType.OR),
+        "или" => ChangeType(word, TokenType.OR),
+
         _ => word
     };
 }
