@@ -83,6 +83,8 @@ public class Worder
         "и" => ChangeType(word, TokenType.AND),
         "or" => ChangeType(word, TokenType.OR),
         "или" => ChangeType(word, TokenType.OR),
+        "xor" => ChangeType(word, TokenType.XOR),
+        "хор" => ChangeType(word, TokenType.XOR),
 
         _ => word
     };

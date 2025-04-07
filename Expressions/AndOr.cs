@@ -17,19 +17,27 @@ public class AndOrExpression(ICompilable left, TokenType op, ICompilable right):
             right.Code,
             "    pop r9",
             "    pop r8",
-            "    xor r10, r10",
-            "    xor r11, r11",
-            $"    ; {ToString()}",
-            "    cmp r8, 0",
-            "    setne r10b",
-            "    cmp r9, 0",
-            "    setne r11b",
             Op switch{
-                TokenType.AND => "    and r10b, r11b",
-                TokenType.OR =>  "    or  r10b, r11b",
-                _ => throw e
+                TokenType.XOR => Comp.Str([
+                "    xor r8, r9",
+                "    push r8",
+                ]),
+                _ => Comp.Str([
+                "    xor r10, r10",
+                "    xor r11, r11",
+                $"    ; {ToString()}",
+                "    cmp r8, 0",
+                "    setne r10b",
+                "    cmp r9, 0",
+                "    setne r11b",
+                Op switch{
+                    TokenType.AND => "    and r10b, r11b",
+                    TokenType.OR =>  "    or  r10b, r11b",
+                    _ => throw e
+                },
+                "    push r10",
+                ])
             },
-            "    push r10",
         ""]));
     }
 }

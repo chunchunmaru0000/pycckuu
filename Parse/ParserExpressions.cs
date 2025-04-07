@@ -171,7 +171,7 @@ partial class Parser
         ICompilable result = And();
         while (true) {
             Token current = Current;
-            if (Match(TokenType.OR))
+            if (Match(TokenType.OR, TokenType.XOR))
                 result = new AndOrExpression(result, current.Type, And());
             else
                 break;

@@ -88,6 +88,8 @@ public enum TokenType
     AND,
     [Log("ИЛИ")]
     OR,
+    [Log("ХОР")]
+    XOR,
 
     //other
     [Log("ПЕРЕМЕННАЯ")]
