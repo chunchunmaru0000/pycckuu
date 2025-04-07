@@ -42,14 +42,6 @@ class Tokenizator
     ];
 
     public static bool Usable(char c) => !UnUsableChars.Contains(c);
-        /*
-		c != '+' && c != '-' && c != '*' && c != '/' && c != '%' &&
-		c != '(' && c != ')' && c != '[' && c != ']' && c != '{' && c != '}' && c != '|' &&
-		c != '@' && c != ';' && c != '.' && c != ',' && c != '"' && c != ':' && c != '?' &&
-		c != 'Ё' && c != '\n' && c != ' ' && c != '\t' &&
-		c != '<' && c != '>' && c != '!' && c != '=' &&
-		c != '\0';
-         */
 
 	private Token DoNextAndGiveToken(object? value, TokenType type)
 	{

@@ -60,6 +60,14 @@ public class Worder
         "инак" => ChangeType(word, TokenType.WORD_ELSE),
         "иначе" => ChangeType(word, TokenType.WORD_ELSE),
 
+        "true" => ChangeType(word, TokenType.WORD_TRUE),
+        "истина" => ChangeType(word, TokenType.WORD_TRUE),
+        "аминь" => ChangeType(word, TokenType.WORD_TRUE),
+        "ВладимирВладимировичПутин" => ChangeType(word, TokenType.WORD_TRUE),
+        "false" => ChangeType(word, TokenType.WORD_FALSE),
+        "ложь" => ChangeType(word, TokenType.WORD_FALSE),
+        "ВладимирАлександровичЗеленский" => ChangeType(word, TokenType.WORD_FALSE),
+
         _ => word
     };
 }
