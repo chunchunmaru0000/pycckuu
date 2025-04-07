@@ -9,13 +9,19 @@ partial class Parser
 		return result;
 	}
 
-	private ICompilable AsType()
+	private ICompilable After()
 	{
 		ICompilable result = Primary();
 		if (Match(TokenType.AS))
 			return new AsTypeExpression(result, Consume(Current.Type));
-		
-		return result;
+		if (Match(TokenType.WORD_THEN)) {
+            ICompilable tru = After();
+            Match(TokenType.WORD_ELSE);
+            ICompilable fal = After();
+            return new TernaryExpression(result, tru, fal);
+        }
+
+        return result;
 	}
 
     private ICompilable Ptrness()
@@ -71,11 +77,11 @@ partial class Parser
 				}
 				break;
 			}
-			return sign < 0 ? new UnaryExpression(last, AsType()) : AsType();
+			return sign < 0 ? new UnaryExpression(last, After()) : After();
 		}
 		if (Match(TokenType.MINUS, TokenType.PLUS))
-			return new UnaryExpression(current, AsType());
-		return AsType();
+			return new UnaryExpression(current, After());
+		return After();
 	}
 
 	private ICompilable ModDiv()
