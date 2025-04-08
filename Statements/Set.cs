@@ -1,4 +1,6 @@
-﻿namespace pycckuu;
+﻿using System.Diagnostics;
+
+namespace pycckuu;
 
 public class SetVarStatement(Token name, ICompilable value, int exclamations) : ICompilable
 {
@@ -11,13 +13,19 @@ public class SetVarStatement(Token name, ICompilable value, int exclamations) : 
         string name = Compiler.SetVariable(Name);
         Instruction value = Value.Compile();
         int s = value.Type.Size();
-        throw new NotFiniteNumberException();
+        
 
         return new(EvaluatedType.VOID, Comp.Str([
             value.Code,
             $"    pop r8",
             $"    mov {U.Sizes[s]} [{name}], r8{U.RRegs[s]}",
-        ""]));
+            Exclamations switch {
+                0 => "",
+                1 => $"    push {name} ; !",
+                2 => $"    push r8 ; !!",
+                _ => throw new UnreachableException()
+            }
+        ]));
     }
 }
 

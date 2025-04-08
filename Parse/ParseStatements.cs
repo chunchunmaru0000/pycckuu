@@ -78,7 +78,6 @@ partial class Parser
                 excl = 1;
             else if (Match(TokenType.EXCL2))
                 excl = 2;
-            Match(TokenType.SEMICOLON);
 
             return new SetVarStatement(name, value, excl);
         } else { // this is propably array like: let a + 3 be 32
