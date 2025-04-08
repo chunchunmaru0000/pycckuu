@@ -7,7 +7,7 @@ public class BytesExpression(Token value): ICompilable
 
     public Instruction Compile() => new(Type, Comp.Str([
         $"    push qword 0x{string.Join("", Bytes.Select(b => b.ToString("X2")))} ; {this}",
-    ""]));
+    ]));
 
     public override string ToString() => $"БАЙТЫ {string.Join(",", Bytes.Select(b => b.ToString()))}";
 }

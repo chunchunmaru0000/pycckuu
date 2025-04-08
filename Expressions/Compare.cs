@@ -52,7 +52,7 @@ public class CompareExpression(ICompilable left, TokenType op, ICompilable right
                 _ => throw un
             },
             "    push r10",
-        ""]));
+        ]));
     }
 
     public override string ToString() => $"лево {Op.Log()} право";

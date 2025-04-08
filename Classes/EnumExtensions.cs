@@ -43,3 +43,9 @@ public static class EnumExtensions
         return attribs!.Length > 0 ? attribs[0].Value : throw new Exception($"У {value.Log()} НЕТ ВЕСА");
     }
 }
+
+public static class KeyValuePairExtensions
+{
+    public static bool EqualsTo(this KeyValuePair<string, string> tp, KeyValuePair<string, string> op) =>
+        tp.Key == op.Key && tp.Value == op.Value;
+}

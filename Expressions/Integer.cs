@@ -8,7 +8,7 @@ public sealed class IntegerExpression(Token token) : ICompilable
 
     public Instruction Compile() => new(EvaluatedType.INT,Comp.Str([
         $"    push qword {Value} ; ЦЕЛОЕ ЧИСЛО {Value}",
-    ""]));
+    ]));
 
     public override string ToString() => token.Type.View();
 }

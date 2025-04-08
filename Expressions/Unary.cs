@@ -23,14 +23,14 @@ public sealed class UnaryExpression(Token op, ICompilable value) : ICompilable
                     "    cmp r8, 0",
                     "    sete r9b ; НЕ если ZF = 1 тогда r9b = 1",
                     "    push r9",
-                    ""])),
+                    ])),
             TokenType.MINUS => instruction.Type switch {
                 EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                     instruction.Code,
                     "    pop r8",
                     "    neg r8 ; ПОМЕНЯТЬ ЗНАК",
                     "    push r8",
-                    ""])),
+                    ])),
                 EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                     instruction.Code,
                     "    pop r8",
@@ -38,7 +38,7 @@ public sealed class UnaryExpression(Token op, ICompilable value) : ICompilable
                     "    mulsd xmm6, [MINUS_ONE] ; УМНОЖИТЬ НА -1",
                     "    movq r8, xmm6",
                     "    push r8",
-                    ""])),
+                    ])),
                 _ => throw new Exception("НЕ ЧИСЛОВОЙ ТИП ПРИ ПОПЫТКЕ ПОМЕНЯТЬ ЗНАК ИЛИ НЕ")
             },
             _ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ УНАРНОЕ ДЕЙСТВИЕ")

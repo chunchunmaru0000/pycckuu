@@ -7,20 +7,23 @@ public class WhileStatement(ICompilable cond, BlockStatement loop): ICompilable
 
     public Instruction Compile()
     {
-        string beforeCond = Compiler.AddLabel();
-        string afterLoop = Compiler.AddLabel();
+        KeyValuePair<string, string> loopLabels = Compiler.AddLoopLabels();
 
-        return new Instruction(EvaluatedType.VOID, Comp.Str([
+        Instruction ret = new(EvaluatedType.VOID, Comp.Str([
             $"    ; НАЧАЛО ЦИКЛА ПОКА",
-            $"{beforeCond}:",
+            $"{loopLabels.Key}:",
             Cond.Compile().Code,
             $"    pop r8",
             $"    cmp r8, 0",
-            $"    je {afterLoop}",
+            $"    je {loopLabels.Value}",
             Loop.Compile().Code,
-            $"    jmp {beforeCond}",
-            $"{afterLoop}:",
+            $"    jmp {loopLabels.Key}",
+            $"{loopLabels.Value}:",
             $"    ; КОНЕЦ  ЦИКЛА ПОКА",
         ]));
+
+        if (loopLabels.EqualsTo(Compiler.GetLastLoopLabels()))
+            Compiler.RemoveLastLoopLabels();
+        return ret;
     }
 }

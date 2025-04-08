@@ -25,7 +25,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    pop r8",
                         "    add r8, r9 ; ПЛЮС",
                         "    push r8",
-                    "",])),
+                    ])),
                     EvaluatedType.XMM => new (EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
@@ -37,7 +37,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    addsd xmm6, xmm7 ; ПЛЮС",
                         "    movq r8, xmm6",
                         "    push r8",
-                        ""])),
+                    ])),
                     _ => throw nie
                 },
                 TokenType.MINUS => left.Type switch {
@@ -49,7 +49,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    pop r8",
                         "    sub r8, r9 ; МИНУС",
                         "    push r8",
-                    "",])),
+                    ])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
@@ -61,7 +61,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    subsd xmm6, xmm7 ; МИНУС",
                         "    movq r8, xmm6",
                         "    push r8",
-                    ""])),
+                    ])),
                     _ => throw nie
                 },
                 TokenType.MULTIPLICATION => left.Type switch {
@@ -73,7 +73,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    pop r8",
                         "    imul r8, r9 ; УМНОЖЕНИЕ",
                         "    push r8",
-                    "",])),
+                    ])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
@@ -85,7 +85,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    mulsd xmm6, xmm7 ; УМНОЖЕНИЕ",
                         "    movq r8, xmm6",
                         "    push r8",
-                    ""])),
+                    ])),
                     _ => throw nie
                 },
                 TokenType.DIVISION => left.Type switch {
@@ -99,7 +99,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
                         "    idiv r8 ; ДЕЛЕНИЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ",
                         "    push rax",
-                    "",])),
+                    ])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
@@ -111,7 +111,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    divsd xmm6, xmm7 ; ДЕЛЕНИЕ",
                         "    movq r8, xmm6",
                         "    push r8",
-                    ""])),
+                    ])),
                     _ => throw nie
                 },
                 TokenType.DIV => left.Type switch {
@@ -125,7 +125,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
                         "    idiv r8 ; ЦЕЛОЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ",
                         "    push rax",
-                    "",])),
+                    ])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
@@ -138,7 +138,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    roundsd xmm6, xmm6, 1 ; ОКРУГЛЕНИЕ РЕЗУЛЬТАТА ДЕЛЕНИЯ",
                         "    movq r8, xmm6",
                         "    push r8",
-                    ""])),
+                    ])),
                     _ => throw nie
                 },
                 TokenType.MOD => left.Type switch {
@@ -152,7 +152,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
                         "    idiv r8 ; ДЕЛЕНИЕ ИСПОЛЬЗУЕТ ЧИСЛО 128БИТ RDX:RAX ЗНАКОВОЕ",
                         "    push rdx",
-                    "",])),
+                    ])),
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
@@ -168,7 +168,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         "    subsd xmm6, xmm7 ; a - (a // b) * b === mod",
                         "    movq r8, xmm6",
                         "    push r8",
-                    ""])),
+                    ])),
                     _ => throw nie
                 },
                 _ => throw nie
@@ -188,7 +188,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    addsd xmm6, xmm7 ; ПЛЮС",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     EvaluatedType.XMM => right.Type switch {
@@ -203,7 +203,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    addsd xmm6, xmm7 ; ПЛЮС",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     _ => throw nie
@@ -221,7 +221,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    subsd xmm6, xmm7 ; МИНУС",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     EvaluatedType.XMM => right.Type switch {
@@ -236,7 +236,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    subsd xmm6, xmm7 ; МИНУС",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     _ => throw nie
@@ -254,7 +254,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    mulsd xmm6, xmm7 ; УМНОЖЕНИЕ",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     EvaluatedType.XMM => right.Type switch {
@@ -269,7 +269,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    mulsd xmm6, xmm7 ; УМНОЖЕНИЕ",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     _ => throw nie
@@ -287,7 +287,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    divsd xmm6, xmm7 ; ДЕЛЕНИЕ",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     EvaluatedType.XMM => right.Type switch {
@@ -302,7 +302,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    divsd xmm6, xmm7 ; ДЕЛЕНИЕ",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     _ => throw nie
@@ -321,7 +321,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    roundsd xmm6, xmm6, 1 ; ОКРУГЛЕНИЕ РЕЗУЛЬТАТА ДЕЛЕНИЯ",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     EvaluatedType.XMM => right.Type switch {
@@ -337,7 +337,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    roundsd xmm6, xmm6, 1 ; ОКРУГЛЕНИЕ РЕЗУЛЬТАТА ДЕЛЕНИЯ",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     _ => throw nie
@@ -360,7 +360,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    subsd xmm6, xmm7 ; a - (a // b) * b === mod",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     EvaluatedType.XMM => right.Type switch {
@@ -379,7 +379,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                             "    subsd xmm6, xmm7 ; a - (a // b) * b === mod",
                             "    movq r8, xmm6",
                             "    push r8",
-                        ""])),
+                        ])),
                         _ => throw niet
                     },
                     _ => throw nie

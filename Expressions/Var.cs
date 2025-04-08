@@ -6,7 +6,7 @@ public class VarExpression(Token word): ICompilableExpression
 
     public Instruction Compile() => new(EvaluatedType.INT, Comp.Str([
         $"    push qword [{Name}] ; ПЕРЕМЕННАЯ {Name}",
-    ""]));
+    ]));
 
     public object Evaluate()
     {

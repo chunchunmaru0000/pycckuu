@@ -102,10 +102,10 @@ partial class Parser
             TokenType.LET => Let(),
             TokenType.WORD_IF => If(),
 			TokenType.LOOP => Loop(),
-			//TokenType.BREAK => Break(),
-			//TokenType.CONTINUE => Continue(),
+			TokenType.BREAK => Break(),
+			TokenType.CONTINUE => Continue(),
 			TokenType.WORD_WHILE => While(),
-            TokenType.LEFTSCOB => Block(),
+            TokenType.LEFTSCOB => Block(false),
             _ => throw U.YetCantEx($"{current.Type.Log()}[{current.Value}]", $"ICompilable StatementInstructions()\n{Near(6)}")
         };
     }

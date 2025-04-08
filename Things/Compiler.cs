@@ -115,12 +115,21 @@ public class Compiler(string platform, string includePath, Token[] tokens)
     public static KeyValuePair<string, string> AddBlock() =>
         new($"аБлокаНачало{Blocks}", $"аБлокаКонец{Blocks++}");
 
-    /*
-    public static KeyValuePair<string, string> GetLastBlock() =>
-        Blocks == 0
-        ? throw new Exception("ИСПОЛЬЗОВЕНИЕ BREAK ДО ПЕРВОГО ЦИКЛА")
-        : new($"аБлокаНачало{Blocks-1}", $"аБлокаКонец{Blocks-1}");
-     */
+    private static long LoopLabels { get; set; } = 0;
+    private static List<KeyValuePair<string, string>> LoopLabelsPool { get; set; } = [];
+
+    public static KeyValuePair<string, string> AddLoopLabels()
+    {
+        KeyValuePair<string, string> labels =
+            new($"аЦиклаНачало{LoopLabels}", $"аЦиклаКонец{LoopLabels++}");
+        LoopLabelsPool.Add(labels);
+        return labels;
+    }
+
+    public static void RemoveLastLoopLabels() =>
+        LoopLabelsPool.RemoveAt(LoopLabelsPool.Count - 1);
+
+    public static KeyValuePair<string, string> GetLastLoopLabels() => LoopLabelsPool.LastOrDefault();
 
     #endregion BLOCKS
 

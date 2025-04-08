@@ -2,7 +2,7 @@
 
 partial class Parser
 {
-    private ICompilable Import(bool toTranscribeWords)
+    private ImportStatement Import(bool toTranscribeWords)
     {
         Consume(TokenType.FROM, TokenType.OUTOF);
         Token lib = Consume(TokenType.WORD);
@@ -55,7 +55,7 @@ partial class Parser
         )
     );
 
-    private ICompilable Call()
+    private CallStatement Call()
     {
         Consume(TokenType.CALL);
         Token func = Consume(TokenType.WORD);
@@ -90,7 +90,7 @@ partial class Parser
         }
     }
 
-    private BlockStatement Block()
+    private BlockStatement Block(bool needLabels)
     {
         Consume(TokenType.LEFTSCOB);
         List<ICompilable> statements = [];
@@ -98,38 +98,50 @@ partial class Parser
         while (!Match(TokenType.RIGHTSCOB))
             statements.Add(CompilableStatement());
 
-        return new BlockStatement([.. statements]);
+        return new BlockStatement([.. statements], needLabels);
     }
 
-    private ICompilable If()
+    private IfStatement If()
     {
         Consume(TokenType.WORD_IF);
         List<KeyValuePair<ICompilable, BlockStatement>> ifs = [];
-        ifs.Add(new(CompilableExpression(), Block()));
+        ifs.Add(new(CompilableExpression(), Block(true)));
 
         while (Match(TokenType.WORD_ELIF))
-            ifs.Add(new(CompilableExpression(), Block()));
+            ifs.Add(new(CompilableExpression(), Block(true)));
 
         BlockStatement? elseBlock = null;
         if (Match(TokenType.WORD_ELSE))
-            elseBlock = Block();
+            elseBlock = Block(true);
 
         return new IfStatement([.. ifs], elseBlock);
     }
 
-    private ICompilable Loop()
+    private LoopStatement Loop()
     {
         Consume(TokenType.LOOP);
-        BlockStatement loop = Block();
+        BlockStatement loop = Block(false);
         return new LoopStatement(loop);
     }
 
-    private ICompilable While()
+    private WhileStatement While()
     {
         Consume(TokenType.WORD_WHILE);
         ICompilable cond = CompilableExpression();
-        BlockStatement loop = Block();
+        BlockStatement loop = Block(false);
 
         return new WhileStatement(cond, loop);
+    }
+
+    private BreakStatement Break()
+    {
+        Consume(TokenType.BREAK);
+        return new BreakStatement();
+    }
+
+    private ContinueStatement Continue()
+    {
+        Consume(TokenType.CONTINUE);
+        return new ContinueStatement();
     }
 }

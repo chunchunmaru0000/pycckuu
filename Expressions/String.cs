@@ -15,7 +15,7 @@ public sealed class StringExpression : ICompilableExpression
 
     public Instruction Compile() => new(EvaluatedType.INT, Comp.Str([ // should be PTR but its literally INT
         $"    push qword {Compiler.AddString(Value)} ; СТРОКА '{Value}'",
-    ""]));
+    ]));
 
     public override string ToString() => Value;
 }

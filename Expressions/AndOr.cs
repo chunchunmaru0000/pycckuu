@@ -38,6 +38,6 @@ public class AndOrExpression(ICompilable left, TokenType op, ICompilable right):
                 "    push r10",
                 ])
             },
-        ""]));
+        ]));
     }
 }

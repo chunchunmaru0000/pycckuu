@@ -16,7 +16,6 @@ public sealed class DoubleExpression(Token token) : ICompilable
             Comp.Str([
                $"    mov r8, {value} ; ВЕЩЕСТВЕННОЕ ЧИСЛО {value}", //  для вставления в стэк чисел с плавающей точкой
 			    "    push r8",
-                "",
             ]));
     } 
 

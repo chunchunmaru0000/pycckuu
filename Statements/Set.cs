@@ -14,7 +14,6 @@ public class SetVarStatement(Token name, ICompilable value, int exclamations) : 
         Instruction value = Value.Compile();
         int s = value.Type.Size();
         
-
         return new(EvaluatedType.VOID, Comp.Str([
             value.Code,
             $"    pop r8",
@@ -45,7 +44,7 @@ public class SetPtrStatement(ICompilable ptr, ICompilable value) : ICompilable
             "    pop r9",
             "    pop r8",
            $"    mov {U.Sizes[s]} [r8], r9{U.RRegs[s]}",
-        ""]));
+        ]));
     }
 }
 

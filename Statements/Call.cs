@@ -38,7 +38,7 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 func.ReturnType == EvaluatedType.INT
                 ?"    push rax"
                 :"",
-            ""])); 
+            ])); 
         } else {
             List<string> prs = [.. Enumerable.Range(0, 4).Select(i =>
                 $"    pop {Registers[i]}"
@@ -60,7 +60,7 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 func.ReturnType == EvaluatedType.INT
                 ?"    push rax"
                 :"",
-            ""]));
+            ]));
         }
     }
 
