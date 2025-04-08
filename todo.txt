@@ -1,6 +1,4 @@
 ﻿{
-	loop
-	while
 	break
 	continue
 	for?
