@@ -118,4 +118,13 @@ partial class Parser
         BlockStatement loop = Block();
         return new LoopStatement(loop);
     }
+
+    private ICompilable While()
+    {
+        Consume(TokenType.WORD_WHILE);
+        ICompilable cond = CompilableExpression();
+        BlockStatement loop = Block();
+
+        return new WhileStatement(cond, loop);
+    }
 }

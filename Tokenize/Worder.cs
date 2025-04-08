@@ -43,6 +43,7 @@ public class Worder
 
         "be" => ChangeType(word, TokenType.BE),
         "это" => ChangeType(word, TokenType.BE),
+        "есть" => ChangeType(word, TokenType.BE),
         "будет" => ChangeType(word, TokenType.BE),
         "равно" => ChangeType(word, TokenType.BE),
         "равен" => ChangeType(word, TokenType.BE),
@@ -57,6 +58,7 @@ public class Worder
         "указатель" => ChangeType(word, TokenType.PTR),
 
         "if" => ChangeType(word, TokenType.WORD_IF),
+        "ибо" => ChangeType(word, TokenType.WORD_IF),
         "если" => ChangeType(word, TokenType.WORD_IF),
         "elif" => ChangeType(word, TokenType.WORD_ELIF),
         "коли" => ChangeType(word, TokenType.WORD_ELIF),
@@ -67,11 +69,16 @@ public class Worder
         "иначе" => ChangeType(word, TokenType.WORD_ELSE),
 
         "true" => ChangeType(word, TokenType.WORD_TRUE),
-        "истина" => ChangeType(word, TokenType.WORD_TRUE),
+        "явь" => ChangeType(word, TokenType.WORD_TRUE),
+        "свет" => ChangeType(word, TokenType.WORD_TRUE),
         "аминь" => ChangeType(word, TokenType.WORD_TRUE),
+        "истина" => ChangeType(word, TokenType.WORD_TRUE),
         "ВладимирВладимировичПутин" => ChangeType(word, TokenType.WORD_TRUE),
         "false" => ChangeType(word, TokenType.WORD_FALSE),
         "ложь" => ChangeType(word, TokenType.WORD_FALSE),
+        "тлен" => ChangeType(word, TokenType.WORD_FALSE),
+        "тьма" => ChangeType(word, TokenType.WORD_FALSE),
+        "врань" => ChangeType(word, TokenType.WORD_FALSE),
         "ВладимирАлександровичЗеленский" => ChangeType(word, TokenType.WORD_FALSE),
 
         "not" => ChangeType(word, TokenType.NOT),
@@ -100,6 +107,12 @@ public class Worder
         "continue" => ChangeType(word, TokenType.CONTINUE),
         "воскрест" => ChangeType(word, TokenType.CONTINUE),
         "сначала" => ChangeType(word, TokenType.CONTINUE),
+
+        "while" => ChangeType(word, TokenType.WORD_WHILE),
+        "покамест" => ChangeType(word, TokenType.WORD_WHILE),
+        "доколе" => ChangeType(word, TokenType.WORD_WHILE),
+        "пока" => ChangeType(word, TokenType.WORD_WHILE),
+        "аще" => ChangeType(word, TokenType.WORD_WHILE),
 
         _ => word
     };

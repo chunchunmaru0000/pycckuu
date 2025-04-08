@@ -5,7 +5,7 @@ class Program
 	private static string AsmName = "some.asm";
 	private static string AsmPath = $"V:\\langs\\as\\test\\{AsmName}";
 	private static string IncPath = "V:\\fasm\\INCLUDE\\";
-    private static string FileName = "V:\\langs\\kptyata#\\pycckuu\\Tests\\тест.эээ";
+    private static string FileName = "V:\\langs\\kptyata#\\pycckuu\\Tests\\while.эээ";
 
     static void Main(string[] args)
 	{
