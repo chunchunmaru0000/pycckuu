@@ -44,7 +44,7 @@ class Tokenizator
 
     private static readonly char[] UnUsableChars = [
         '+', '-', '*', '/', '%', '(', ')', '{', '}', '[', ']', '|', '@', ';', '.', ',', '"', ':',
-        '?', 'Ё', '\n', '\t', '\0', '\r', ' ', '<', '>', '!', '='
+        '?', 'Ё', 'ё', '\n', '\t', '\0', '\r', ' ', '<', '>', '!', '='
     ];
 
     public static bool Usable(char c) => !UnUsableChars.Contains(c);
@@ -273,7 +273,9 @@ class Tokenizator
 				return DoNextAndGiveToken(null, TokenType.RTRISCOB);
 			case '%':
 				return DoNextAndGiveToken(null, TokenType.MOD);
-			case '.':
+            case 'ё':
+                return DoNextAndGiveToken(null, TokenType.YO);
+            case '.':
 				Next();
 				if (Current == '.') {
 					Next();

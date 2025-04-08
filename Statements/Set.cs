@@ -14,7 +14,12 @@ public class SetVarStatement(Token name, ICompilable value, int exclamations) : 
         Instruction value = Value.Compile();
         int s = value.Type.Size();
         
-        return new(EvaluatedType.VOID, Comp.Str([
+        return new(Exclamations switch {
+            0 => EvaluatedType.VOID,
+            1 => EvaluatedType.INT,
+            2 => value.Type,
+            _ => throw new UnreachableException()
+        }, Comp.Str([
             value.Code,
             $"    pop r8",
             $"    mov {U.Sizes[s]} [{name}], r8{U.RRegs[s]}",

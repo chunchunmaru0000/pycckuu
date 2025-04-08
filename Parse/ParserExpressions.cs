@@ -56,6 +56,8 @@ partial class Parser
             return new VarExpression(current);
         if (current.Type == TokenType.PTR || current.Type == TokenType.LCUBSCOB)
             return Ptrness();
+        if (Match(TokenType.YO))
+            return new YoExpression(CompilableExpression());
         if (Match(TokenType.WORD_TRUE, TokenType.WORD_FALSE))
             return new BoolExpression(current.Type);
 

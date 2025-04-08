@@ -43,6 +43,8 @@ public enum TokenType
     EXCL1,
     [Log("!!")]
     EXCL2,
+    [Log("ё")]
+    YO,
 
 
     //operators

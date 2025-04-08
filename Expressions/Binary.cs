@@ -20,8 +20,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r9",
+                       $"    pop r9; {ToString()}",
                         "    pop r8",
                         "    add r8, r9 ; ПЛЮС",
                         "    push r8",
@@ -29,8 +28,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.XMM => new (EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    movq xmm7, r8",
                         "    pop r8",
                         "    movq xmm6, r8",
@@ -44,8 +42,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r9",
+                       $"    pop r9; {ToString()}",
                         "    pop r8",
                         "    sub r8, r9 ; МИНУС",
                         "    push r8",
@@ -53,8 +50,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    movq xmm7, r8",
                         "    pop r8",
                         "    movq xmm6, r8",
@@ -68,8 +64,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r9",
+                       $"    pop r9 ; {ToString()}",
                         "    pop r8",
                         "    imul r8, r9 ; УМНОЖЕНИЕ",
                         "    push r8",
@@ -77,8 +72,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    movq xmm7, r8",
                         "    pop r8",
                         "    movq xmm6, r8",
@@ -92,8 +86,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    pop rax",
                         "    xor rdx, rdx",
                         "    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
@@ -103,8 +96,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    movq xmm7, r8",
                         "    pop r8",
                         "    movq xmm6, r8",
@@ -118,8 +110,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    pop rax",
                         "    xor rdx, rdx",
                         "    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
@@ -129,8 +120,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    movq xmm7, r8",
                         "    pop r8",
                         "    movq xmm6, r8",
@@ -145,8 +135,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.INT => new(EvaluatedType.INT, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r8",
+                       $"    pop r8 ; {ToString()}",
                         "    pop rax",
                         "    xor rdx, rdx",
                         "    cqo ; РАСШИРЯЕТ ЗНАК С RAX В RDX",
@@ -156,8 +145,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                     EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                         left.Code,
                         right.Code,
-                        $"; {ToString()}",
-                        "    pop r9",
+                       $"    pop r9 ; {ToString()}",
                         "    movq xmm7, r9",
                         "    pop r8",
                         "    movq xmm6, r8",
@@ -180,8 +168,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    movq xmm7, r8",
                             "    pop r8",
                             "    cvtsi2sd xmm6, r8",
@@ -195,8 +182,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.INT => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    cvtsi2sd xmm7, r8",
                             "    pop r8",
                             "    movq xmm6, r8",
@@ -213,8 +199,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    movq xmm7, r8",
                             "    pop r8",
                             "    cvtsi2sd xmm6, r8",
@@ -228,8 +213,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.INT => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    cvtsi2sd xmm7, r8",
                             "    pop r8",
                             "    movq xmm6, r8",
@@ -246,8 +230,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    movq xmm7, r8",
                             "    pop r8",
                             "    cvtsi2sd xmm6, r8",
@@ -261,8 +244,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.INT => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    cvtsi2sd xmm7, r8",
                             "    pop r8",
                             "    movq xmm6, r8",
@@ -279,8 +261,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    movq xmm7, r8",
                             "    pop r8",
                             "    cvtsi2sd xmm6, r8",
@@ -294,8 +275,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.INT => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    cvtsi2sd xmm7, r8",
                             "    pop r8",
                             "    movq xmm6, r8",
@@ -312,8 +292,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    movq xmm7, r8",
                             "    pop r8",
                             "    cvtsi2sd xmm6, r8",
@@ -328,8 +307,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.INT => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    cvtsi2sd xmm7, r8",
                             "    pop r8",
                             "    movq xmm6, r8",
@@ -347,8 +325,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.XMM => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    movq xmm7, r8",
                             "    pop r8",
                             "    cvtsi2sd xmm6, r8",
@@ -367,8 +344,7 @@ public sealed class BinaryExpression(ICompilable left, Token op, ICompilable rig
                         EvaluatedType.INT => new(EvaluatedType.XMM, Comp.Str([
                             left.Code,
                             right.Code,
-                            $"; {ToString()}",
-                            "    pop r8",
+                           $"    pop r8 ; {ToString()}",
                             "    cvtsi2sd xmm7, r8",
                             "    pop r8",
                             "    movq xmm6, r8",
