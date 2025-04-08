@@ -37,6 +37,8 @@ public enum TokenType
     LET,
     [Log("БУДЕТ")]
     BE,
+    [Log("СТАНЕТ")]
+    WILL,
     [Log("!")]
     EXCL1,
     [Log("!!")]

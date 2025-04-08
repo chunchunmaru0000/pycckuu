@@ -49,6 +49,9 @@ public class Worder
         "равен" => ChangeType(word, TokenType.BE),
         "равна" => ChangeType(word, TokenType.BE),
         "например" => ChangeType(word, TokenType.BE),
+        "will" => ChangeType(word, TokenType.WILL),
+        "станет" => ChangeType(word, TokenType.WILL),
+        "бысть" => ChangeType(word, TokenType.WILL),
 
         "PTR" => ChangeType(word, TokenType.PTR),
         "ptr" => ChangeType(word, TokenType.PTR),
@@ -113,6 +116,11 @@ public class Worder
         "доколе" => ChangeType(word, TokenType.WORD_WHILE),
         "пока" => ChangeType(word, TokenType.WORD_WHILE),
         "аще" => ChangeType(word, TokenType.WORD_WHILE),
+
+        "for" => ChangeType(word, TokenType.WORD_FOR),
+        "поколь" => ChangeType(word, TokenType.WORD_FOR),
+        "вочерёдь" => ChangeType(word, TokenType.WORD_FOR),
+        "вочередь" => ChangeType(word, TokenType.WORD_FOR),
 
         _ => word
     };

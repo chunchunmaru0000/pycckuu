@@ -50,6 +50,13 @@ partial class Parser
                 'ъ' => 'q','р' => 'r','с' => 's','т' => 't',
                 'у' => 'u','в' => 'v','ь' => 'w','х' => 'x',
                 'й' => 'y','з' => 'z',
+                'А' => 'A','Б' => 'B','Ц' => 'C','Д' => 'D',
+                'Е' => 'E','Ф' => 'F','Г' => 'G','Ш' => 'H',
+                'И' => 'I','Ж' => 'J','К' => 'K','Л' => 'L',
+                'М' => 'M','Н' => 'N','О' => 'O','П' => 'P',
+                'Ъ' => 'Q','Р' => 'R','С' => 'S','Т' => 'T',
+                'У' => 'U','В' => 'V','Ь' => 'W','Х' => 'X',
+                'Й' => 'Y','З' => 'Z',
                 _ => c
             }
         )
@@ -82,10 +89,9 @@ partial class Parser
             return new SetVarStatement(name, value, excl);
         } else { // this is propably array like: let a + 3 be 32
             ICompilable ptr = CompilableExpression();
-            Consume(TokenType.BE);
+            Consume(TokenType.WILL);
             ICompilable value = CompilableExpression();
 
-            Match(TokenType.SEMICOLON);
             return new SetPtrStatement(ptr, value);
         }
     }
