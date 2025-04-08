@@ -32,7 +32,7 @@ class Tokenizator
 	{
 		position++;
 		if (Current == '\n') {
-            position++;
+			Next();
             startLine = position;
 			line++;
 			location = 0;
@@ -162,7 +162,12 @@ class Tokenizator
     {
         int start = position;
         while (Usable(Current))
-            Next();
+			if (Get(1) == '\n') {
+				Next();
+				break;
+			}
+			else
+				Next();
         string word = code[start..position].Trim('\n');
         return Worder.Word(new Token() { Value = word, Type = TokenType.WORD, Location = Loc() }, word);
     }

@@ -106,7 +106,7 @@ partial class Parser
 			//TokenType.CONTINUE => Continue(),
 			TokenType.WORD_WHILE => While(),
             TokenType.LEFTSCOB => Block(),
-            _ => throw U.YetCantEx(current.Type.Log(), $"ICompilable StatementInstructions()\n{Near(6)}")
+            _ => throw U.YetCantEx($"{current.Type.Log()}[{current.Value}]", $"ICompilable StatementInstructions()\n{Near(6)}")
         };
     }
 
