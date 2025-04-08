@@ -219,9 +219,11 @@ class Tokenizator
 				return new Token() { Value = null, Type = TokenType.DIVISION, Location = Loc() };
 			case '!':
 				Next();
-				if (Current == '=')
+                if (Current == '!')
+                    return DoNextAndGiveToken(null, TokenType.EXCL2);
+                if (Current == '=')
 					return DoNextAndGiveToken(null, TokenType.NOTEQUALITY);
-				return new Token() { Value = null, Type = TokenType.NOT, Location = Loc() };
+				return new Token() { Value = null, Type = TokenType.EXCL1, Location = Loc() };
 			case '*':
 				Next();
 				if (Current == '*')

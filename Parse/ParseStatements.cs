@@ -73,8 +73,14 @@ partial class Parser
             Consume(TokenType.BE);
             ICompilable value = CompilableExpression();
 
+            int excl = 0;
+            if (Match(TokenType.EXCL1))
+                excl = 1;
+            else if (Match(TokenType.EXCL2))
+                excl = 2;
             Match(TokenType.SEMICOLON);
-            return new SetVarStatement(name, value);
+
+            return new SetVarStatement(name, value, excl);
         } else { // this is propably array like: let a + 3 be 32
             ICompilable ptr = CompilableExpression();
             Consume(TokenType.BE);

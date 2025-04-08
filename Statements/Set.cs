@@ -1,15 +1,17 @@
 ﻿namespace pycckuu;
 
-public class SetVarStatement(Token name, ICompilable value): ICompilable
+public class SetVarStatement(Token name, ICompilable value, int exclamations) : ICompilable
 {
     private Token Name { get; set; } = name;
     private ICompilable Value { get; set; } = value;
+    private int Exclamations { get; set; } = exclamations;
 
     public Instruction Compile()
     {
         string name = Compiler.SetVariable(Name);
         Instruction value = Value.Compile();
         int s = value.Type.Size();
+        throw new NotFiniteNumberException();
 
         return new(EvaluatedType.VOID, Comp.Str([
             value.Code,
