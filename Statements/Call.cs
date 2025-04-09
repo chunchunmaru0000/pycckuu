@@ -82,5 +82,5 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
     }
 
     public override string ToString() =>
-        $"{TokenType.CALL.Log()} {Func.Value} ...;";
+        $"ЗОВ {Func.Value} ...;";
 }

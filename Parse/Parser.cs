@@ -88,7 +88,7 @@ partial class Parser
 
     #endregion TOOLS
 
-    private ICompilable CompilableExpression() => Or();
+    private ICompilable CompilableExpression() => Ternary();
 
     private ICompilable CompilableStatement()
     {

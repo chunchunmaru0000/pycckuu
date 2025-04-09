@@ -15,12 +15,14 @@ partial class Parser
 
 		if (Match(TokenType.AS))
 			return new AsTypeExpression(result, Consume(Current.Type));
+        /*
 		if (Match(TokenType.WORD_THEN)) {
-            ICompilable tru = After();
+            ICompilable tru = CompilableExpression();
             Match(TokenType.WORD_ELSE);
-            ICompilable fal = After();
+            ICompilable fal = CompilableExpression();
             return new TernaryExpression(result, tru, fal);
         }
+         */
 
         return result;
 	}
@@ -184,6 +186,22 @@ partial class Parser
                 result = new AndOrExpression(result, current.Type, And());
             else
                 break;
+        }
+        return result;
+    }
+
+    private ICompilable Ternary()
+    {
+        ICompilable result = Or();
+
+        while (true) { 
+            if (Match(TokenType.WORD_THEN)) {
+                ICompilable tru = CompilableExpression();
+                Match(TokenType.WORD_ELSE);
+                ICompilable fal = CompilableExpression();
+                result = new TernaryExpression(result, tru, fal);
+            }
+            break;
         }
         return result;
     }
