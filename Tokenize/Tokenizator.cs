@@ -109,26 +109,51 @@ class Tokenizator
         .Replace("%д", "%d").Replace("%ф", "%f")
         .Replace("%а", "%a").Replace("%А", "%A");
 
+    private static readonly char[] Base2 =  ['b', 'б', 'B', 'Б'];
+	private static readonly char[] Base8 =  ['o', 'о', 'O', 'О'];
+	private static readonly char[] Base16 = ['x', 'х', 'X', 'Х'];
+	private static readonly char[][] AllBases = [Base2, Base8, Base16];
+
+	private static bool IsBaseChar(char c) => AllBases.Any(b => b.Contains(c));
+
+	private static void IncNum(ref int num, Func<int, string> message)
+	{
+        num++;
+		if (num > 1)
+			throw new(message(num));
+    }
+
     private Token NumberToken()
 	{
 		int start = position;
-		int dots = 0;
-		while (char.IsDigit(Current) || Current == '.' || Current == '_') {
+		int dots = 0, xs = 0, os = 0, bs = 0;
+		while (char.IsDigit(Current) || Current == '.' || IsBaseChar(Current) || Current == '_') {
 			if (Current == '.')
-				dots++;
-			if (dots > 1) {
-				dots--;
-				break;
-			}
-			Next();
+                IncNum(ref dots, (n) => $"МНОГА ТОЧЕК ДЛЯ ЧИСЛА БЫЛО {n}");
+			else if (Base2.Contains(Current))
+                IncNum(ref bs, (n) => $"МНОГА [б] ДЛЯ ЧИСЛА БЫЛО {n}");
+            else if (Base8.Contains(Current))
+                IncNum(ref os, (n) => $"МНОГА [о] ДЛЯ ЧИСЛА БЫЛО {n}");
+            else if (Base16.Contains(Current))
+                IncNum(ref xs, (n) => $"МНОГА [х] ДЛЯ ЧИСЛА БЫЛО {n}");
+            Next();
 		}
-		string word = code[start..position].Replace('.', ',').Replace("_", "");
-		if (dots == 0) {
+		string word = 
+			code[start..position]
+			.Replace('.', ',').Replace("_", "").ToLower()
+			.Replace('х', 'x').Replace('о', 'o').Replace('б', 'b');
+		if (xs == 1)
+			return new Token() { Value = Convert.ToInt64(word, 16), Type = TokenType.INTEGER, Location = Loc() };
+        if (os == 1)
+            return new Token() { Value = Convert.ToInt64(word, 8), Type = TokenType.INTEGER, Location = Loc() };
+        if (bs == 1)
+            return new Token() { Value = Convert.ToInt64(word.TrimStart('0').TrimStart('b'), 2), Type = TokenType.INTEGER, Location = Loc() };
+        if (dots == 0) {
 			if (long.TryParse(word, out long res))
 				return new Token() { Value = res, Type = TokenType.INTEGER, Location = Loc() };
 			throw new Exception($"ЧИСЛО <{word}> БЫЛО СЛИШКОМ ВЕЛИКО ИЛИ МАЛО ДЛЯ ПОДДЕРЖИВАЕМЫХ СЕЙЧАС ЧИСЕЛ");
 		}
-		if (dots == 1)
+        if (dots == 1)
 		{
 			if (double.TryParse(word, out double res))
 				return new Token() { Value = res, Type = TokenType.DOUBLE, Location = Loc() };
