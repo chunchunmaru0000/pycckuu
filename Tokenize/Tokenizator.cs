@@ -206,7 +206,7 @@ class Tokenizator
 			while (char.IsWhiteSpace(Current))
 				Next();
 
-        if (Current == 'ф' || Current == 'f' && Get(1) == '"') {
+        if ((Current == 'ф' || Current == 'f') && Get(1) == '"') {
             Next();
             return StringToken(true);
         }

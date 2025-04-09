@@ -22,4 +22,6 @@ public static class U
         { TokenType.BYTE, EvaluatedType.BYTE },
         { TokenType.DBYTE, EvaluatedType.DBYTE },
     };
+
+    public static string[] Registers { get; } = ["rcx", "rdx", "r8", "r9"];
 }

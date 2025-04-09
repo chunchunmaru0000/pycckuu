@@ -15,7 +15,7 @@ public sealed class ImportStatement(Token lib, Token[] imp, Token[] impAs, bool[
         for (int i = 0; i < Imp.Length; i++)
             Compiler.AddLibImports(new(
                 Sure(Lib), Sure(Imp[i]), Sure(ImpAs[i]), VarArg[i], Type[i]));
-        return new Instruction(EvaluatedType.IMPORT, "");
+        return new(EvaluatedType.IMPORT, "");
     }
 
     public override string ToString() =>

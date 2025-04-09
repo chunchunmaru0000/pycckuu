@@ -32,6 +32,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 		Platform == "w" ?
 		Comp.Str([
 			"    invoke ExitProcess, 0",
+            "",
+            Comp.Str([.. DeclaredFunctions]),
 			"",
 			"section '.data' data readable writeable",
             "    MINUS_ONE dq -1.0",
@@ -42,10 +44,10 @@ public class Compiler(string platform, string includePath, Token[] tokens)
             "",
 			"section '.idata' import data readable writeable",
             LibsImports.Count == 0 ? "" : Comp.Str([
-                $"    library {string.Join(", ", LibsImports.Select(p => $"{p.Key}, '{p.Key}'"))}",
-                "",
-                Comp.Str([.. LibsImports.Select(li =>
-                    $"    import {li.Key}, {string.Join(", ", li.Value.Select(i => $"{i.Value}, '{i.Key}'"))}"
+           $"    library {string.Join(", ", LibsImports.Where(f => f.Key != "?").Select(p => $"{p.Key}, '{p.Key}'"))}",
+            "",
+                Comp.Str([.. LibsImports.Where(f => f.Key != "?").Select(li =>
+           $"    import {li.Key}, {string.Join(", ", li.Value.Select(i => $"{i.Value}, '{i.Key}'"))}"
                 )])
             ]),
 			""
@@ -70,10 +72,17 @@ public class Compiler(string platform, string includePath, Token[] tokens)
         LibsFuncs[f.ImpAs] = f;
     }
 
+    public static bool HaveImpFunc(string name) => 
+        LibsFuncs.ContainsKey(name) && LibsFuncs[name].Lib != "?";
+
     public static ImportedFunction GetFuncImportedAs(string impAs) =>
         LibsFuncs.ContainsKey(impAs)
         ? LibsFuncs[impAs]
         : throw new Exception($"НЕТ ФУНКЦИИ С ИМЕНЕМ {impAs}");
+
+    private static List<string> DeclaredFunctions { get; set; } = [];
+
+    public static void DeclareFunction(string code) => DeclaredFunctions.Add(code);
 
     #endregion LIBS
 

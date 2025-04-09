@@ -45,6 +45,12 @@ public enum TokenType
     EXCL2,
     [Log("ё")]
     YO,
+    [Log("СЛАВА")]
+    GLORY,
+    [Log("ДРЕВНИМ РУССАМ")]
+    GOD,
+    [Log("НЕ УВАЖИТЕЛЬНО")]
+    god,
 
 
     //operators

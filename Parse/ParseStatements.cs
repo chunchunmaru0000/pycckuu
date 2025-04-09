@@ -150,4 +150,30 @@ partial class Parser
         Consume(TokenType.CONTINUE);
         return new ContinueStatement();
     }
+
+    private DeclareFunctionStatement DeclareFunction()
+    {
+        Consume(TokenType.GLORY);
+        Token God = Current;
+        if (Match(TokenType.god)) {
+            string god = Convert.ToString(God.Value)!;
+            throw new Exception($"НЕУВАЖИТЕЛЬНОЕ ОБРАЩЕНИЕ К [{god[0..1].ToUpper()}{god[1..]}]");
+        } else if (!Match(TokenType.GOD))
+            throw new Exception($"ВЫ ЗАБЫЛИ ВОСХВАЛИТЬ");
+
+        string name = Consume(TokenType.WORD).Value!.ToString()!;
+        bool typed = Match(TokenType.TYPE);
+        List<Token> args = [];
+        while (Current.Type != TokenType.LEFTSCOB)
+            args.Add(Consume(TokenType.WORD));
+
+        BlockStatement body = Block(false);
+        return new(name, typed, args, body);
+    }
+
+    private ReturnStatement Return()
+    {
+        Consume(TokenType.RETURN);
+        return new(CompilableExpression());
+    }
 }

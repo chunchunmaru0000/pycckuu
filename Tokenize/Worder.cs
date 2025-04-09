@@ -122,6 +122,24 @@ public class Worder
         "вочерёдь" => ChangeType(word, TokenType.WORD_FOR),
         "вочередь" => ChangeType(word, TokenType.WORD_FOR),
 
+        "glory" => ChangeType(word, TokenType.GLORY),
+        "слава" => ChangeType(word, TokenType.GLORY),
+        "Перуну" => ChangeType(word, TokenType.GOD),
+        "перуну" => ChangeType(word, TokenType.god),
+        "Сварогу" => ChangeType(word, TokenType.GOD),
+        "сварогу" => ChangeType(word, TokenType.god),
+        "Велесу" => ChangeType(word, TokenType.GOD),
+        "велесу" => ChangeType(word, TokenType.god),
+        "Ярило" => ChangeType(word, TokenType.GOD),
+        "ярило" => ChangeType(word, TokenType.god),
+        "Даждьбогу" => ChangeType(word, TokenType.GOD),
+        "даждьбогу" => ChangeType(word, TokenType.god),
+        "Роду" => ChangeType(word, TokenType.GOD),
+        "роду" => ChangeType(word, TokenType.god),
+
+        "return" => ChangeType(word, TokenType.RETURN),
+        "воздать" => ChangeType(word, TokenType.RETURN),
+
         _ => word
     };
 }
