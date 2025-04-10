@@ -21,8 +21,8 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
         int stackParams = Math.Max(0, parameters.Length - 4);
         int extraParams = stackParams;
         string call = imported
-            ? $"    call  {name}  ; ВЫЗОВ   ОБЪЯВЛЕННОЙ   ФУНКЦИИ"
-            : $"    call [{name}] ; ВЫЗОВ ИМПОРТИРОВАННОЙ ФУНКЦИИ";
+            ? $"    call [{name}] ; ВЫЗОВ ИМПОРТИРОВАННОЙ ФУНКЦИИ"
+            : $"    call  {name}  ; ВЫЗОВ   ОБЪЯВЛЕННОЙ   ФУНКЦИИ";
 
         int subBytes = MIN_OFFSET + stackParams * 8;
         int addBytes = subBytes + stackParams * 8;
@@ -34,8 +34,13 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 ? $"    ; {parameters[i].Type.Log()}"
                 : $"    pop {U.Registers[i]}"
             );
-            sub = $"    sub rsp, {subBytes} ; = SHADOW SPACE {MIN_OFFSET} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
-            add = $"    add rsp, {addBytes} ; = sub {subBytes} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+            if (!imported) {
+                sub = $"    ; ПЕРЕД ОБЪЯВЛЕННОЙ ФУНКЦИЕЙ SHADOW SPACE НЕ ТРЕБУЕТСЯ";
+                add = $"    add rsp, {stackParams * 8} ; ОЧИСТИТЬ СТЭК ОТ ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+            } else {
+                sub = $"    sub rsp, {subBytes} ; = SHADOW SPACE {MIN_OFFSET} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+                add = $"    add rsp, {addBytes} ; = sub {subBytes} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+            }
         } else {
             args = Comp.StrE(parameters.Length, i =>
                 i >= U.Registers.Length
