@@ -10,6 +10,7 @@ public class DeclareFunctionStatement(string name, bool typed, List<Token> args,
     public Instruction Compile()
     {
         Compiler.AddLibImports(new("?", Name, Name, false, Typed ? EvaluatedType.INT : EvaluatedType.VOID));
+        List<Variable> vars = Compiler.ReplaceVariables([]);
 
         Variable[] args = [.. Args.Select(a => Compiler.AddVariable(
             new(a.Value!.ToString()!, Compiler.GetLastVarOffset() + EvaluatedType.INT.Size(), EvaluatedType.INT)
@@ -36,6 +37,7 @@ public class DeclareFunctionStatement(string name, bool typed, List<Token> args,
             $"    ret ; КОНЕЦ ФУНКЦИИ {Name} КОТОРЫЙ НЕ ДОЛЖЕН БЫТЬ ДОСЯГАЕМ ЕСЛИ ФУНКЦИЯ ЧТОТО ВОЗВРАЩАЕТ",
         ]);
 
+        Compiler.ReplaceVariables(vars);
         Compiler.DeclareFunction(code);
         return new(EvaluatedType.VOID, "");
     }

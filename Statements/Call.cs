@@ -37,7 +37,7 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
             );
             if (!imported) {
                 sub = $"    ; ПЕРЕД ОБЪЯВЛЕННОЙ ФУНКЦИЕЙ SHADOW SPACE НЕ ТРЕБУЕТСЯ";
-                add = $"    add rsp, {stackParams * 8} ; ОЧИСТИТЬ СТЭК ОТ ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+                add = $"    {(stackParams < 1 ? "; " : "")}add rsp, {stackParams * 8} ; ОЧИСТИТЬ СТЭК ОТ ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
             } else {
                 sub = $"    sub rsp, {subBytes} ; = SHADOW SPACE {MIN_OFFSET} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
                 add = $"    add rsp, {addBytes} ; = sub {subBytes} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
