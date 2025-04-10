@@ -17,8 +17,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"entry _main",
 			"",
 			"_main:",
-            "    sub rsp, 40 ; shadow space"
-		]) :
+            "    push rbp ; rbp actually not to shadow space but to align stack by 16"
+        ]) :
 		Comp.Str([
 			"format ELF64 executable",
 			"",

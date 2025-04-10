@@ -16,15 +16,17 @@ public class DeclareFunctionStatement(string name, bool typed, List<Token> args,
 
         string code = Comp.Str([
             $"{Name}: ; ФУНКЦИЯ {Name}",
-            Comp.Str([.. Enumerable.Range(0, args.Length).Reverse().Select(i =>
+            $"    push rbp ; ВЫРАВНИВАНИЕ СТЭКА ПО 16 ТАК КАК ПРИ call ПРОИСХОДИТ push rip ТО ЕСТЬ СТЭК СМЕЩАЕТСЯ НА 8",
+            Comp.StrER(args.Length, i =>
                 i >= U.Registers.Length
                 ? Comp.Str([
-                    $"    mov r10, [rsp + {8 * extraArgs--}]",
+                    $"    mov r10, [rsp + {8 + 8 * extraArgs--}]",
                     $"    mov qword[{args[i]}], r10",
                 ])
                 :   $"    mov qword[{args[i]}], {U.Registers[i]}"
-            )]),
+            ),
             Body.Compile().Code,
+            $"    pop rbp ; ВЫКРИВДЕНИЕ СТЭКА НАЗАД ЧТОБЫ ПОТОМ ОН БЫЛ ВОССТАНОВЛЕН САМ ЧЕРЕЗ pop rip ПРИ ret",
             $"    ret ; КОНЕЦ ФУНКЦИИ {Name} КОТОРЫЙ НЕ ДОЛЖЕН БЫТЬ ДОСЯГАЕМ ЕСЛИ ФУНКЦИЯ ЧТОТО ВОЗВРАЩАЕТ",
         ]);
 

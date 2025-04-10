@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace pycckuu;
+﻿namespace pycckuu;
 
 public class LogAttribute(string value) : Attribute
 {
@@ -23,7 +21,7 @@ public static class EnumExtensions
     {
         var type = value.GetType();
         var fieldInfo = type.GetField(value.ToString());
-        var attribs = fieldInfo!.GetCustomAttributes(typeof(LogAttribute), false) as LogAttribute[];
+        var attribs = fieldInfo!.GetCustomAttributes(typeof(ViewAttribute), false) as ViewAttribute[];
         return attribs!.Length > 0 ? attribs[0].Value : value.Log();
     }
 
@@ -31,8 +29,8 @@ public static class EnumExtensions
     {
         var type = value.GetType();
         var fieldInfo = type.GetField(value.ToString());
-        var attribs = fieldInfo!.GetCustomAttributes(typeof(ViewAttribute), false) as ViewAttribute[];
-        return attribs!.Length > 0 ? attribs[0].Value : value.ToString();
+        var attribs = fieldInfo!.GetCustomAttributes(typeof(LogAttribute), false) as LogAttribute[];
+        return attribs!.Length > 0 ? attribs[0].Value : value == null ? "???НУЛ???" : value.ToString();
     }
 
     public static int Size(this Enum value)

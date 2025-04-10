@@ -92,13 +92,12 @@ partial class Parser
 	private ICompilable ModDiv()
 	{
 		ICompilable result = Unary();
-		while (true)
-		{
+		while (true) {
 			Token current = Current;
 			if (Match(TokenType.MOD, TokenType.DIV))
 				result = new BinaryExpression(result, current, Unary());
 			else
-				break;
+                break;
 		}
 		return result;
 	}
@@ -106,13 +105,12 @@ partial class Parser
 	private ICompilable MulDivision()
 	{
 		ICompilable result = ModDiv();
-		while (true)
-		{
+		while (true) {
 			Token current = Current;
 			if (Match(TokenType.MULTIPLICATION, TokenType.DIVISION))
 				result = new BinaryExpression(result, current, ModDiv());
 			else
-				break;
+                break;
 		}
 		return result;
 	}
@@ -125,7 +123,7 @@ partial class Parser
 			if (Match(TokenType.PLUS, TokenType.MINUS))
 				result = new BinaryExpression(result, current, MulDivision());
 			else
-				break;
+                break;
 		}
 		return result;
 	}
@@ -196,12 +194,13 @@ partial class Parser
 
         while (true) { 
             if (Match(TokenType.WORD_THEN)) {
-                ICompilable tru = CompilableExpression();
+                ICompilable tru = Or();
                 Match(TokenType.WORD_ELSE);
-                ICompilable fal = CompilableExpression();
+                ICompilable fal = Or();
                 result = new TernaryExpression(result, tru, fal);
             }
-            break;
+            else
+                break;
         }
         return result;
     }

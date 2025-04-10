@@ -13,72 +13,49 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
         string name = Func.Value!.ToString()!;
         bool imported = Compiler.HaveImpFunc(name);
         ImportedFunction func = Compiler.GetFuncImportedAs(name);
-        string pushStr = func.ReturnType == EvaluatedType.INT 
+
+        string returned = func.ReturnType == EvaluatedType.INT 
             ? "    push rax" 
             : "    ; НЕЧЕГО ВОЗВРАЩАТЬ";
 
-        if (!imported) {
-            string[] setPrs = [.. Enumerable.Range(0, parameters.Length).Select(i =>
-                true // если тип помещается на стэк иначе его надо оствить на стеке
-                ? i < U.Registers.Length
-                    ? $"    pop {U.Registers[i]}"
-                    : $"    ; {parameters[i].Type}" // тут может надо оставшиеся параметры переворачивать
-                : $"    ; {parameters[i].Type}"
-            )];
-            int clearSize = Math.Max(0, parameters.Length - 4) * 8; // 8 bytes per param
-            string clearStr =
-                clearSize > 0
-                ? $"    add rsp, {clearSize} ; ОЧИСТКА СТЕКА ПОСЛЕ ВЫЗОВА {name}"
-                :  "    ; НЕЧЕГО ОЧИЩАТЬ СО СТЕКА";
+        int stackParams = Math.Max(0, parameters.Length - 4);
+        int extraParams = stackParams;
+        string call = imported
+            ? $"    call  {name}  ; ВЫЗОВ   ОБЪЯВЛЕННОЙ   ФУНКЦИИ"
+            : $"    call [{name}] ; ВЫЗОВ ИМПОРТИРОВАННОЙ ФУНКЦИИ";
 
-            return new(func.ReturnType, Comp.Str([
-                Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
-                Comp.Str(setPrs), // положить параметры в регистры и на стек
-                $"    call {name} ; ВЫЗОВ ОБЪЯВЛЕННОЙ ФУНКЦИИ",
-                clearStr, // очистить стек от параметров которые были на него положена перед вызовом
-                pushStr,
-            ]));
-        } else if (!func.VariableArguments || parameters.Length <= 4) {
-            string[] prs = [.. Enumerable.Range(0, parameters.Length).Select(i =>
-                true // если тип помещается на стэк иначе его надо оствить на стеке
-                ? i < U.Registers.Length 
-                    ? $"    pop {U.Registers[i]}"
-                    : $"    ; {parameters[i].Type}" // тут может надо оставшиеся параметры переворачивать
-                : $"    ; {parameters[i].Type}"
-            )];
+        int subBytes = MIN_OFFSET + stackParams * 8;
+        int addBytes = subBytes + stackParams * 8;
 
-            int extraOffset = parameters.Skip(4).Sum(p => 8);// p.Type.Size());;
-
-            return new(func.ReturnType, Comp.Str([
-                $"    sub rsp, {MIN_OFFSET + extraOffset} ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ {name}",
-                Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
-                Comp.Str(prs),
-                $"    call [{name}] ; ВЫЗОВ ИМПОРТИРОВАННОЙ ФУНКЦИИ",
-                $"    add rsp, {MIN_OFFSET + extraOffset * 2} ; ВОЗВРАЩЕНИЕ СТЭКА {name}", //  * 2 потому что вот оно на стэк положило это во первых память нужна, а во вторых со стека оно очищено не было by callee поэтому вручную надо
-                pushStr,
-            ])); 
-        } 
-        else {
-            List<string> prs = [.. Enumerable.Range(0, 4).Select(i =>
-                $"    pop {U.Registers[i]}"
-            )];
-
-            int extraParams = parameters.Length - 4;
-
-            prs.AddRange(Enumerable.Range(0, extraParams).Select(i => Comp.Str([
-                $"    pop r10",
-                $"    mov qword [rsp + {32 + (--extraParams * 8) + 8 * i}], r10"
-            ])));
-
-            return new(func.ReturnType, Comp.Str([
-                $"    sub rsp, {MIN_OFFSET} ; ТЕНЕВОЕ ПРОСТРАНСТВО ПЕРЕД ВЫЗОВОМ {name}",
-                Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and they are on stack
-                Comp.Str([.. prs]),
-                $"    call [{name}] ; ВЫЗОВ ИМПОРТИРОВАННОЙ ФУНКЦИИ",
-                $"    add rsp, {MIN_OFFSET} ; ВОЗВРАЩЕНИЕ СТЭКА {name}",
-                pushStr,
-            ]));
+        string args, sub, add;
+        if (!func.VariableArguments) {
+            args = Comp.StrE(parameters.Length, i =>
+                i >= U.Registers.Length
+                ? $"    ; {parameters[i].Type.Log()}"
+                : $"    pop {U.Registers[i]}"
+            );
+            sub = $"    sub rsp, {subBytes} ; = SHADOW SPACE {MIN_OFFSET} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+            add = $"    add rsp, {addBytes} ; = sub {subBytes} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
+        } else {
+            args = Comp.StrE(parameters.Length, i =>
+                i >= U.Registers.Length
+                ? Comp.Str([
+                    $"    pop r10",
+                    $"    mov qword [rsp + {32 + (--extraParams * 8) + 8 * i}], r10"
+                ])
+                : $"    pop {U.Registers[i]}"
+            );
+            sub = $"    sub rsp, {MIN_OFFSET} ; SHADOW SPACE ПЕРЕД ВЫЗОВОМ VARARG ФУНКЦИИ {name}";
+            add = $"    add rsp, {MIN_OFFSET} ; ВОЗВРАЩЕНИЕ СТЭКА {name}";
         }
+        return new(func.ReturnType, Comp.Str([
+            Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and push on stack
+            args,
+            sub,
+            call,
+            add,
+            returned
+        ]));
     }
 
     public override string ToString() =>
