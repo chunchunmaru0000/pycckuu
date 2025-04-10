@@ -1,3 +1,20 @@
 ﻿{
+	stack variables
+},
+{
 	!!!lambdas!!!
 },
+{
+	Fpu
+	Dict
+	Сравнение строк и вообще операции с ними
+},
+
+
+
+[test C librares]
+{
+	Random
+	File
+	?draw?
+}

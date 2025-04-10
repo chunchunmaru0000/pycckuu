@@ -17,7 +17,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"entry _main",
 			"",
 			"_main:",
-            "    push rbp ; rbp actually not to shadow space but to align stack by 16"
+            "    push rbp ; rbp actually not to shadow space but to align stack by 16",
+            "    mov rbp, rsp"
         ]) :
 		Comp.Str([
 			"format ELF64 executable",
@@ -31,6 +32,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 	private Instruction End() => new (EvaluatedType.END_PROGRAM, 
 		Platform == "w" ?
 		Comp.Str([
+            "    mov rsp, rbp",
 			"    invoke ExitProcess, 0",
             "",
             Comp.Str([.. DeclaredFunctions]),
@@ -38,7 +40,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"section '.data' data readable writeable",
             "    MINUS_ONE dq -1.0",
             "",
-            Comp.Str([.. Vars.Select(v => $"    {v} dq 0")]),
+            //Comp.Str([.. Vars.Select(v => $"    {v} dq 0")]),
             "",
             Comp.Str([.. Strings.Select(s => $"    {s.Value} db '{s.Key}', 0")]),
             "",
@@ -105,15 +107,31 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
     #region VAR
 
-    private static List<string> Vars { get; set; } = [];
+    private static List<Variable> Vars { get; set; } = [];
 
-    public static string SetVariable(Token var)
+    public static KeyValuePair<bool, Variable> AddVariable(Variable var)
     {
-        string name = var.Value!.ToString()!;
-        if (!Vars.Contains(name))
-            Vars.Add(name);
-        return name;
+        bool has = Vars.Any(v => v.Name == var.Name);
+        if (!has) {
+            Vars.Add(var);
+            return new(false, var);
+        }
+        return new(true, GetVariable(var.Name));
     }
+
+    public static Variable GetVariable(string name) =>
+        Vars.Any(v => v.Name == name)
+        ? Vars.First(v => v.Name == name)
+        : throw new($"НЕТ ПЕРЕМЕННОЙ С ИМЕНЕМ {name}");
+
+    public static List<Variable> ReplaceVariables(List<Variable> vars)
+    {
+        List<Variable> varsNow = Vars;
+        Vars = vars;
+        return varsNow;
+    }
+
+    public static int GetLastVarOffset() => Vars.Count == 0 ? 0 : Vars.Last().Offset;
 
     #endregion VAR
 
@@ -152,14 +170,13 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
     public string Compile()
 	{
-		List<string> instructions = [];
-		instructions.Add(Begin().Code);
-
-		instructions.Add(new Parser(Tokens).ParseInstructions());
-
         AddLibImports(new("kernel32", "ExitProcess", "ExitProcess", false, EvaluatedType.VOID));
-        instructions.Add(End().Code);
 
-		return string.Join(Platform == "w" ? "\r\n" : "\n", instructions);
+		return Comp.Str([
+            Begin().Code,
+            new Parser(Tokens).ParseInstructions(),
+            End().Code
+        ]);
+		//return string.Join(Platform == "w" ? "\r\n" : "\n", instructions);
 	}
 }

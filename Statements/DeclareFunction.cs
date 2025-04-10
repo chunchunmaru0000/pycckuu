@@ -11,22 +11,28 @@ public class DeclareFunctionStatement(string name, bool typed, List<Token> args,
     {
         Compiler.AddLibImports(new("?", Name, Name, false, Typed ? EvaluatedType.INT : EvaluatedType.VOID));
 
-        string[] args = [.. Args.Select(Compiler.SetVariable)];
+        Variable[] args = [.. Args.Select(a => Compiler.AddVariable(
+            new(a.Value!.ToString()!, Compiler.GetLastVarOffset() + EvaluatedType.INT.Size(), EvaluatedType.INT)
+        ).Value)];
         int extraArgs = args.Length - 4;
+        int argsOffset = Compiler.GetLastVarOffset();
 
         string code = Comp.Str([
             $"{Name}: ; ФУНКЦИЯ {Name}",
             $"    push rbp ; ВЫРАВНИВАНИЕ СТЭКА ПО 16 ТАК КАК ПРИ call ПРОИСХОДИТ push rip ТО ЕСТЬ СТЭК СМЕЩАЕТСЯ НА 8",
+            $"    mov rbp, rsp",
             Comp.StrER(args.Length, i =>
                 i >= U.Registers.Length
                 ? Comp.Str([
                     $"    mov r10, [rsp + {8 + 8 * extraArgs--}]",
-                    $"    mov qword[{args[i]}], r10",
+                    $"    mov qword[rbp - {args[i].Offset}], r10",
                 ])
-                :   $"    mov qword[{args[i]}], {U.Registers[i]}"
+                :   $"    mov qword[rbp - {args[i].Offset}], {U.Registers[i]}"
             ),
+            $"    sub rsp, {argsOffset} ; ПАРАМЕТРЫ НА СТЭКЕ ПОЭТОМУ ЕГО НАДО ТОЖЕ СДВИНУТЬ ЧТОБЫ НЕ ПОВРЕДИТЬ ПЕРЕМЕННЫЕ",
             Body.Compile().Code,
-            $"    pop rbp ; ВЫКРИВДЕНИЕ СТЭКА НАЗАД ЧТОБЫ ПОТОМ ОН БЫЛ ВОССТАНОВЛЕН САМ ЧЕРЕЗ pop rip ПРИ ret",
+            $"    add rsp, {argsOffset} ; ОЧИЩЕНИЕ СТЕКА ОТ ПАРАМЕТРОВ",
+            $"    pop rbp ; ВЫКРИВЛЕНИЕ СТЭКА НАЗАД ЧТОБЫ ПОТОМ ОН БЫЛ ВОССТАНОВЛЕН САМ ЧЕРЕЗ pop rip ПРИ ret",
             $"    ret ; КОНЕЦ ФУНКЦИИ {Name} КОТОРЫЙ НЕ ДОЛЖЕН БЫТЬ ДОСЯГАЕМ ЕСЛИ ФУНКЦИЯ ЧТОТО ВОЗВРАЩАЕТ",
         ]);
 

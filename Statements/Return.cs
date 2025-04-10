@@ -10,8 +10,9 @@ public class ReturnStatement(ICompilable value) : ICompilable
         return new(value.Type, Comp.Str([
             value.Code,
             $"    pop rax",
+            $"    add rsp, {Compiler.GetLastVarOffset()} ; ОЧИЩЕНИЕ СТЕКА ОТ ПАРАМЕТРОВ",
             $"    pop rbp ; ВЫКРИВДЕНИЕ СТЭКА НАЗАД ЧТОБЫ ПОТОМ ОН БЫЛ ВОССТАНОВЛЕН САМ ЧЕРЕЗ pop rip ПРИ ret",
-            $"    ret ; ВОЗВРАЩАЕТ ЗНАЧЕНИЕ ТИПА {value.Type}"
+            $"    ret ; ВОЗВРАЩАЕТ ЗНАЧЕНИЕ ТИПА {value.Type.Log()}"
         ]));
     }
 }

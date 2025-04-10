@@ -1,16 +1,15 @@
 ﻿namespace pycckuu;
 
-public class VarExpression(Token word): ICompilableExpression
+public class VarExpression(Token word): ICompilable
 {
     private string Name { get; set; } = word.Value!.ToString()!;
 
-    public Instruction Compile() => new(EvaluatedType.INT, Comp.Str([
-        $"    push qword[{Name}] ; ПЕРЕМЕННАЯ {Name}",
-    ]));
-
-    public object Evaluate()
+    public Instruction Compile()
     {
-        throw new NotImplementedException();
+        Variable var = Compiler.GetVariable(Name);
+        return new(var.Type, Comp.Str([
+            $"    push qword[rbp - {var.Offset}] ; ПЕРЕМЕННАЯ {Name}", // { U.Sizes[var.Type.Size()] }
+        ]));
     }
 
     public override string ToString() => Name;
