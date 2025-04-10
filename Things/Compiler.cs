@@ -40,8 +40,6 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"section '.data' data readable writeable",
             "    MINUS_ONE dq -1.0",
             "",
-            //Comp.Str([.. Vars.Select(v => $"    {v} dq 0")]),
-            "",
             Comp.Str([.. Strings.Select(s => $"    {s.Value} db '{s.Key}', 0")]),
             "",
 			"section '.idata' import data readable writeable",

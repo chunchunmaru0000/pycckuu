@@ -33,12 +33,10 @@ public class SetVarStatement(Token name, ICompilable value, int exclamations) : 
         }, Comp.Str([
             value.Code,
             $"    pop r8",
-            //$"    mov {U.Sizes[s]} [{name}], r8{U.RRegs[s]}",
             $"    mov {U.Sizes[s]}[rbp - {var.Offset}], r8{U.RRegs[s]} ; {var.Name}",
             subRsp,
             Exclamations switch {
                 0 => $"    ; НОЛЬ !",
-                //1 => $"    push {name} ; ! УКАЗАТЕЛЬ", // $"    push {U.Sizes[s]}[rbp - {var.Offset}]",
                 1 => throw new("ТАК БОЛЬШЕ НЕЛЬЗЯ ПОЛУЧАТЬ УКАЩАТЕЛЬ НА ОБЪЯВЛЕННУЮ ПЕРЕМЕННУЮ"),
                 2 => $"    push r8 ; !! ЗНАЧЕНИЕ",
                 _ => throw new UnreachableException()
