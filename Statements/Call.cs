@@ -24,11 +24,11 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
             ? $"    call [{name}] ; ВЫЗОВ ИМПОРТИРОВАННОЙ ФУНКЦИИ"
             : $"    call  {name}  ; ВЫЗОВ   ОБЪЯВЛЕННОЙ   ФУНКЦИИ";
 
-        int subBytes = MIN_OFFSET + stackParams * 8;
-        int addBytes = subBytes + stackParams * 8;
-
         string args, sub, add;
         if (!func.VariableArguments) {
+            int subBytes = MIN_OFFSET + stackParams * 8;
+            int addBytes = subBytes + stackParams * 8;
+
             args = Comp.StrE(parameters.Length, i =>
                 i >= U.Registers.Length
                 ? $"    ; {parameters[i].Type.Log()}"
@@ -42,16 +42,21 @@ public sealed class CallStatement(Token func, ICompilable[] parameters) : ICompi
                 add = $"    add rsp, {addBytes} ; = sub {subBytes} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8";
             }
         } else {
-            args = Comp.StrE(parameters.Length, i =>
-                i >= U.Registers.Length
-                ? Comp.Str([
-                    $"    pop r10",
-                    $"    mov qword [rsp + {32 + (--extraParams * 8) + 8 * i}], r10"
-                ])
-                : $"    pop {U.Registers[i]}"
-            );
-            sub = $"    sub rsp, {MIN_OFFSET} ; SHADOW SPACE ПЕРЕД ВЫЗОВОМ VARARG ФУНКЦИИ {name}";
-            add = $"    add rsp, {MIN_OFFSET} ; ВОЗВРАЩЕНИЕ СТЭКА {name}";
+            int subBytes = 8 * parameters.Length;
+            int addBytes = subBytes + stackParams * 8;
+
+            return new(func.ReturnType, Comp.Str([
+                Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and push on stack
+                Comp.StrE(Math.Min(4, parameters.Length), i =>
+                $"    pop {U.Registers[i]}"),
+                $"    sub rsp, {subBytes} ; = ПАРАМЕТРОВ {parameters.Length} * 8",
+                Comp.StrE(Math.Max(0, parameters.Length - 4), i => Comp.Str([
+                $"    mov r10, qword[rsp + {subBytes + i * 8}]",
+                $"    mov qword[rsp + {MIN_OFFSET + i * 8}], r10"])),
+                call,
+                $"    add rsp, {addBytes} ; = sub {subBytes} + ПАРАМЕТРОВ НА СТЭКЕ {stackParams} * 8 ВОЗВРАЩЕНИЕ СТЭКА {name}",
+                returned
+            ]));
         }
         return new(func.ReturnType, Comp.Str([
             Comp.Str([.. parameters.Select(p => p.Code)]), // compile all params and push on stack
