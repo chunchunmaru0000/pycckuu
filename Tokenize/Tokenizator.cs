@@ -91,7 +91,7 @@ class Tokenizator
 
     private static string PrintfFormatString(string str) => 
         str
-        .Replace("%ллд", "%lld").Replace("%ллф", "%lla")
+        .Replace("%ллд", "%lld").Replace("%ллф", "%llf")
         .Replace("%х", "%x").Replace("%Х", "%X")
         .Replace("%с", "%s").Replace("%ч", "%c")
         .Replace("%п", "%p").Replace("%н", "%n")
