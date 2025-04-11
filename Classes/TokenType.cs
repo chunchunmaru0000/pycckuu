@@ -2,260 +2,123 @@
 
 public enum TokenType
 {
-    [Log("КОНЕЦ ФАЙЛА")]
-    EOF,
-    [Log("СЛОВО")]
-    WORD,
-    [Log("СТРОКА")]
-    STRING,
-    [Log("ИСТИННОСТЬ")]
-    BOOLEAN,
-    [Log("ЦЕЛОЕ ЧИСЛО64")]
-    INTEGER,
-    [Log("ВЕЩЕСТВЕННОЕ ЧИСЛО64")]
-    DOUBLE,
-    [Log("КЛАСС")]
-    CLASS,
-    [Log("ЭТОТ")]
-    THIS,
-    [Log("ЛЯМБДА")]
-    LAMBDA,
-    [Log("УКАЗАТЕЛЬ")]
-    PTR,
-    [Log("БАЙТ")]
-    BYTE,
-    [Log("ДБАЙТ")]
-    DBYTE,
+    [Log("КОНЕЦ ФАЙЛА")]EOF,
+    [Log("СЛОВО")]WORD,
+    [Log("СТРОКА")]STRING,
+    [Log("ИСТИННОСТЬ")]BOOLEAN,
+    [Log("ЦЕЛОЕ ЧИСЛО64")]INTEGER,
+    [Log("ВЕЩЕСТВЕННОЕ ЧИСЛО64")]DOUBLE,
+    [Log("КЛАСС")]CLASS,
+    [Log("ЭТОТ")]THIS,
+    [Log("ЛЯМБДА")]LAMBDA,
+    [Log("УКАЗАТЕЛЬ")]PTR,
+    [Log("БАЙТ")]BYTE,
+    [Log("ДБАЙТ")]DBYTE,
 
-    [Log("ЗОВ")]
-    CALL,
-    [Log("НЕОПРЕДЕЛЕННО")]
-    VARARG,
-    [Log("ТИПА")]
-    TYPE,
-    [Log("ПУСТЬ")]
-    LET,
-    [Log("БУДЕТ")]
-    BE,
-    [Log("СТАНЕТ")]
-    WILL,
-    [Log("!")]
-    EXCL1,
-    [Log("!!")]
-    EXCL2,
-    [Log("ё")]
-    YO,
-    [Log("СЛАВА")]
-    GLORY,
-    [Log("ДРЕВНИМ РУССАМ")]
-    GOD,
-    [Log("НЕ УВАЖИТЕЛЬНО")]
-    god,
-
-
+    [Log("ЗОВ")]CALL,
+    [Log("НЕОПРЕДЕЛЕННО")]VARARG,
+    [Log("ТИПА")]TYPE,
+    [Log("ПУСТЬ")]LET,
+    [Log("БУДЕТ")]BE,
+    [Log("СТАНЕТ")]WILL,
+    [Log("!")]EXCL1,
+    [Log("!!")]EXCL2,
+    [Log("ё")]YO,
+    [Log("СЛАВА")]GLORY,
+    [Log("ДРЕВНИМ РУССАМ")]GOD,
+    [Log("НЕ УВАЖИТЕЛЬНО")]god,
+    //fpu
+    [Log("fsincos")] FSINCOS,
+    [Log("fsin")] FSIN,
+    [Log("fsinh")] FSINH,
+    [Log("fasin")] FASIN,
+    [Log("fcos")] FCOS,
+    [Log("fcosh")] FCOSH,
+    [Log("facos" )]FACOS,
+    [Log("ftan" )]FTAN,
+    [Log("ftanh" )]FTANH,
+    [Log("fatan" )]FATAN,
+    [Log("fatanh" )]FATANH,
+    [Log("fabs" )]FABS,
+    [Log("fsqrt" )]FSQRT,
+    [Log("fint" )]FINT,
+    [Log("fgetman" )]FGETMAN,
+    [Log("flogn" )]FLOGN,
+    [Log("flog2" )]FLOG2,
+    [Log("flog10" )]FLOG10,
     //operators
-    [Log("ПЛЮС")]
-    PLUS,
-    [Log("МИНУС")]
-    MINUS,
-    [Log("УМНОЖЕНИЕ")]
-    MULTIPLICATION,
-    [Log("ДЕЛЕНИЕ")]
-    DIVISION,
-    [Log("СДЕЛАТЬ РАВНЫМ")]
-    DO_EQUAL,
-    [Log("СТРЕЛКА")]
-    ARROW,
-    [Log("БЕЗ ОСТАТКА")]
-    DIV,
-    [Log("ОСТАТОК")]
-    MOD,
-    [Log("СТЕПЕНЬ")]
-    POWER,
-    [Log("+=")]
-    PLUSEQ,
-    [Log("-=")]
-    MINUSEQ,
-    [Log("*=")]
-    MULEQ,
-    [Log("/=")]
-    DIVEQ,
-    [Log("НОВЫЙ")]
-    NEW,
+    [Log("ПЛЮС")]PLUS,
+    [Log("МИНУС")]MINUS,
+    [Log("УМНОЖЕНИЕ")]MULTIPLICATION,
+    [Log("ДЕЛЕНИЕ")]DIVISION,
+    [Log("СДЕЛАТЬ РАВНЫМ")]DO_EQUAL,
+    [Log("СТРЕЛКА")]ARROW,
+    [Log("БЕЗ ОСТАТКА")]DIV,
+    [Log("ОСТАТОК")]MOD,
+    [Log("СТЕПЕНЬ")]POWER,
+    [Log("+=")]PLUSEQ,
+    [Log("-=")]MINUSEQ,
+    [Log("*=")]MULEQ,
+    [Log("/=")]DIVEQ,
 
     //cmp
-    [Log("РАВЕН")]
-    EQUALITY,
-    [Log("НЕ РАВЕН")]
-    NOTEQUALITY,
-    [Log(">")]
-    MORE,
-    [Log(">=")]
-    MOREEQ,
-    [Log("<")]
-    LESS,
-    [Log("<=")]
-    LESSEQ,
-    [Log("НЕ")]
-    NOT,
-    [Log("И")]
-    AND,
-    [Log("ИЛИ")]
-    OR,
-    [Log("ХОР")]
-    XOR,
+    [Log("РАВЕН")]EQUALITY,
+    [Log("НЕ РАВЕН")]NOTEQUALITY,
+    [Log(">")]MORE,
+    [Log(">=")]MOREEQ,
+    [Log("<")]LESS,
+    [Log("<=")]LESSEQ,
+    [Log("НЕ")]NOT,
+    [Log("И")]AND,
+    [Log("ИЛИ")]OR,
+    [Log("ХОР")]XOR,
 
     //other
-    [Log("ПЕРЕМЕННАЯ")]
-    VARIABLE,
-    [Log("ФУНКЦИЯ")]
-    FUNCTION,
-    [Log(";")]
-    SEMICOLON,
-    [Log(":")]
-    COLON,
-    [Log("++")]
-    PLUSPLUS,
-    [Log("--")]
-    MINUSMINUS,
-    [Log(",")]
-    COMMA,
+    [Log("ПЕРЕМЕННАЯ")]VARIABLE,
+    [Log("ФУНКЦИЯ")]FUNCTION,
+    [Log(";")]SEMICOLON,
+    [Log(":")]COLON,
+    [Log("++")]PLUSPLUS,
+    [Log("--")]MINUSMINUS,
+    [Log(",")]COMMA,
 
-    [Log(")")]
-    RIGHTSCOB,
-    [Log("(")]
-    LEFTSCOB,
-    [Log("]")]
-    RCUBSCOB,
-    [Log("[")]
-    LCUBSCOB,
-    [Log("}")]
-    RTRISCOB,
-    [Log("{")]
-    LTRISCOB,
+    [Log(")")]RIGHTSCOB,
+    [Log("(")]LEFTSCOB,
+    [Log("]")]RCUBSCOB,
+    [Log("[")]LCUBSCOB,
+    [Log("}")]RTRISCOB,
+    [Log("{")]LTRISCOB,
 
-    [Log("ПЕРЕНОС")]
-    SLASH_N,
-    [Log("ЦИТАТА")]
-    COMMENTO,
-    [Log("ПУСТОТА")]
-    WHITESPACE,
-    [Log("СОБАКА")]
-    DOG,
-    [Log("КАВЫЧКА")]
-    QUOTE,
-    [Log("ТОЧКА")]
-    DOT,
-    [Log("ТОЧКАТОЧКА")]
-    DOTDOT,
-    [Log("..=")]
-    DOTDOTEQ,
-    [Log("ЗНАК ВОПРОСА")]
-    QUESTION,
-    [Log("ПАЛКА | ")]
-    STICK,
+    [Log("ПЕРЕНОС")]SLASH_N,
+    [Log("ЦИТАТА")]COMMENTO,
+    [Log("ПУСТОТА")]WHITESPACE,
+    [Log("СОБАКА")]DOG,
+    [Log("КАВЫЧКА")]QUOTE,
+    [Log("ТОЧКА")]DOT,
+    [Log("ТОЧКАТОЧКА")]DOTDOT,
+    [Log("..=")]DOTDOTEQ,
+    [Log("ЗНАК ВОПРОСА")]QUESTION,
+    [Log("ПАЛКА | ")]STICK,
 
     //words types
-    [Log("ЕСЛИ")]
-    WORD_IF,
-    [Log("ТОГДА")]
-    WORD_THEN,
-    [Log("ИНАК")]
-    WORD_ELSE,
-    [Log("КОЛИ")]
-    WORD_ELIF,
-    [Log("ПОКА")]
-    WORD_WHILE,
-    [Log("НАЧЕРТАТЬ")]
-    WORD_PRINT,
-    [Log("ДЛЯ")]
-    WORD_FOR,
-    [Log("ЦИКЛ")]
-    LOOP,
-    [Log("ИСТИНА")]
-    WORD_TRUE,
-    [Log("ЛОЖЬ")]
-    WORD_FALSE,
-    [Log("ПРОДОЛЖИТЬ")]
-    CONTINUE,
-    [Log("ВЫЙТИ")]
-    BREAK,
-    [Log("ВЕРНУТЬ")]
-    RETURN,
-    [Log("ВЫПОЛНИТЬ ПРОЦЕДУРУ")]
-    PROCEDURE,
-    [Log("СЕЙЧАС")]
-    NOW,
-    [Log("ЧИСТКА")]
-    CLEAR,
-    [Log("СОН")]
-    SLEEP,
-    [Log("РУСИТЬ")]
-    VOVASCRIPT,
-    [Log("ТОЧНО")]
-    EXACTLY,
-    [Log("ЗАПОЛНИТЬ")]
-    FILL,
-    [Log("КОТОРЫЙ/АЯ/ОЕ")]
-    WHICH,
-    [Log("ЧЕРПАТЬ")]
-    IMPORT,
-    [Log("НАСЛЕДУЕТ")]
-    SON,
-    [Log("БРОСИТЬ")]
-    THROW,
-    [Log("ПОПРОБОВАТЬ")]
-    TRY,
-    [Log("ПОЙМАЙТЬ")]
-    CATCH,
+    [Log("ЕСЛИ")]WORD_IF,
+    [Log("ТОГДА")]WORD_THEN,
+    [Log("ИНАК")]WORD_ELSE,
+    [Log("КОЛИ")]WORD_ELIF,
+    [Log("ПОКА")]WORD_WHILE,
+    [Log("ДЛЯ")]WORD_FOR,
+    [Log("ЦИКЛ")]LOOP,
+    [Log("ИСТИНА")]WORD_TRUE,
+    [Log("ЛОЖЬ")]WORD_FALSE,
+    [Log("ПРОДОЛЖИТЬ")]CONTINUE,
+    [Log("ВЫЙТИ")]BREAK,
+    [Log("ВОЗДАТЬ")]RETURN,
+    [Log("РУСИТЬ")]VOVASCRIPT, // ^_^
+    [Log("ЧЕРПАТЬ")]IMPORT,
+    [Log("ИЗ")]FROM,
+    [Log("ИЗО")]OUTOF,
 
-    //SQL
-    [Log("СОЗДАТЬ")]
-    CREATE,
-    [Log("БД")]
-    DATABASE,
-    [Log("ТАБЛИЦА")]
-    TABLE,
-    [Log("ДОБАВИТЬ")]
-    INSERT,
-    [Log("В")]
-    IN,
-    [Log("ЗНАЧЕНИЯ")]
-    VALUES,
-    [Log("КОЛОНКИ")]
-    COLONS,
-    [Log("ГДЕ")]
-    WHERE,
-    [Log("ВЫБРАТЬ")]
-    SELECT,
-    [Log("ИЗ")]
-    FROM,
-    [Log("ИЗО")]
-    OUTOF,
-
-    [Log("ОТ")]
-    AT,
-    [Log("ДО")]
-    TILL,
-    [Log("ШАГ")]
-    STEP,
-
-    [Log("КАК")]
-    AS,
-    [Log("ЦЕЛОЕ ЧИСЛО")]
-    INT,
-    [Log("ВЕЩЕСТВЕННОЕ ЧИСЛО")]
-    DOUBLEPRECISION,
-
-    [Log("ЧИСЛО")]
-    NUMBER,
-    [Log("ЧИСЛО С ТОЧКОЙ")]
-    FNUMBER,
-    [Log("СТРОЧКА")]
-    STROKE,
-    [Log("ПРАВДИВОСТЬ")]
-    BUL,
-
-    [Log("ВСЁ")]
-    ALL,
+    [Log("КАК")]AS,
+    [Log("ЦЕЛОЕ ЧИСЛО")]INT,
+    [Log("ВЕЩЕСТВЕННОЕ ЧИСЛО")]DOUBLEPRECISION,
 }

@@ -140,6 +140,51 @@ public class Worder
         "return" => ChangeType(word, TokenType.RETURN),
         "воздать" => ChangeType(word, TokenType.RETURN),
 
+        // FPU START
+        "fsincos" => ChangeType(word, TokenType.FSINCOS),
+        "фсинкос" => ChangeType(word, TokenType.FSINCOS),
+
+        "fsin" => ChangeType(word, TokenType.FSIN),
+        "фсин" => ChangeType(word, TokenType.FSIN),
+        "fsinh" => ChangeType(word, TokenType.FSINH),
+        "фсинх" => ChangeType(word, TokenType.FSINH),
+        "fasin" => ChangeType(word, TokenType.FASIN),
+        "фасин" => ChangeType(word, TokenType.FASIN),
+
+        "fcos" => ChangeType(word, TokenType.FCOS),
+        "фкос" => ChangeType(word, TokenType.FCOS),
+        "fcosh" => ChangeType(word, TokenType.FCOSH),
+        "фкосх" => ChangeType(word, TokenType.FCOSH),
+        "facos" => ChangeType(word, TokenType.FACOS),
+        "факос" => ChangeType(word, TokenType.FACOS),
+
+        "ftan" => ChangeType(word, TokenType.FTAN),
+        "фтан" => ChangeType(word, TokenType.FTAN),
+        "ftanh" => ChangeType(word, TokenType.FTANH),
+        "фтанх" => ChangeType(word, TokenType.FTANH),
+        "fatan" => ChangeType(word, TokenType.FATAN),
+        "фатан" => ChangeType(word, TokenType.FATAN),
+        "fatanh" => ChangeType(word, TokenType.FATANH),
+        "фатанх" => ChangeType(word, TokenType.FATANH),
+
+        "fabs" => ChangeType(word, TokenType.FABS),
+        "фабс" => ChangeType(word, TokenType.FABS),
+        "fsqrt" => ChangeType(word, TokenType.FSQRT),
+        "фкорень" => ChangeType(word, TokenType.FSQRT),
+
+        "fint" => ChangeType(word, TokenType.FINT),
+        "финт" => ChangeType(word, TokenType.FINT),
+        "fgetman" => ChangeType(word, TokenType.FGETMAN),
+        "фман" => ChangeType(word, TokenType.FGETMAN),
+
+        "flogn" => ChangeType(word, TokenType.FLOGN),
+        "флог" => ChangeType(word, TokenType.FLOGN),
+        "flog2" => ChangeType(word, TokenType.FLOG2),
+        "флог2" => ChangeType(word, TokenType.FLOG2),
+        "flog10" => ChangeType(word, TokenType.FLOG10),
+        "флог10" => ChangeType(word, TokenType.FLOG10),
+        // FPU END
+
         _ => word
     };
 }

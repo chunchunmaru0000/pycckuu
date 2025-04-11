@@ -39,6 +39,7 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 			"",
 			"section '.data' data readable writeable",
             "    MINUS_ONE dq -1.0",
+            "    FOR_FPU_RESERVED dq 0.0",
             "",
             Comp.Str([.. Strings.Select(s => $"    {s.Value} db '{s.Key}', 0")]),
             "",
