@@ -17,6 +17,7 @@ public class DeclareFunctionStatement(string name, bool typed, List<Token> args,
         ).Value)];
         int extraArgs = args.Length - 4;
         int argsOffset = Compiler.GetLastVarOffset();
+        argsOffset += argsOffset % 16;
 
         string code = Comp.Str([
             $"{Name}: ; ФУНКЦИЯ {Name}",

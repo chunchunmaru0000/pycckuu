@@ -175,6 +175,5 @@ public class Compiler(string platform, string includePath, Token[] tokens)
             new Parser(Tokens).ParseInstructions(),
             End().Code
         ]);
-		//return string.Join(Platform == "w" ? "\r\n" : "\n", instructions);
 	}
 }

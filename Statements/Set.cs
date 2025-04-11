@@ -21,11 +21,15 @@ public class SetVarStatement(Token name, ICompilable value, int exclamations) : 
             subRsp = $"    ; {var.Name} УЖЕ ОБЪЯВЛЕНА ПОЭТОМУ СДВИГ СТЭКА НЕ ТРЕБУЕТСЯ";
             var = hasVar.Value;
         }
-        else
-            subRsp = $"    sub rsp, {s} ; ПРИ ОБЪЯВЛЕНИИ ПЕРЕМЕННОЙ ВЫЧЕСТЬ rsp ЧТОБЫ СДВИНУТЬ СТЭК ДО ПЕРЕМЕНОЙ";
+        else {
+            int stackOffset = var.Offset % 16;
+            subRsp =
+                stackOffset != 0
+                ? $"    sub rsp, {s + stackOffset}; ПРИ ОБЪЯВЛЕНИИ ПЕРЕМЕННОЙ ВЫЧЕСТЬ rsp ЧТОБЫ СДВИНУТЬ СТЭК ДО ПЕРЕМЕНОЙ И ВЫРОВНЯТЬ ЕГО НА 16"
+                : $"    ; СДВИГАТЬ НЕЧЕГО, СТЭК УЖЕ ВЫРОВНЕН";
+        }
 
-        return new(Exclamations switch
-        {
+        return new(Exclamations switch {
             0 => EvaluatedType.VOID,
             1 => EvaluatedType.INT,
             2 => value.Type,
