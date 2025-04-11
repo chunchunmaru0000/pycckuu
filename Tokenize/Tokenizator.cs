@@ -7,7 +7,6 @@ class Tokenizator
 	private int line;
 	private int location;
 	private int startLine;
-	private bool commented = false;
 	public static Token Nothing = new() { Value = null, Type = TokenType.WHITESPACE, Location = new Location(-1, -1) };
 	private readonly static Dictionary<char, char> RusCharInString = new() { { 'н', '\n' }, { 'т', '\t' }, { '\\', '\\' } };
 
@@ -55,49 +54,39 @@ class Tokenizator
 		return new() { Value = value, Type = type, Location = Loc() };
 	}
 
-	private Token DoNextAndGiveToken(Token token)
-	{
-		Next();
-		return token;
-	}
-
 	private Token StringToken(bool isPrintfFormatString)
 	{
-        if (!commented) {
-            Next();
-            string buffer = "";
-            while (Current != '"') {
-                while (true) {
-                    if (Current == '\\') {
-                        Next();
-						char cur = Current;
-                        Next();
-						if (RusCharInString.ContainsKey(cur))
-							buffer += RusCharInString[cur];
-                        continue;
-                    }
-                    break;
+        Next();
+        string buffer = "";
+        while (Current != '"') {
+            while (true) {
+                if (Current == '\\') {
+                    Next();
+					char cur = Current;
+                    Next();
+					if (RusCharInString.ContainsKey(cur))
+						buffer += RusCharInString[cur];
+                    continue;
                 }
-                if (Current == '"')
-                    break;
-
-                buffer += Current;
-                Next();
-
-                if (Current == '\0')
-					throw new Exception($"НЕЗАКОНЧЕНА СТРОКА: <{Loc()}>, буфер<{buffer}>");
+                break;
             }
-            buffer = buffer
-                .Replace("'", "',39,'")
-                .Replace("\n", "',10,'")
-                .Replace("\t", "',9,'")
-                ;
-            if (isPrintfFormatString)
-                buffer = PrintfFormatString(buffer);
-            return DoNextAndGiveToken(buffer, TokenType.STRING);
+            if (Current == '"')
+                break;
+
+            buffer += Current;
+            Next();
+
+            if (Current == '\0')
+				throw new Exception($"НЕЗАКОНЧЕНА СТРОКА: <{Loc()}>, буфер<{buffer}>");
         }
-        else
-            return DoNextAndGiveToken(Nothing);
+        buffer = buffer
+            .Replace("'", "',39,'")
+            .Replace("\n", "',10,'")
+            .Replace("\t", "',9,'")
+            ;
+        if (isPrintfFormatString)
+            buffer = PrintfFormatString(buffer);
+        return DoNextAndGiveToken(buffer, TokenType.STRING);
 	}
 
     private static string PrintfFormatString(string str) => 
@@ -312,7 +301,6 @@ class Tokenizator
 			case ',':
 				return DoNextAndGiveToken(null, TokenType.COMMA);
 			case 'Ё':
-				commented = !commented;
 				return DoNextAndGiveToken(null, TokenType.COMMENTO);
 			case '\n':
 				return DoNextAndGiveToken(null, TokenType.SLASH_N);
@@ -332,22 +320,19 @@ class Tokenizator
 	public Token[] Tokenize()
 	{
 		List<Token> tokens = [];
-		while (true)
-		{
+		while (true) {
 			Token token = NextToken();
-			if (token.Type == TokenType.COMMENTO)
-				while (true) {
-					token = NextToken();
-					if (token.Type == TokenType.EOF || token.Type == TokenType.COMMENTO) {
-						token = NextToken();
-						break;
-					}
-				}
-			if (token.Type != TokenType.WHITESPACE)
-				tokens.Add(token);
-			if (token.Type == TokenType.EOF)
-				break;
-		}
-		return [.. tokens];
+
+			if (token.Type == TokenType.COMMENTO) {
+				while (Current != 'Ё' && Current != 0)
+					Next();
+                Next();
+                continue;
+			}
+            if (token.Type != TokenType.WHITESPACE)
+                tokens.Add(token);
+            if (token.Type == TokenType.EOF)
+                return [.. tokens];
+        }
 	}
 }

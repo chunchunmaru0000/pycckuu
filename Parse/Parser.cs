@@ -25,15 +25,19 @@ partial class Parser
 
 	private Token Current => Get(0);
 
-	private string Near(int range)
+	private static string TStr(Token t) =>
+        t.Value == null ? t.Type.Log() : t.Value!.ToString()!;
+
+
+    private string Near(int range)
 	{
 		Console.ForegroundColor = ConsoleColor.Red;
 		Console.WriteLine(Current.Location);
-		Console.Write(string.Join("|", Enumerable.Range(-range, range).Select(g => Get(g).Type.View())));
+		Console.Write(string.Join("|", Enumerable.Range(-range, range).Select(g => TStr(Get(g)))));
 		Console.ForegroundColor = ConsoleColor.Yellow;
 		Console.Write('|' + Current.Type.View() + '|');
 		Console.ForegroundColor = ConsoleColor.Red;
-		Console.WriteLine(string.Join("|", Enumerable.Range(1, range).Select(g => Get(g).Type.View())));
+		Console.WriteLine(string.Join("|", Enumerable.Range(1, range).Select(g => TStr(Get(g)))));
 		Console.ResetColor();
 		return "";
 	}
@@ -44,8 +48,8 @@ partial class Parser
 		if (Current.Type != type)
 			throw new Exception($"{Near(6)}" +
 								$"СЛОВО НЕ СОВПАДАЕТ С ОЖИДАЕМЫМ\n" +
-								$"ОЖИДАЛСЯ: <{type.View()}>\n" +
-								$"ТЕКУЩИЙ: <{Current.Type.View()}>");
+								$"ОЖИДАЛСЯ: <{type.Log()}>\n" +
+								$"ТЕКУЩИЙ: <{TStr(Current)}>");
 		Pos++;
 		return current;
 	}
