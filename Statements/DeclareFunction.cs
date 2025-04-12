@@ -33,7 +33,7 @@ public class DeclareFunctionStatement(string name, bool typed, List<Token> args,
             ),
             $"    sub rsp, {argsOffset} ; ПАРАМЕТРЫ НА СТЭКЕ ПОЭТОМУ ЕГО НАДО ТОЖЕ СДВИНУТЬ ЧТОБЫ НЕ ПОВРЕДИТЬ ПЕРЕМЕННЫЕ",
             Body.Compile().Code,
-            $"    add rsp, {argsOffset} ; ОЧИЩЕНИЕ СТЕКА ОТ ПАРАМЕТРОВ",
+            $"    mov rsp, rbp ; ОЧИЩЕНИЕ СТЕКА ОТ ПАРАМЕТРОВ",
             $"    pop rbp ; ВЫКРИВЛЕНИЕ СТЭКА НАЗАД ЧТОБЫ ПОТОМ ОН БЫЛ ВОССТАНОВЛЕН САМ ЧЕРЕЗ pop rip ПРИ ret",
             $"    ret ; КОНЕЦ ФУНКЦИИ {Name} КОТОРЫЙ НЕ ДОЛЖЕН БЫТЬ ДОСЯГАЕМ ЕСЛИ ФУНКЦИЯ ЧТОТО ВОЗВРАЩАЕТ",
         ]);
