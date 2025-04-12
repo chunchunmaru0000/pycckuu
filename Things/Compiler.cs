@@ -108,6 +108,8 @@ public class Compiler(string platform, string includePath, Token[] tokens)
 
     private static List<Variable> Vars { get; set; } = [];
 
+    public static List<Variable> CloneVars() => [.. Vars];
+
     public static KeyValuePair<bool, Variable> AddVariable(Variable var)
     {
         bool has = Vars.Any(v => v.Name == var.Name);
@@ -130,7 +132,11 @@ public class Compiler(string platform, string includePath, Token[] tokens)
         return varsNow;
     }
 
+    public static void RemoveVar(string name) => Vars.RemoveAt(Vars.FindLastIndex(v => v.Name == name));
+
     public static int GetLastVarOffset() => Vars.Count == 0 ? 0 : Vars.Last().Offset;
+
+    public static long StackVarCounter { get; set; }
 
     #endregion VAR
 
