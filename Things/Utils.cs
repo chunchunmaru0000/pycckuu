@@ -21,6 +21,15 @@ public static class U
     public static Dictionary<TokenType, EvaluatedType> T2T { get; set; } = new() {
         { TokenType.BYTE, EvaluatedType.BYTE },
         { TokenType.DBYTE, EvaluatedType.DBYTE },
+        { TokenType.CHBYTE, EvaluatedType.CHBYTE },
+        { TokenType.VBYTE, EvaluatedType.VBYTE },
+    };
+
+    public static Dictionary<long, EvaluatedType> SizeToType { get; set; } = new() {
+        { 1, EvaluatedType.BYTE }, 
+        { 2, EvaluatedType.DBYTE },
+        { 4, EvaluatedType.CHBYTE }, 
+        { 8, EvaluatedType.VBYTE },
     };
 
     public static string[] Registers { get; } = ["rcx", "rdx", "r8", "r9"];

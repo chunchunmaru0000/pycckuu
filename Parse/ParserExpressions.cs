@@ -13,7 +13,7 @@ partial class Parser
 	{
 		ICompilable result = Primary();
 
-		if (Match(TokenType.AS))
+		if (Match(TokenType.COLON))
 			return new AsTypeExpression(result, Consume(Current.Type));
         /*
 		if (Match(TokenType.WORD_THEN)) {

@@ -9,6 +9,8 @@ public enum EvaluatedType
     [Log("БУЛ")][Size(8)]BOOL,
     [Log("БАЙТ")][Size(1)]BYTE,
     [Log("2БАЙТ")][Size(2)]DBYTE,
+    [Log("4БАЙТ")][Size(4)]CHBYTE,
+    [Log("8БАЙТ")][Size(8)]VBYTE,
 
     [Log("ИНТ")][Size(0)]VOID, // not like in C here its literally void as nothing
     [Log("ИНТ")][Size(8)]CALL,

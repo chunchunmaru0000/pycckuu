@@ -185,6 +185,15 @@ public class Worder
         "флог10" => ChangeType(word, TokenType.FLOG10),
         // FPU END
 
+        "byte" => ChangeType(word, TokenType.BYTE),
+        "байт" => ChangeType(word, TokenType.BYTE),
+        "dbyte" => ChangeType(word, TokenType.DBYTE),
+        "дбайт" => ChangeType(word, TokenType.DBYTE),
+        "chbyte" => ChangeType(word, TokenType.CHBYTE),
+        "чбайт" => ChangeType(word, TokenType.CHBYTE),
+        "vbyte" => ChangeType(word, TokenType.VBYTE),
+        "вбайт" => ChangeType(word, TokenType.VBYTE),
+
         _ => word
     };
 }

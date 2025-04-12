@@ -14,6 +14,8 @@ public enum TokenType
     [Log("УКАЗАТЕЛЬ")]PTR,
     [Log("БАЙТ")]BYTE,
     [Log("ДБАЙТ")]DBYTE,
+    [Log("ЧБАЙТ")]CHBYTE,
+    [Log("ВБАЙТ")]VBYTE,
 
     [Log("ЗОВ")]CALL,
     [Log("НЕОПРЕДЕЛЕННО")]VARARG,

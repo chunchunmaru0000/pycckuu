@@ -3,31 +3,16 @@
 public sealed class AsTypeExpression(ICompilable value, Token type) : ICompilable
 {
 	public ICompilable Value { get; } = value;
-	public Token Type = type;
+	public Token Type { get; } = type;
 
-	public object Evaluate() => throw new Exception("ПРЕОБРАЗОВАНИЕ ТИПОВ ДЛЯ ИНИТЕРПРЕТАТОРА НЕ СДЕЛАНО");
-
-	public Instruction Compile()
-	{
-		throw new Exception("123123123123123123123123123123");
-        /*
-			=> Type.Type switch
-	{
-		TokenType.DIV or TokenType.INT => Comp.Str([
-
-		]),
-		TokenType.DOUBLEPRECISION => Comp.Str([
-			Value.Compile(),
-			"    pop r8",
-			"    cvtsi2sd xmm0, r8 ; ПЕРЕВОД В ВЕЩЕСТВЕННОЕ",
-			"    movq r8, xmm0",
-			"    push r8",
-			"",
-		]),
-		_ => throw new Exception("НЕ КОМПИЛИРУЕМОЕ БИНАРНОЕ ДЕЙСТВИЕ")
-	};
-			*/
-    }
+	public Instruction Compile() => new(Type.Type switch {
+        TokenType.BYTE => EvaluatedType.BYTE,
+        TokenType.DBYTE => EvaluatedType.DBYTE,
+        TokenType.CHBYTE => EvaluatedType.CHBYTE,
+        TokenType.VBYTE => EvaluatedType.VBYTE,
+        TokenType.INTEGER => U.SizeToType[Convert.ToInt64(Type.Value!)],
+        _ => throw new($"НЕИЗВЕСТНЫЙ ТИП ДЛЯ ПРЕОБРАЗОВАНИЯ {Type.Type.Log()}<{Type.Value}>")
+    }, Value.Compile().Code);
 
     public override string ToString() => $"{Value} КАК {Type.Type.View()}";
 }
