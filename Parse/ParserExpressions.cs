@@ -62,6 +62,8 @@ partial class Parser
             return new YoExpression(CompilableExpression());
         if (Match(TokenType.WORD_TRUE, TokenType.WORD_FALSE))
             return new BoolExpression(current.Type);
+        if (Match(TokenType.RBP))
+            return new RbpExpression();
         if ((int)current.Type >= (int)TokenType.FSINCOS && (int)current.Type <= (int)TokenType.FLOG10)
             return new FPUExpression(Consume(current.Type).Type, CompilableExpression());
 

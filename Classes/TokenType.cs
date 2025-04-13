@@ -17,6 +17,8 @@ public enum TokenType
     [Log("ЧБАЙТ")]CHBYTE,
     [Log("ВБАЙТ")]VBYTE,
 
+    [Log("РБП")] RBP,
+
     [Log("ЗОВ")]CALL,
     [Log("НЕОПРЕДЕЛЕННО")]VARARG,
     [Log("ТИПА")]TYPE,

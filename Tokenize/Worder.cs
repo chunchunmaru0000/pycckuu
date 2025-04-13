@@ -194,6 +194,9 @@ public class Worder
         "vbyte" => ChangeType(word, TokenType.VBYTE),
         "вбайт" => ChangeType(word, TokenType.VBYTE),
 
+        "rbp" => ChangeType(word, TokenType.RBP),
+        "рбп" => ChangeType(word, TokenType.RBP),
+
         _ => word
     };
 }
