@@ -6,10 +6,10 @@ public class BreakStatement : ICompilable
     {
         KeyValuePair<string, string> loopLabels = Compiler.GetLastLoopLabels();
         if (loopLabels.Value == null)
-            return new(EvaluatedType.VOID, "; ПУСТОЕ ПРЕРЫВАНИЕ ЦИКЛА");
+            throw new("ПУСТОЕ ПРЕРЫВАНИЕ ЦИКЛА");
 
         Instruction ret = new(EvaluatedType.VOID, $"    jmp {loopLabels.Value}; ПРЕРВАТЬ ЦИКЛ");
-        Compiler.RemoveLastLoopLabels();
+        //Compiler.RemoveLastLoopLabels();
         return ret;
     }
 }
