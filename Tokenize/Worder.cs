@@ -196,6 +196,8 @@ public class Worder
 
         "rbp" => ChangeType(word, TokenType.RBP),
         "рбп" => ChangeType(word, TokenType.RBP),
+        "label" => ChangeType(word, TokenType.LABEL),
+        "метка" => ChangeType(word, TokenType.LABEL),
 
         _ => word
     };

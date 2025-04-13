@@ -14,6 +14,7 @@ public enum EvaluatedType
 
     [Log("ИНТ")][Size(0)]VOID, // not like in C here its literally void as nothing
     [Log("ИНТ")][Size(8)]CALL,
+    [Log("МЕТКА")][Size(8)]LABEL,
 
     [Log("НАЧ")][Size(0)]BEGIN_PROGRAM,
     [Log("КНЦ")][Size(0)]END_PROGRAM,

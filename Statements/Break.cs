@@ -9,7 +9,6 @@ public class BreakStatement : ICompilable
             throw new("ПУСТОЕ ПРЕРЫВАНИЕ ЦИКЛА");
 
         Instruction ret = new(EvaluatedType.VOID, $"    jmp {loopLabels.Value}; ПРЕРВАТЬ ЦИКЛ");
-        //Compiler.RemoveLastLoopLabels();
         return ret;
     }
 }
