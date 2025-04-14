@@ -7,16 +7,18 @@ class Tokenizator
 	private int line;
 	private int location;
 	private int startLine;
+	private IWorder Worder;
 	public static Token Nothing = new() { Value = null, Type = TokenType.WHITESPACE, Location = new Location(-1, -1) };
 	private readonly static Dictionary<char, char> RusCharInString = new() { { 'н', '\n' }, { 'т', '\t' }, { '\\', '\\' } };
 
-	public Tokenizator(string code)
+	public Tokenizator(string code, IWorder worder)
 	{
 		this.code = code.Replace("\r", "");
 		position = 0;
 		line = 1;
 		location = position;
 		startLine = 0;
+		Worder = worder;
 	}
 
 	private char Current { get => position < code.Length ? code[position] : '\0'; }

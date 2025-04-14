@@ -1,14 +1,14 @@
 ﻿namespace pycckuu;
 
-public class Worder
+public class Worder: IWorder
 {
-	public static Token ChangeType(in Token token, TokenType tokenType)
+	private static Token ChangeType(in Token token, TokenType tokenType)
 	{
 		token.Type = tokenType;
 		return token;
 	}
 
-	public static Token Word(Token word, string str) => str switch 
+	public Token Word(Token word, string str) => str switch 
 	{ 
 		"вещ" => ChangeType(word, TokenType.DOUBLEPRECISION),
 		"цел" => ChangeType(word, TokenType.INT),
