@@ -1,5 +1,5 @@
 ﻿namespace pycckuu;
-
+/*
 public class Optimizator
 {
     private string Asm { get; }
@@ -21,7 +21,7 @@ public class Optimizator
         Console.WriteLine(Begin);
         Console.WriteLine(Asm);
         Console.WriteLine(End);
-         */
+         //
     }
 
     private AsmInstruction[] Parse(string[] lines) => [..
@@ -46,3 +46,5 @@ public class Optimizator
         End,
     ]);
 }
+
+ */

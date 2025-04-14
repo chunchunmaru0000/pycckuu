@@ -150,6 +150,7 @@ public enum TokenType
     SUB,
     IMUL,
     IDIV,
+    NEG,
 
     CMP,
     JMP,

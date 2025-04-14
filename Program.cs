@@ -26,10 +26,10 @@ class Program
 
 		// "w" for windows
 		string code = new Compiler("w", IncPath + "win64a.inc", tokens).Compile();
-		//Console.WriteLine(code);
+		Console.WriteLine(code);
 		Console.ReadLine();
 		File.WriteAllText(AsmPath, code);
-		new Optimizator(code);
+		//new Optimizator(code, new AsmWorder());
 		Console.ReadLine();
 	}
 #else

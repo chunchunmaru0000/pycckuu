@@ -98,6 +98,7 @@ class Tokenizator
         .Replace("%с", "%s").Replace("%ч", "%c")
         .Replace("%п", "%p").Replace("%н", "%n")
         .Replace("%д", "%d").Replace("%ф", "%f")
+		.Replace("%лф", "%lf").Replace("%Лф", "%Lf")
         .Replace("%а", "%a").Replace("%А", "%A");
 
     private static readonly char[] Base2 =  ['b', 'б', 'B', 'Б'];
